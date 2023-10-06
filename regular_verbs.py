@@ -1,0 +1,11 @@
+regular_verbs = ["hablar", "vivir", "beber", "llamar", "mirar", "escuchar",
+                 "comprar", "necesitar", "llevar", "usar", "ayudar", "cambiar",
+                 "quedar", "pasar", "dejar", "preguntar", "ganar", "arreglar",
+                 "preparar", "parar", "tomar", "estudiar", "trabajar", "crear",
+                 "presentar", "descansar", "olvidar", "manejar", "caminar",
+                 "viajar", "entrar", "limpiar", "cenar", "llorar", "cantar",
+                 "bailar", "nadar", "disfrutar", "esperar", "aprender", "comer",
+                 "comprender", "correr", "deber", "meter", "vender", "absorber",
+                 "depender", "sorprender", "asistir", "decidir", "dividir",
+                 "ocurrir", "recibir", "unir", "luchar", "barrer", "fumar",
+                 "desarollar", "sobrealimentar"]

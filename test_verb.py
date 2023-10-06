@@ -43,6 +43,14 @@ class TestVerb(unittest.TestCase):
         verb = Verb("decir")
         self.assertEqual(verb.ending, "ir")
 
+    def test_is_regular1(self):
+        verb = Verb("hablar")
+        self.assertTrue(verb.is_regular)
+
+    def test_is_regular2(self):
+        verb = Verb("ser")
+        self.assertFalse(verb.is_regular)
+
 
 if __name__ == "__main__":
     unittest.main()
