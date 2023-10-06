@@ -4,7 +4,7 @@ from irregular_verbs import irregular_verbs
 
 class Verb:
     def __init__(self, infinitive):
-        if not self.is_valid_verb(infinitive):
+        if not self.is_valid(infinitive):
             raise ValueError(f"Invalid verb: {infinitive}")
         self._infinitive = infinitive
 
@@ -27,7 +27,7 @@ class Verb:
         return self._infinitive in regular_verbs
 
     @classmethod
-    def is_valid_verb(cls, infinitive):
+    def is_valid(cls, infinitive):
         return infinitive in regular_verbs or infinitive in irregular_verbs
 
     def __str__(self):
