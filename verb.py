@@ -1,5 +1,6 @@
 from regular_verbs import regular_verbs
 
+
 class Verb:
     def __init__(self, infinitive):
         self._infinitive = infinitive
@@ -13,20 +14,14 @@ class Verb:
 
     @property
     def stem(self):
-        return self.get_verb_stem()
+        return self._infinitive[:-2]
 
     @property
     def ending(self):
-        return self.get_verb_ending()
+        endings = ["ar", "er", "ir"]
+        if self._infinitive[-2:] in endings:
+            return self._infinitive[-2:]
 
     @property
     def is_regular(self):
         return self._infinitive in regular_verbs
-
-    def get_verb_stem(self):
-        return self._infinitive[:-2]
-
-    def get_verb_ending(self):
-        endings = ["ar", "er", "ir"]
-        if self._infinitive[-2:] in endings:
-            return self._infinitive[-2:]
