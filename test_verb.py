@@ -51,6 +51,14 @@ class TestVerb(unittest.TestCase):
         verb = Verb("ser")
         self.assertFalse(verb.is_regular)
 
+    def test_str_method(self):
+        verb = Verb("hacer")
+        self.assertEqual(str(verb), "Verb: hacer")
+
+    def test_str_method2(self):
+        verb = Verb("decir")
+        self.assertEqual(str(verb), "Verb: decir")
+
 
 if __name__ == "__main__":
     unittest.main()

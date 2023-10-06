@@ -5,9 +5,6 @@ class Verb:
     def __init__(self, infinitive):
         self._infinitive = infinitive
 
-    def __str__(self):
-        return self._infinitive
-
     @property
     def infinitive(self):
         return self._infinitive
@@ -25,3 +22,6 @@ class Verb:
     @property
     def is_regular(self):
         return self._infinitive in regular_verbs
+
+    def __str__(self):
+        return f"Verb: {self._infinitive}"
