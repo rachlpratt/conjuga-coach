@@ -7,6 +7,30 @@ class TestVerb(unittest.TestCase):
         verb = Verb("hacer")
         self.assertIsInstance(verb, Verb)
 
+    def test_is_valid_verb1(self):
+        valid_verb = "ser"
+        try:
+            Verb(valid_verb)
+        except ValueError:
+            self.fail("Expected no ValueError")
+
+    def test_is_valid_verb2(self):
+        valid_verb = "hablar"
+        try:
+            Verb(valid_verb)
+        except ValueError:
+            self.fail("Expected no ValueError")
+
+    def test_is_valid_verb3(self):
+        invalid_verb = "abcd"
+        with self.assertRaises(ValueError):
+            Verb(invalid_verb)
+
+    def test_is_valid_verb4(self):
+        invalid_verb = ""
+        with self.assertRaises(ValueError):
+            Verb(invalid_verb)
+
     def test_verb_infinitive1(self):
         verb = Verb("hablar")
         self.assertEqual(verb.infinitive, "hablar")
