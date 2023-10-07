@@ -284,4 +284,4 @@ def conjugate_past_progressive(verb, pronoun):
     estar_forms = ["estaba", "estabas", "estaba", "estábamos", "estabais",
                    "estaban"]
     aux_verb = estar_forms[utils.PRONOUNS.index(pronoun)]
-    return f"{aux_verb} {utils.get_past_participle(verb)}"
+    return f"{aux_verb} {utils.get_present_participle(verb)}"

@@ -826,14 +826,14 @@ class TestVerbConjugation(unittest.TestCase):
         regular -ar verb in the past progressive tense for the pronoun yo"""
         verb = Verb("hablar")
         self.assertEqual(verb.conjugate("past_progressive", "yo"),
-                         "estaba hablado")
+                         "estaba hablando")
 
     def test_conjugate_past_progressive2(self):
         """Verifies that the conjugate method correctly conjugates a
         regular -ar verb in the past progressive tense for the pronoun tú"""
         verb = Verb("hablar")
         self.assertEqual(verb.conjugate("past_progressive", "tú"),
-                         "estabas hablado")
+                         "estabas hablando")
 
     def test_conjugate_past_progressive3(self):
         """Verifies that the conjugate method correctly conjugates a
@@ -841,7 +841,7 @@ class TestVerbConjugation(unittest.TestCase):
         pronoun nosotros"""
         verb = Verb("beber")
         self.assertEqual(verb.conjugate("past_progressive", "nosotros"),
-                         "estábamos bebido")
+                         "estábamos bebiendo")
 
     def test_conjugate_past_progressive4(self):
         """Verifies that the conjugate method correctly conjugates a
@@ -849,7 +849,7 @@ class TestVerbConjugation(unittest.TestCase):
         pronoun vosotros"""
         verb = Verb("beber")
         self.assertEqual(verb.conjugate("past_progressive", "vosotros"),
-                         "estabais bebido")
+                         "estabais bebiendo")
 
     def test_conjugate_past_progressive5(self):
         """Verifies that the conjugate method correctly conjugates a
@@ -857,7 +857,7 @@ class TestVerbConjugation(unittest.TestCase):
         pronoun él/ella/Ud."""
         verb = Verb("vivir")
         self.assertEqual(verb.conjugate("past_progressive", "él/ella/Ud."),
-                         "estaba vivido")
+                         "estaba viviendo")
 
     def test_conjugate_past_progressive6(self):
         """Verifies that the conjugate method correctly conjugates a
@@ -866,15 +866,15 @@ class TestVerbConjugation(unittest.TestCase):
         verb = Verb("vivir")
         self.assertEqual(verb.conjugate("past_progressive",
                                         "ellos/ellas/Uds."),
-                         "estaban vivido")
+                         "estaban viviendo")
 
     def test_conjugate_past_progressive7(self):
         """Verifies that the conjugate method correctly conjugates an
         irregular verb in the past progressive tense for the
         pronoun él/ella/Ud."""
-        verb = Verb("hacer")
+        verb = Verb("ir")
         self.assertEqual(verb.conjugate("past_progressive", "él/ella/Ud."),
-                         "estaba hecho")
+                         "estaba yendo")
 
     def test_conjugate_past_progressive8(self):
         """Verifies that the conjugate method correctly conjugates an
@@ -882,7 +882,7 @@ class TestVerbConjugation(unittest.TestCase):
         pronoun yo."""
         verb = Verb("decir")
         self.assertEqual(verb.conjugate("past_progressive", "yo"),
-                         "estaba dicho")
+                         "estaba diciendo")
 
 
 if __name__ == "__main__":
