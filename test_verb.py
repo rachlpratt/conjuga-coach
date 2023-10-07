@@ -1114,6 +1114,134 @@ class TestVerbConjugation(unittest.TestCase):
         self.assertEqual(verb.conjugate("present_perfect_subjunctive", "tú"),
                          "hayas hecho")
 
+    def test_conjugate_pluperfect_subjunctive_ra1(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -ar verb in the pluperfect subjunctive (-ra) tense for the
+        pronoun yo."""
+        verb = Verb("hablar")
+        self.assertEqual(verb.conjugate("pluperfect_subjunctive_ra", "yo"),
+                         "hubiera hablado")
+
+    def test_conjugate_pluperfect_subjunctive_ra2(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -ar verb in the pluperfect subjunctive (-ra) tense for the
+        pronoun tú."""
+        verb = Verb("hablar")
+        self.assertEqual(verb.conjugate("pluperfect_subjunctive_ra", "tú"),
+                         "hubieras hablado")
+
+    def test_conjugate_pluperfect_subjunctive_ra3(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -er verb in the pluperfect subjunctive (-ra) tense for the
+        pronoun él/ella/Ud."""
+        verb = Verb("beber")
+        self.assertEqual(verb.conjugate("pluperfect_subjunctive_ra",
+                                        "él/ella/Ud."), "hubiera bebido")
+
+    def test_conjugate_pluperfect_subjunctive_ra4(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -er verb in the pluperfect subjunctive (-ra) tense for the
+        pronoun nosotros."""
+        verb = Verb("beber")
+        self.assertEqual(verb.conjugate("pluperfect_subjunctive_ra",
+                                        "nosotros"), "hubiéramos bebido")
+
+    def test_conjugate_pluperfect_subjunctive_ra5(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -ir verb in the pluperfect subjunctive (-ra) tense for the
+        pronoun vosotros."""
+        verb = Verb("vivir")
+        self.assertEqual(verb.conjugate("pluperfect_subjunctive_ra",
+                                        "vosotros"), "hubierais vivido")
+
+    def test_conjugate_pluperfect_subjunctive_ra6(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -ir verb in the pluperfect subjunctive (-ra) tense for the
+        pronoun ellos/ellas/Uds."""
+        verb = Verb("vivir")
+        self.assertEqual(verb.conjugate("pluperfect_subjunctive_ra",
+                                        "ellos/ellas/Uds."), "hubieran vivido")
+
+    def test_conjugate_pluperfect_subjunctive_ra7(self):
+        """Verifies that the conjugate method correctly conjugates an
+        irregular verb in the pluperfect subjunctive (-ra) tense for the
+        pronoun yo."""
+        verb = Verb("hacer")
+        self.assertEqual(verb.conjugate("pluperfect_subjunctive_ra", "yo"),
+                         "hubiera hecho")
+
+    def test_conjugate_pluperfect_subjunctive_ra8(self):
+        """Verifies that the conjugate method correctly conjugates an
+        irregular verb in the pluperfect subjunctive (-ra) tense for the
+        pronoun tú."""
+        verb = Verb("decir")
+        self.assertEqual(verb.conjugate("pluperfect_subjunctive_ra", "tú"),
+                         "hubieras dicho")
+
+    def test_conjugate_pluperfect_subjunctive_se1(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -ar verb in the pluperfect subjunctive (-se) tense for the
+        pronoun yo."""
+        verb = Verb("hablar")
+        self.assertEqual(verb.conjugate("pluperfect_subjunctive_se", "yo"),
+                         "hubiese hablado")
+
+    def test_conjugate_pluperfect_subjunctive_se2(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -ar verb in the pluperfect subjunctive (-se) tense for the
+        pronoun tú."""
+        verb = Verb("hablar")
+        self.assertEqual(verb.conjugate("pluperfect_subjunctive_se", "tú"),
+                         "hubieses hablado")
+
+    def test_conjugate_pluperfect_subjunctive_se3(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -er verb in the pluperfect subjunctive (-se) tense for the
+        pronoun él/ella/Ud."""
+        verb = Verb("beber")
+        self.assertEqual(verb.conjugate("pluperfect_subjunctive_se",
+                                        "él/ella/Ud."), "hubiese bebido")
+
+    def test_conjugate_pluperfect_subjunctive_se4(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -er verb in the pluperfect subjunctive (-se) tense for the
+        pronoun nosotros."""
+        verb = Verb("beber")
+        self.assertEqual(verb.conjugate("pluperfect_subjunctive_se",
+                                        "nosotros"), "hubiésemos bebido")
+
+    def test_conjugate_pluperfect_subjunctive_se5(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -ir verb in the pluperfect subjunctive (-se) tense for the
+        pronoun vosotros."""
+        verb = Verb("vivir")
+        self.assertEqual(verb.conjugate("pluperfect_subjunctive_se",
+                                        "vosotros"), "hubieseis vivido")
+
+    def test_conjugate_pluperfect_subjunctive_se6(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -ir verb in the pluperfect subjunctive (-se) tense for the
+        pronoun ellos/ellas/Uds."""
+        verb = Verb("vivir")
+        self.assertEqual(verb.conjugate("pluperfect_subjunctive_se",
+                                        "ellos/ellas/Uds."), "hubiesen vivido")
+
+    def test_conjugate_pluperfect_subjunctive_se7(self):
+        """Verifies that the conjugate method correctly conjugates an
+        irregular verb in the pluperfect subjunctive (-se) tense for the
+        pronoun yo."""
+        verb = Verb("hacer")
+        self.assertEqual(verb.conjugate("pluperfect_subjunctive_se", "yo"),
+                         "hubiese hecho")
+
+    def test_conjugate_pluperfect_subjunctive_se8(self):
+        """Verifies that the conjugate method correctly conjugates an
+        irregular verb in the pluperfect subjunctive (-se) tense for the
+        pronoun tú."""
+        verb = Verb("decir")
+        self.assertEqual(verb.conjugate("pluperfect_subjunctive_se", "tú"),
+                         "hubieses dicho")
+
 
 if __name__ == "__main__":
     unittest.main()
