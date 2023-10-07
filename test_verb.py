@@ -210,13 +210,13 @@ class TestVerbConjugation(unittest.TestCase):
                          "viven")
 
     def test_conjugate_present7(self):
-        """Verifies that the conjugate method correctly conjugates aa
+        """Verifies that the conjugate method correctly conjugates an
         irregular verb in the present tense for the pronoun yo."""
         verb = Verb("ser")
         self.assertEqual(verb.conjugate("present", "yo"), "soy")
 
     def test_conjugate_present8(self):
-        """Verifies that the conjugate method correctly conjugates aa
+        """Verifies that the conjugate method correctly conjugates an
         irregular verb in the present tense for the pronoun nosotros."""
         verb = Verb("ir")
         self.assertEqual(verb.conjugate("present", "nosotros"), "vamos")
@@ -669,7 +669,7 @@ class TestVerbConjugation(unittest.TestCase):
                          "vivan")
 
     def test_conjugate_affirmative_imperative7(self):
-        """Verifies that the conjugate method correctly conjugates aa
+        """Verifies that the conjugate method correctly conjugates an
         irregular verb in the affirmative imperative tense for the
         pronoun yo."""
         verb = Verb("ir")
@@ -677,7 +677,7 @@ class TestVerbConjugation(unittest.TestCase):
                          "ve")
 
     def test_conjugate_affirmative_imperative8(self):
-        """Verifies that the conjugate method correctly conjugates aa
+        """Verifies that the conjugate method correctly conjugates an
         irregular verb in the affirmative imperative tense for the
         pronoun nosotros."""
         verb = Verb("decir")
@@ -734,7 +734,7 @@ class TestVerbConjugation(unittest.TestCase):
                          "no vivan")
 
     def test_conjugate_negative_imperative7(self):
-        """Verifies that the conjugate method correctly conjugates aa
+        """Verifies that the conjugate method correctly conjugates an
         irregular verb in the negative imperative tense for the
         pronoun yo."""
         verb = Verb("ir")
@@ -742,12 +742,138 @@ class TestVerbConjugation(unittest.TestCase):
                          "no vayas")
 
     def test_conjugate_negative_imperative8(self):
-        """Verifies that the conjugate method correctly conjugates aa
+        """Verifies that the conjugate method correctly conjugates an
         irregular verb in the negative imperative tense for the
         pronoun nosotros."""
         verb = Verb("decir")
         self.assertEqual(verb.conjugate("negative_imperative", "nosotros"),
                          "no digamos")
+
+    def test_conjugate_present_progressive1(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -ar verb in the present progressive tense for the pronoun yo"""
+        verb = Verb("hablar")
+        self.assertEqual(verb.conjugate("present_progressive", "yo"),
+                         "estoy hablando")
+
+    def test_conjugate_present_progressive2(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -ar verb in the present progressive tense for the pronoun tú"""
+        verb = Verb("hablar")
+        self.assertEqual(verb.conjugate("present_progressive", "tú"),
+                         "estás hablando")
+
+    def test_conjugate_present_progressive3(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -er verb in the present progressive tense for the
+        pronoun nosotros"""
+        verb = Verb("beber")
+        self.assertEqual(verb.conjugate("present_progressive", "nosotros"),
+                         "estamos bebiendo")
+
+    def test_conjugate_present_progressive4(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -er verb in the present progressive tense for the
+        pronoun vosotros"""
+        verb = Verb("beber")
+        self.assertEqual(verb.conjugate("present_progressive", "vosotros"),
+                         "estáis bebiendo")
+
+    def test_conjugate_present_progressive5(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -ir verb in the present progressive tense for the
+        pronoun él/ella/Ud."""
+        verb = Verb("vivir")
+        self.assertEqual(verb.conjugate("present_progressive", "él/ella/Ud."),
+                         "está viviendo")
+
+    def test_conjugate_present_progressive6(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -ir verb in the present progressive tense for the
+        pronoun él/ella/Ud."""
+        verb = Verb("vivir")
+        self.assertEqual(verb.conjugate("present_progressive",
+                                        "ellos/ellas/Uds."),
+                         "están viviendo")
+
+    def test_conjugate_present_progressive7(self):
+        """Verifies that the conjugate method correctly conjugates an
+        irregular verb in the present progressive tense for the
+        pronoun él/ella/Ud."""
+        verb = Verb("ir")
+        self.assertEqual(verb.conjugate("present_progressive", "él/ella/Ud."),
+                         "está yendo")
+
+    def test_conjugate_present_progressive8(self):
+        """Verifies that the conjugate method correctly conjugates an
+        irregular verb in the present progressive tense for the
+        pronoun yo."""
+        verb = Verb("decir")
+        self.assertEqual(verb.conjugate("present_progressive", "yo"),
+                         "estoy diciendo")
+
+    def test_conjugate_past_progressive1(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -ar verb in the past progressive tense for the pronoun yo"""
+        verb = Verb("hablar")
+        self.assertEqual(verb.conjugate("past_progressive", "yo"),
+                         "estaba hablado")
+
+    def test_conjugate_past_progressive2(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -ar verb in the past progressive tense for the pronoun tú"""
+        verb = Verb("hablar")
+        self.assertEqual(verb.conjugate("past_progressive", "tú"),
+                         "estabas hablado")
+
+    def test_conjugate_past_progressive3(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -er verb in the past progressive tense for the
+        pronoun nosotros"""
+        verb = Verb("beber")
+        self.assertEqual(verb.conjugate("past_progressive", "nosotros"),
+                         "estábamos bebido")
+
+    def test_conjugate_past_progressive4(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -er verb in the past progressive tense for the
+        pronoun vosotros"""
+        verb = Verb("beber")
+        self.assertEqual(verb.conjugate("past_progressive", "vosotros"),
+                         "estabais bebido")
+
+    def test_conjugate_past_progressive5(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -ir verb in the past progressive tense for the
+        pronoun él/ella/Ud."""
+        verb = Verb("vivir")
+        self.assertEqual(verb.conjugate("past_progressive", "él/ella/Ud."),
+                         "estaba vivido")
+
+    def test_conjugate_past_progressive6(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -ir verb in the past progressive tense for the
+        pronoun él/ella/Ud."""
+        verb = Verb("vivir")
+        self.assertEqual(verb.conjugate("past_progressive",
+                                        "ellos/ellas/Uds."),
+                         "estaban vivido")
+
+    def test_conjugate_past_progressive7(self):
+        """Verifies that the conjugate method correctly conjugates an
+        irregular verb in the past progressive tense for the
+        pronoun él/ella/Ud."""
+        verb = Verb("hacer")
+        self.assertEqual(verb.conjugate("past_progressive", "él/ella/Ud."),
+                         "estaba hecho")
+
+    def test_conjugate_past_progressive8(self):
+        """Verifies that the conjugate method correctly conjugates an
+        irregular verb in the past progressive tense for the
+        pronoun yo."""
+        verb = Verb("decir")
+        self.assertEqual(verb.conjugate("past_progressive", "yo"),
+                         "estaba dicho")
 
 
 if __name__ == "__main__":

@@ -1,3 +1,6 @@
+import utils
+
+
 def conjugate_present(verb, pronoun):
     infinitive, stem = verb.infinitive, verb.stem
     match pronoun:
@@ -269,3 +272,16 @@ def conjugate_negative_imperative(verb, pronoun):
             return "no " + stem + "en"
         else:
             return "no " + stem + "an"
+
+
+def conjugate_present_progressive(verb, pronoun):
+    estar_forms = ["estoy", "estás", "está", "estamos", "estáis", "están"]
+    aux_verb = estar_forms[utils.PRONOUNS.index(pronoun)]
+    return f"{aux_verb} {utils.get_present_participle(verb)}"
+
+
+def conjugate_past_progressive(verb, pronoun):
+    estar_forms = ["estaba", "estabas", "estaba", "estábamos", "estabais",
+                   "estaban"]
+    aux_verb = estar_forms[utils.PRONOUNS.index(pronoun)]
+    return f"{aux_verb} {utils.get_past_participle(verb)}"
