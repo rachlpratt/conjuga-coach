@@ -154,3 +154,63 @@ def conjugate_present_subjunctive(verb, pronoun):
                 return stem + "en"
             else:
                 return stem + "an"
+
+
+def conjugate_imperfect_subjunctive_ra(verb, pronoun):
+    stem = verb.stem
+    match pronoun:
+        case "yo" | "él/ella/Ud.":
+            if verb.ending == "ar":
+                return stem + "ara"
+            else:
+                return stem + "iera"
+        case "tú":
+            if verb.ending == "ar":
+                return stem + "aras"
+            else:
+                return stem + "ieras"
+        case "nosotros":
+            if verb.ending == "ar":
+                return stem + "áramos"
+            else:
+                return stem + "iéramos"
+        case "vosotros":
+            if verb.ending == "ar":
+                return stem + "arais"
+            else:
+                return stem + "ierais"
+        case "ellos/ellas/Uds.":
+            if verb.ending == "ar":
+                return stem + "aran"
+            else:
+                return stem + "ieran"
+
+
+def conjugate_imperfect_subjunctive_se(verb, pronoun):
+    stem = verb.stem
+    match pronoun:
+        case "yo" | "él/ella/Ud.":
+            if verb.ending == "ar":
+                return stem + "ase"
+            else:
+                return stem + "iese"
+        case "tú":
+            if verb.ending == "ar":
+                return stem + "ases"
+            else:
+                return stem + "ieses"
+        case "nosotros":
+            if verb.ending == "ar":
+                return stem + "ásemos"
+            else:
+                return stem + "iésemos"
+        case "vosotros":
+            if verb.ending == "ar":
+                return stem + "aseis"
+            else:
+                return stem + "ieseis"
+        case "ellos/ellas/Uds.":
+            if verb.ending == "ar":
+                return stem + "asen"
+            else:
+                return stem + "iesen"
