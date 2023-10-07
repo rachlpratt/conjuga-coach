@@ -30,7 +30,8 @@ class Verb:
 
     @classmethod
     def is_valid(cls, infinitive):
-        return infinitive in regular_verbs or infinitive in irregular_verbs
+        return infinitive.lower() in regular_verbs or \
+               infinitive.lower() in irregular_verbs
 
     def conjugate(self, tense, pronoun):
         # Validate tense and pronoun
