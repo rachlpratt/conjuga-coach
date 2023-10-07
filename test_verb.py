@@ -429,6 +429,64 @@ class TestVerbConjugation(unittest.TestCase):
         verb = Verb("decir")
         self.assertEqual(verb.conjugate("future", "tú"), "dirás")
 
+    def test_conjugate_present_subjunctive1(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -ar verb in the present_subjunctive tense for the pronoun
+        yo."""
+        verb = Verb("hablar")
+        self.assertEqual(verb.conjugate("present_subjunctive", "yo"), "hable")
+
+    def test_conjugate_present_subjunctive2(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -ar verb in the present_subjunctive tense for the pronoun tú."""
+        verb = Verb("hablar")
+        self.assertEqual(verb.conjugate("present_subjunctive", "tú"), "hables")
+
+    def test_conjugate_present_subjunctive3(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -er verb in the present_subjunctive tense for the pronoun
+        él/ella/Ud."""
+        verb = Verb("beber")
+        self.assertEqual(verb.conjugate("present_subjunctive", "él/ella/Ud."),
+                         "beba")
+
+    def test_conjugate_present_subjunctive4(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -er verb in the present_subjunctive tense for the pronoun
+        nosotros."""
+        verb = Verb("beber")
+        self.assertEqual(verb.conjugate("present_subjunctive", "nosotros"),
+                         "bebamos")
+
+    def test_conjugate_present_subjunctive5(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -ir verb in the present_subjunctive tense for the pronoun
+        vosotros."""
+        verb = Verb("vivir")
+        self.assertEqual(verb.conjugate("present_subjunctive", "vosotros"),
+                         "viváis")
+
+    def test_conjugate_present_subjunctive6(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -ir verb in the present_subjunctive tense for the pronoun
+        ellos/ellas/Uds."""
+        verb = Verb("vivir")
+        self.assertEqual(verb.conjugate("present_subjunctive",
+                                        "ellos/ellas/Uds."),
+                         "vivan")
+
+    def test_conjugate_present_subjunctive7(self):
+        """Verifies that the conjugate method correctly conjugates an
+        irregular verb in the present_subjunctive tense for the pronoun yo."""
+        verb = Verb("hacer")
+        self.assertEqual(verb.conjugate("present_subjunctive", "yo"), "haga")
+
+    def test_conjugate_present_subjunctive8(self):
+        """Verifies that the conjugate method correctly conjugates an
+        irregular verb in the present_subjunctive tense for the pronoun tú."""
+        verb = Verb("decir")
+        self.assertEqual(verb.conjugate("present_subjunctive", "tú"), "digas")
+
 
 if __name__ == "__main__":
     unittest.main()

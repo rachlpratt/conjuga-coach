@@ -124,3 +124,33 @@ def conjugate_future(verb, pronoun):
             return infinitive + "éis"
         case "ellos/ellas/Uds.":
             return infinitive + "án"
+
+
+def conjugate_present_subjunctive(verb, pronoun):
+    stem = verb.stem
+    match pronoun:
+        case "yo" | "él/ella/Ud.":
+            if verb.ending == "ar":
+                return stem + "e"
+            else:
+                return stem + "a"
+        case "tú":
+            if verb.ending == "ar":
+                return stem + "es"
+            else:
+                return stem + "as"
+        case "nosotros":
+            if verb.ending == "ar":
+                return stem + "emos"
+            else:
+                return stem + "amos"
+        case "vosotros":
+            if verb.ending == "ar":
+                return stem + "éis"
+            else:
+                return stem + "áis"
+        case "ellos/ellas/Uds.":
+            if verb.ending == "ar":
+                return stem + "en"
+            else:
+                return stem + "an"
