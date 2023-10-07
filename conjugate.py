@@ -214,3 +214,58 @@ def conjugate_imperfect_subjunctive_se(verb, pronoun):
                 return stem + "asen"
             else:
                 return stem + "iesen"
+
+
+def conjugate_affirmative_imperative(verb, pronoun):
+    infinitive, stem = verb.infinitive, verb.stem
+    if pronoun == "tú":
+        if verb.ending == "ar":
+            return stem + "a"
+        else:
+            return stem + "e"
+    elif pronoun == "él/ella/Ud.":
+        if verb.ending == "ar":
+            return stem + "e"
+        else:
+            return stem + "a"
+    elif pronoun == "nosotros":
+        if verb.ending == "ar":
+            return stem + "emos"
+        else:
+            return stem + "amos"
+    elif pronoun == "vosotros":
+        return infinitive[:-1] + "d"
+    elif pronoun == "ellos/ellas/Uds.":
+        if verb.ending == "ar":
+            return stem + "en"
+        else:
+            return stem + "an"
+
+
+def conjugate_negative_imperative(verb, pronoun):
+    stem = verb.stem
+    if pronoun == "tú":
+        if verb.ending == "ar":
+            return "no " + stem + "es"
+        else:
+            return "no " + stem + "as"
+    elif pronoun == "él/ella/Ud.":
+        if verb.ending == "ar":
+            return "no " + stem + "e"
+        else:
+            return "no " + stem + "a"
+    elif pronoun == "nosotros":
+        if verb.ending == "ar":
+            return "no " + stem + "emos"
+        else:
+            return "no " + stem + "amos"
+    elif pronoun == "vosotros":
+        if verb.ending == "ar":
+            return "no " + stem + "éis"
+        else:
+            return "no " + stem + "áis"
+    elif pronoun == "ellos/ellas/Uds.":
+        if verb.ending == "ar":
+            return "no " + stem + "en"
+        else:
+            return "no " + stem + "an"

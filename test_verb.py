@@ -619,6 +619,136 @@ class TestVerbConjugation(unittest.TestCase):
         self.assertEqual(verb.conjugate("imperfect_subjunctive_se", "tú"),
                          "dijeses")
 
+    def test_conjugate_affirmative_imperative1(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -ar verb in the affirmative imperative tense for the
+        pronoun tú."""
+        verb = Verb("hablar")
+        self.assertEqual(verb.conjugate("affirmative_imperative", "tú"),
+                         "habla")
+
+    def test_conjugate_affirmative_imperative2(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -ar verb in the affirmative imperative tense for the
+        pronoun nosotros."""
+        verb = Verb("hablar")
+        self.assertEqual(verb.conjugate("affirmative_imperative", "nosotros"),
+                         "hablemos")
+
+    def test_conjugate_affirmative_imperative3(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -er verb in the affirmative imperative tense for the
+        pronoun tú."""
+        verb = Verb("beber")
+        self.assertEqual(verb.conjugate("affirmative_imperative", "tú"),
+                         "bebe")
+
+    def test_conjugate_affirmative_imperative4(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -er verb in the affirmative imperative tense for the
+        pronoun vosotros."""
+        verb = Verb("beber")
+        self.assertEqual(verb.conjugate("affirmative_imperative", "vosotros"),
+                         "bebed")
+
+    def test_conjugate_affirmative_imperative5(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -ir verb in the affirmative imperative tense for the
+        pronoun él/ella/Ud."""
+        verb = Verb("vivir")
+        self.assertEqual(verb.conjugate("affirmative_imperative",
+                                        "él/ella/Ud."), "viva")
+
+    def test_conjugate_affirmative_imperative6(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -ir verb in the affirmative imperative tense for the pronoun
+        ellos/ellas/Uds."""
+        verb = Verb("vivir")
+        self.assertEqual(verb.conjugate("affirmative_imperative",
+                                        "ellos/ellas/Uds."),
+                         "vivan")
+
+    def test_conjugate_affirmative_imperative7(self):
+        """Verifies that the conjugate method correctly conjugates aa
+        irregular verb in the affirmative imperative tense for the
+        pronoun yo."""
+        verb = Verb("ir")
+        self.assertEqual(verb.conjugate("affirmative_imperative", "tú"),
+                         "ve")
+
+    def test_conjugate_affirmative_imperative8(self):
+        """Verifies that the conjugate method correctly conjugates aa
+        irregular verb in the affirmative imperative tense for the
+        pronoun nosotros."""
+        verb = Verb("decir")
+        self.assertEqual(verb.conjugate("affirmative_imperative", "nosotros"),
+                         "digamos")
+
+    def test_conjugate_negative_imperative1(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -ar verb in the negative imperative tense for the
+        pronoun tú."""
+        verb = Verb("hablar")
+        self.assertEqual(verb.conjugate("negative_imperative", "tú"),
+                         "no hables")
+
+    def test_conjugate_negative_imperative2(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -ar verb in the negative imperative tense for the
+        pronoun nosotros."""
+        verb = Verb("hablar")
+        self.assertEqual(verb.conjugate("negative_imperative", "nosotros"),
+                         "no hablemos")
+
+    def test_conjugate_negative_imperative3(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -er verb in the negative imperative tense for the
+        pronoun tú."""
+        verb = Verb("beber")
+        self.assertEqual(verb.conjugate("negative_imperative", "tú"),
+                         "no bebas")
+
+    def test_conjugate_negative_imperative4(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -er verb in the negative imperative tense for the
+        pronoun vosotros."""
+        verb = Verb("beber")
+        self.assertEqual(verb.conjugate("negative_imperative", "vosotros"),
+                         "no bebáis")
+
+    def test_conjugate_negative_imperative5(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -ir verb in the negative imperative tense for the
+        pronoun él/ella/Ud."""
+        verb = Verb("vivir")
+        self.assertEqual(verb.conjugate("negative_imperative",
+                                        "él/ella/Ud."), "no viva")
+
+    def test_conjugate_negative_imperative6(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -ir verb in the negative imperative tense for the pronoun
+        ellos/ellas/Uds."""
+        verb = Verb("vivir")
+        self.assertEqual(verb.conjugate("negative_imperative",
+                                        "ellos/ellas/Uds."),
+                         "no vivan")
+
+    def test_conjugate_negative_imperative7(self):
+        """Verifies that the conjugate method correctly conjugates aa
+        irregular verb in the negative imperative tense for the
+        pronoun yo."""
+        verb = Verb("ir")
+        self.assertEqual(verb.conjugate("negative_imperative", "tú"),
+                         "no vayas")
+
+    def test_conjugate_negative_imperative8(self):
+        """Verifies that the conjugate method correctly conjugates aa
+        irregular verb in the negative imperative tense for the
+        pronoun nosotros."""
+        verb = Verb("decir")
+        self.assertEqual(verb.conjugate("negative_imperative", "nosotros"),
+                         "no digamos")
+
 
 if __name__ == "__main__":
     unittest.main()
