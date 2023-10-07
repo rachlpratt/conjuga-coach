@@ -118,6 +118,55 @@ class TestVerb(unittest.TestCase):
         verb = Verb("decir")
         self.assertEqual(str(verb), "Verb: decir")
 
+    def test_conjugate1(self):
+        """Verifies that a ValueError is raised when an invalid tense is passed
+        to the conjugate method."""
+        verb = Verb("hablar")
+        with self.assertRaises(ValueError):
+            verb.conjugate("abcd", "yo")
+
+    def test_conjugate2(self):
+        """Verifies that a ValueError is raised when an empty tense is passed
+        to the conjugate method."""
+        verb = Verb("hablar")
+        with self.assertRaises(ValueError):
+            verb.conjugate("", "yo")
+
+    def test_conjugate3(self):
+        """Verifies that a ValueError is raised when an invalid pronoun is
+        passed to the conjugate method."""
+        verb = Verb("hablar")
+        with self.assertRaises(ValueError):
+            verb.conjugate("present", "abcd")
+
+    def test_conjugate4(self):
+        """Verifies that a ValueError is raised when an empty pronoun is passed
+        to the conjugate method."""
+        verb = Verb("hablar")
+        with self.assertRaises(ValueError):
+            verb.conjugate("present", "")
+
+    def test_conjugate5(self):
+        """Verifies that a ValueError is raised when an invalid tense and an
+        invalid pronoun are passed to the conjugate method."""
+        verb = Verb("hablar")
+        with self.assertRaises(ValueError):
+            verb.conjugate("abcd", "abcd")
+
+    def test_conjugate6(self):
+        """Verifies that a ValueError is raised when an empty tense and an
+        empty pronoun are passed to the conjugate method."""
+        verb = Verb("hablar")
+        with self.assertRaises(ValueError):
+            verb.conjugate("", "")
+
+    def test_conjugate7(self):
+        """Verifies that a ValueError is raised when a non-string tense and
+        pronoun are passed to the conjugate method."""
+        verb = Verb("hablar")
+        with self.assertRaises(ValueError):
+            verb.conjugate(1, 1)
+
     def test_conjugate_present1(self):
         """Verifies that the conjugate method correctly conjugates a
         regular verb in the present tense for a specified pronoun."""

@@ -1,4 +1,4 @@
-from utils import PRONOUNS
+from utils import PRONOUNS, is_valid_tense, is_valid_pronoun
 import conjugate
 from regular_verbs import regular_verbs
 from irregular_verbs import irregular_verbs
@@ -33,6 +33,12 @@ class Verb:
         return infinitive in regular_verbs or infinitive in irregular_verbs
 
     def conjugate(self, tense, pronoun):
+        # Validate tense and pronoun
+        if not is_valid_tense(tense):
+            raise ValueError("Invalid tense")
+        if not is_valid_pronoun(pronoun):
+            raise ValueError("Invalid pronoun")
+
         # Get pronoun index
         pronoun_index = PRONOUNS.index(pronoun)
 
