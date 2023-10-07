@@ -92,3 +92,35 @@ def conjugate_imperfect(verb, pronoun):
                 return stem + "aban"
             else:
                 return stem + "ían"
+
+
+def conjugate_conditional(verb, pronoun):
+    infinitive = verb.infinitive
+    match pronoun:
+        case "yo" | "él/ella/Ud.":
+            return infinitive + "ía"
+        case "tú":
+            return infinitive + "ías"
+        case "nosotros":
+            return infinitive + "íamos"
+        case "vosotros":
+            return infinitive + "íais"
+        case "ellos/ellas/Uds.":
+            return infinitive + "ían"
+
+
+def conjugate_future(verb, pronoun):
+    infinitive = verb.infinitive
+    match pronoun:
+        case "yo":
+            return infinitive + "é"
+        case "tú":
+            return infinitive + "ás"
+        case "él/ella/Ud.":
+            return infinitive + "á"
+        case "nosotros":
+            return infinitive + "emos"
+        case "vosotros":
+            return infinitive + "éis"
+        case "ellos/ellas/Uds.":
+            return infinitive + "án"

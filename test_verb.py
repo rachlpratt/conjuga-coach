@@ -321,6 +321,114 @@ class TestVerbConjugation(unittest.TestCase):
         verb = Verb("ser")
         self.assertEqual(verb.conjugate("imperfect", "tú"), "eras")
 
+    def test_conjugate_conditional1(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -ar verb in the conditional tense for the pronoun yo."""
+        verb = Verb("hablar")
+        self.assertEqual(verb.conjugate("conditional", "yo"), "hablaría")
+
+    def test_conjugate_conditional2(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -ar verb in the conditional tense for the pronoun tú."""
+        verb = Verb("hablar")
+        self.assertEqual(verb.conjugate("conditional", "tú"), "hablarías")
+
+    def test_conjugate_conditional3(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -er verb in the conditional tense for the pronoun
+        él/ella/Ud."""
+        verb = Verb("beber")
+        self.assertEqual(verb.conjugate("conditional", "él/ella/Ud."),
+                         "bebería")
+
+    def test_conjugate_conditional4(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -er verb in the conditional tense for the pronoun nosotros."""
+        verb = Verb("beber")
+        self.assertEqual(verb.conjugate("conditional", "nosotros"),
+                         "beberíamos")
+
+    def test_conjugate_conditional5(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -ir verb in the conditional tense for the pronoun vosotros."""
+        verb = Verb("vivir")
+        self.assertEqual(verb.conjugate("conditional", "vosotros"),
+                         "viviríais")
+
+    def test_conjugate_conditional6(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -ir verb in the conditional tense for the pronoun
+        ellos/ellas/Uds."""
+        verb = Verb("vivir")
+        self.assertEqual(verb.conjugate("conditional", "ellos/ellas/Uds."),
+                         "vivirían")
+
+    def test_conjugate_conditional7(self):
+        """Verifies that the conjugate method correctly conjugates an
+        irregular verb in the conditional tense for the pronoun yo."""
+        verb = Verb("hacer")
+        self.assertEqual(verb.conjugate("conditional", "yo"), "haría")
+
+    def test_conjugate_conditional8(self):
+        """Verifies that the conjugate method correctly conjugates an
+        irregular verb in the conditional tense for the pronoun tú."""
+        verb = Verb("decir")
+        self.assertEqual(verb.conjugate("conditional", "tú"), "dirías")
+
+    def test_conjugate_future1(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -ar verb in the future tense for the pronoun yo."""
+        verb = Verb("hablar")
+        self.assertEqual(verb.conjugate("future", "yo"), "hablaré")
+
+    def test_conjugate_future2(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -ar verb in the future tense for the pronoun tú."""
+        verb = Verb("hablar")
+        self.assertEqual(verb.conjugate("future", "tú"), "hablarás")
+
+    def test_conjugate_future3(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -er verb in the future tense for the pronoun
+        él/ella/Ud."""
+        verb = Verb("beber")
+        self.assertEqual(verb.conjugate("future", "él/ella/Ud."),
+                         "beberá")
+
+    def test_conjugate_future4(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -er verb in the future tense for the pronoun nosotros."""
+        verb = Verb("beber")
+        self.assertEqual(verb.conjugate("future", "nosotros"),
+                         "beberemos")
+
+    def test_conjugate_future5(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -ir verb in the future tense for the pronoun vosotros."""
+        verb = Verb("vivir")
+        self.assertEqual(verb.conjugate("future", "vosotros"),
+                         "viviréis")
+
+    def test_conjugate_future6(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -ir verb in the future tense for the pronoun
+        ellos/ellas/Uds."""
+        verb = Verb("vivir")
+        self.assertEqual(verb.conjugate("future", "ellos/ellas/Uds."),
+                         "vivirán")
+
+    def test_conjugate_future7(self):
+        """Verifies that the conjugate method correctly conjugates an
+        irregular verb in the future tense for the pronoun yo."""
+        verb = Verb("hacer")
+        self.assertEqual(verb.conjugate("future", "yo"), "haré")
+
+    def test_conjugate_future8(self):
+        """Verifies that the conjugate method correctly conjugates an
+        irregular verb in the future tense for the pronoun tú."""
+        verb = Verb("decir")
+        self.assertEqual(verb.conjugate("future", "tú"), "dirás")
+
 
 if __name__ == "__main__":
     unittest.main()
