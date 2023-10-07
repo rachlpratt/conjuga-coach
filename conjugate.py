@@ -285,3 +285,15 @@ def conjugate_past_progressive(verb, pronoun):
                    "estaban"]
     aux_verb = estar_forms[utils.PRONOUNS.index(pronoun)]
     return f"{aux_verb} {utils.get_present_participle(verb)}"
+
+
+def conjugate_present_perfect(verb, pronoun):
+    haber_forms = ["he", "has", "ha", "hemos", "habéis", "han"]
+    aux_verb = haber_forms[utils.PRONOUNS.index(pronoun)]
+    return f"{aux_verb} {utils.get_past_participle(verb)}"
+
+
+def conjugate_pluperfect(verb, pronoun):
+    haber_forms = ["había", "habías", "había", "habíamos", "habíais", "habían"]
+    aux_verb = haber_forms[utils.PRONOUNS.index(pronoun)]
+    return f"{aux_verb} {utils.get_past_participle(verb)}"
