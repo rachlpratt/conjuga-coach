@@ -993,6 +993,127 @@ class TestVerbConjugation(unittest.TestCase):
         verb = Verb("decir")
         self.assertEqual(verb.conjugate("pluperfect", "tú"), "habías dicho")
 
+    def test_conjugate_future_perfect1(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -ar verb in the future perfect tense for the pronoun yo."""
+        verb = Verb("hablar")
+        self.assertEqual(verb.conjugate("future_perfect", "yo"),
+                         "habré hablado")
+
+    def test_conjugate_future_perfect2(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -ar verb in the future perfect tense for the pronoun tú."""
+        verb = Verb("hablar")
+        self.assertEqual(verb.conjugate("future_perfect", "tú"),
+                         "habrás hablado")
+
+    def test_conjugate_future_perfect3(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -er verb in the future perfect tense for the pronoun él/ella/Ud."""
+        verb = Verb("beber")
+        self.assertEqual(verb.conjugate("future_perfect", "él/ella/Ud."),
+                         "habrá bebido")
+
+    def test_conjugate_future_perfect4(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -er verb in the future perfect tense for the pronoun nosotros."""
+        verb = Verb("beber")
+        self.assertEqual(verb.conjugate("future_perfect", "nosotros"),
+                         "habremos bebido")
+
+    def test_conjugate_future_perfect5(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -ir verb in the future perfect tense for the pronoun vosotros."""
+        verb = Verb("vivir")
+        self.assertEqual(verb.conjugate("future_perfect", "vosotros"),
+                         "habréis vivido")
+
+    def test_conjugate_future_perfect6(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -ir verb in the future perfect tense for the
+        pronoun ellos/ellas/Uds."""
+        verb = Verb("vivir")
+        self.assertEqual(verb.conjugate("future_perfect", "ellos/ellas/Uds."),
+                         "habrán vivido")
+
+    def test_conjugate_future_perfect7(self):
+        """Verifies that the conjugate method correctly conjugates an
+        irregular verb in the future perfect tense for the pronoun yo."""
+        verb = Verb("hacer")
+        self.assertEqual(verb.conjugate("future_perfect", "yo"),
+                         "habré hecho")
+
+    def test_conjugate_future_perfect8(self):
+        """Verifies that the conjugate method correctly conjugates an
+        irregular verb in the future perfect tense for the pronoun tú."""
+        verb = Verb("hacer")
+        self.assertEqual(verb.conjugate("future_perfect", "tú"),
+                         "habrás hecho")
+
+    def test_conjugate_present_perfect_subjunctive1(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -ar verb in the present perfect subjunctive tense for the
+        pronoun yo."""
+        verb = Verb("hablar")
+        self.assertEqual(verb.conjugate("present_perfect_subjunctive", "yo"),
+                         "haya hablado")
+
+    def test_conjugate_present_perfect_subjunctive2(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -ar verb in the present perfect subjunctive tense for the
+        pronoun tú."""
+        verb = Verb("hablar")
+        self.assertEqual(verb.conjugate("present_perfect_subjunctive", "tú"),
+                         "hayas hablado")
+
+    def test_conjugate_present_perfect_subjunctive3(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -er verb in the present perfect subjunctive tense for the
+        pronoun él/ella/Ud."""
+        verb = Verb("beber")
+        self.assertEqual(verb.conjugate("present_perfect_subjunctive",
+                                        "él/ella/Ud."), "haya bebido")
+
+    def test_conjugate_present_perfect_subjunctive4(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -er verb in the present perfect subjunctive tense for the
+        pronoun nosotros."""
+        verb = Verb("beber")
+        self.assertEqual(verb.conjugate("present_perfect_subjunctive",
+                                        "nosotros"), "hayamos bebido")
+
+    def test_conjugate_present_perfect_subjunctive5(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -ir verb in the present perfect subjunctive tense for the
+        pronoun vosotros."""
+        verb = Verb("vivir")
+        self.assertEqual(verb.conjugate("present_perfect_subjunctive",
+                                        "vosotros"), "hayáis vivido")
+
+    def test_conjugate_present_perfect_subjunctive6(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -ir verb in the present perfect subjunctive tense for the
+        pronoun ellos/ellas/Uds."""
+        verb = Verb("vivir")
+        self.assertEqual(verb.conjugate("present_perfect_subjunctive",
+                                        "ellos/ellas/Uds."), "hayan vivido")
+
+    def test_conjugate_present_perfect_subjunctive7(self):
+        """Verifies that the conjugate method correctly conjugates an
+        irregular verb in the present perfect subjunctive tense for the
+        pronoun yo."""
+        verb = Verb("hacer")
+        self.assertEqual(verb.conjugate("present_perfect_subjunctive", "yo"),
+                         "haya hecho")
+
+    def test_conjugate_present_perfect_subjunctive8(self):
+        """Verifies that the conjugate method correctly conjugates an
+        irregular verb in the present perfect subjunctive tense for the
+        pronoun tú."""
+        verb = Verb("hacer")
+        self.assertEqual(verb.conjugate("present_perfect_subjunctive", "tú"),
+                         "hayas hecho")
+
 
 if __name__ == "__main__":
     unittest.main()

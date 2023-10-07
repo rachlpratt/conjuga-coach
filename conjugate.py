@@ -297,3 +297,15 @@ def conjugate_pluperfect(verb, pronoun):
     haber_forms = ["había", "habías", "había", "habíamos", "habíais", "habían"]
     aux_verb = haber_forms[utils.PRONOUNS.index(pronoun)]
     return f"{aux_verb} {utils.get_past_participle(verb)}"
+
+
+def conjugate_future_perfect(verb, pronoun):
+    haber_forms = ["habré", "habrás", "habrá", "habremos", "habréis", "habrán"]
+    aux_verb = haber_forms[utils.PRONOUNS.index(pronoun)]
+    return f"{aux_verb} {utils.get_past_participle(verb)}"
+
+
+def conjugate_present_perfect_subjunctive(verb, pronoun):
+    haber_forms = ["haya", "hayas", "haya", "hayamos", "hayáis", "hayan"]
+    aux_verb = haber_forms[utils.PRONOUNS.index(pronoun)]
+    return f"{aux_verb} {utils.get_past_participle(verb)}"
