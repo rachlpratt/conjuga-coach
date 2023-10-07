@@ -8,7 +8,7 @@ class TestVerb(unittest.TestCase):
         verb = Verb("hacer")
         self.assertIsInstance(verb, Verb)
 
-    def test_is_valid_verb1(self):
+    def test_is_valid1(self):
         """Verifies that creating a Verb object with a valid irregular verb
         string does not raise a ValueError."""
         valid_verb = "ser"
@@ -17,7 +17,7 @@ class TestVerb(unittest.TestCase):
         except ValueError:
             self.fail("Expected no ValueError")
 
-    def test_is_valid_verb2(self):
+    def test_is_valid2(self):
         """Verifies that creating a Verb object with a valid regular verb
         string does not raise a ValueError."""
         valid_verb = "hablar"
@@ -26,14 +26,14 @@ class TestVerb(unittest.TestCase):
         except ValueError:
             self.fail("Expected no ValueError")
 
-    def test_is_valid_verb3(self):
+    def test_is_valid3(self):
         """Verifies that creating a Verb object with an invalid verb string
         raises a ValueError."""
         invalid_verb = "abcd"
         with self.assertRaises(ValueError):
             Verb(invalid_verb)
 
-    def test_is_valid_verb4(self):
+    def test_is_valid4(self):
         """Verifies that creating a Verb object with an empty verb string
         raises a ValueError."""
         invalid_verb = ""
