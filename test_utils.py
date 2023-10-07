@@ -1,5 +1,6 @@
 import unittest
 import utils
+from verb import Verb
 
 
 class TestUtils(unittest.TestCase):
@@ -47,3 +48,51 @@ class TestUtils(unittest.TestCase):
         """Verifies that is_valid_pronoun returns False given
         an invalid, empty string pronoun."""
         self.assertFalse(utils.is_valid_pronoun(""))
+
+    def test_get_present_participle1(self):
+        """Verifies that get_present_participle returns the correct present
+        participle given a regular -ar verb"""
+        verb = Verb("hablar")
+        self.assertEqual(utils.get_present_participle(verb), "hablando")
+
+    def test_get_present_participle2(self):
+        """Verifies that get_present_participle returns the correct present
+        participle given a regular -er verb"""
+        verb = Verb("beber")
+        self.assertEqual(utils.get_present_participle(verb), "bebiendo")
+
+    def test_get_present_participle3(self):
+        """Verifies that get_present_participle returns the correct present
+        participle given a regular -ir verb"""
+        verb = Verb("vivir")
+        self.assertEqual(utils.get_present_participle(verb), "viviendo")
+
+    def test_get_present_participle4(self):
+        """Verifies that get_present_participle returns the correct present
+        participle given an irregular verb"""
+        verb = Verb("ir")
+        self.assertEqual(utils.get_present_participle(verb), "yendo")
+
+    def test_get_past_participle1(self):
+        """Verifies that get_past_participle returns the correct past
+        participle given a regular -ar verb"""
+        verb = Verb("hablar")
+        self.assertEqual(utils.get_past_participle(verb), "hablado")
+
+    def test_get_past_participle2(self):
+        """Verifies that get_past_participle returns the correct past
+        participle given a regular -er verb"""
+        verb = Verb("beber")
+        self.assertEqual(utils.get_past_participle(verb), "bebido")
+
+    def test_get_past_participle3(self):
+        """Verifies that get_past_participle returns the correct past
+        participle given a regular -ir verb"""
+        verb = Verb("vivir")
+        self.assertEqual(utils.get_past_participle(verb), "vivido")
+
+    def test_get_past_participle4(self):
+        """Verifies that get_past_participle returns the correct past
+        participle given an irregular verb"""
+        verb = Verb("decir")
+        self.assertEqual(utils.get_past_participle(verb), "dicho")
