@@ -24,22 +24,26 @@ def is_valid_pronoun(pronoun):
 def get_present_participle(verb):
     """Returns the present participle for the given verb."""
     infinitive, stem = verb.infinitive, verb.stem
-    try:
-        return irregular_verbs[infinitive]["participles"][0]
-    except KeyError:
-        if verb.ending == "ar":
-            return stem + "ando"
-        else:
-            return stem + "iendo"
+
+    # Check if verb has irregular participles
+    irregular_participles = \
+        irregular_verbs.get(infinitive, {}).get("participles", [])
+    if irregular_participles:
+        return irregular_participles[0]
+
+    # Return regular present participle
+    return stem + ("ando" if verb.ending == "ar" else "iendo")
 
 
 def get_past_participle(verb):
     """Returns the past participle for the given verb."""
     infinitive, stem = verb.infinitive, verb.stem
-    try:
-        return irregular_verbs[infinitive]["participles"][1]
-    except KeyError:
-        if verb.ending == "ar":
-            return stem + "ado"
-        else:
-            return stem + "ido"
+
+    # Check if verb has irregular participles
+    irregular_participles = \
+        irregular_verbs.get(infinitive, {}).get("participles", [])
+    if irregular_participles:
+        return irregular_participles[1]
+
+    # Return regular past participle
+    return stem + ("ado" if verb.ending == "ar" else "ido")
