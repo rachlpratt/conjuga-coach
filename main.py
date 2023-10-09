@@ -1,6 +1,7 @@
 import unittest
 import test_verb
 import test_utils
+import test_quiz
 
 
 def main():
@@ -8,9 +9,10 @@ def main():
     loader = unittest.TestLoader()
     suite_verb = loader.loadTestsFromModule(test_verb)
     suite_utils = loader.loadTestsFromModule(test_utils)
+    suite_quiz = loader.loadTestsFromModule(test_quiz)
 
     # Create test suite with all tests
-    all_tests = unittest.TestSuite([suite_verb, suite_utils])
+    all_tests = unittest.TestSuite([suite_verb, suite_utils, suite_quiz])
 
     # Run test suite and collect results
     runner = unittest.TextTestRunner()

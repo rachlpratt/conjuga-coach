@@ -55,4 +55,4 @@ class Verb:
                 return conjugation_func(self, pronoun)
 
     def __str__(self):
-        return f"Verb: {self._infinitive}"
+        return f"Verb: {self.infinitive}"
