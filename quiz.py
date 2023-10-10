@@ -38,6 +38,21 @@ class QuizItem:
         self._question_pronoun = question_pronoun
 
     @property
+    def question_verb(self) -> Verb:
+        """Get the Verb part of the question."""
+        return self._question_verb
+
+    @property
+    def question_tense(self) -> str:
+        """Get the tense part of the question."""
+        return self._question_tense
+
+    @property
+    def question_pronoun(self) -> str:
+        """Get the pronoun part of the question."""
+        return self._question_pronoun
+
+    @property
     def answer(self) -> str:
         """Get the answer."""
         return self._answer

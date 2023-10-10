@@ -66,6 +66,62 @@ class TestQuizItemCreation(unittest.TestCase):
                          "Question must be tuple with 3 elements: "
                          "Verb, tense, pronoun")
 
+    def test_quiz_item_question_verb1(self):
+        """Verifies that the question_verb property returns the correct value
+        for the QuizItem object."""
+        verb = Verb("hacer")
+        quiz_item = QuizItem((verb, "present", "yo"), "hago")
+        self.assertEqual(verb, quiz_item.question_verb)
+
+    def test_quiz_item_question_verb2(self):
+        """Verifies that the question_verb property returns the correct value
+        for the QuizItem object."""
+        verb = Verb("ir")
+        quiz_item = QuizItem((verb, "present", "tú"), "vas")
+        self.assertEqual(verb, quiz_item.question_verb)
+
+    def test_quiz_item_question_tense1(self):
+        """Verifies that the question_tense property returns the correct value
+        for the QuizItem object."""
+        verb = Verb("hacer")
+        quiz_item = QuizItem((verb, "present", "yo"), "hago")
+        self.assertEqual("present", quiz_item.question_tense)
+
+    def test_quiz_item_question_tense2(self):
+        """Verifies that the question_tense property returns the correct value
+        for the QuizItem object."""
+        verb = Verb("ser")
+        quiz_item = QuizItem((verb, "preterite", "nosotros"), "fuimos")
+        self.assertEqual("preterite", quiz_item.question_tense)
+
+    def test_quiz_item_question_pronoun1(self):
+        """Verifies that the question_pronoun property returns the correct
+        value for the QuizItem object."""
+        verb = Verb("hacer")
+        quiz_item = QuizItem((verb, "present", "yo"), "hago")
+        self.assertEqual("yo", quiz_item.question_pronoun)
+
+    def test_quiz_item_question_pronoun2(self):
+        """Verifies that the question_pronoun property returns the correct
+        value for the QuizItem object."""
+        verb = Verb("ir")
+        quiz_item = QuizItem((verb, "present", "tú"), "vas")
+        self.assertEqual("tú", quiz_item.question_pronoun)
+
+    def test_quiz_item_answer1(self):
+        """Verifies that the answer property returns the correct value
+        for the QuizItem object."""
+        verb = Verb("hacer")
+        quiz_item = QuizItem((verb, "present", "yo"), "hago")
+        self.assertEqual("hago", quiz_item.answer)
+
+    def test_quiz_item_answer2(self):
+        """Verifies that the answer property returns the correct value
+        for the QuizItem object."""
+        verb = Verb("ser")
+        quiz_item = QuizItem((verb, "preterite", "tú"), "fuiste")
+        self.assertEqual("fuiste", quiz_item.answer)
+
     def test_str_method(self):
         """Verifies that the __str__ method returns the expected string
         representation for a QuizItem object."""
