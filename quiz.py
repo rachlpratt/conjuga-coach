@@ -54,3 +54,10 @@ class QuizItem:
                                          self._question_pronoun) != answer:
             raise ValueError(f"Invalid answer: {answer}")
         self._answer = answer
+
+    def __str__(self) -> str:
+        """Get the string representation of the QuizItem object."""
+        return f"Question: {self._question_pronoun} " \
+               f"{self._question_verb.infinitive} " \
+               f"({self._question_tense})\n" \
+               f"Answer: {self.answer}"

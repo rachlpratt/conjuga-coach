@@ -65,3 +65,11 @@ class TestQuizItemCreation(unittest.TestCase):
         self.assertEqual(str(context.exception),
                          "Question must be tuple with 3 elements: "
                          "Verb, tense, pronoun")
+
+    def test_str_method(self):
+        """Verifies that the __str__ method returns the expected string
+        representation for a QuizItem object."""
+        verb = Verb("hacer")
+        quiz_item = QuizItem((verb, "present", "yo"), "hago")
+        self.assertEqual(str(quiz_item), "Question: yo hacer (present)\n"
+                                         "Answer: hago")
