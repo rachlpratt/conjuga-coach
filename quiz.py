@@ -76,3 +76,72 @@ class QuizItem:
                f"{self._question_verb.infinitive} " \
                f"({self._question_tense})\n" \
                f"Answer: {self.answer}"
+
+
+class Quiz:
+    def __init__(self, verb_list: list[Verb], tense_list: list[str],
+                 pronoun_list: list[str]) -> None:
+        """Initialize a Quiz object with lists of verbs, tenses, and pronouns."""
+        self.verb_list = verb_list
+        self.tense_list = tense_list
+        self.pronoun_list = pronoun_list
+
+    @property
+    def verb_list(self) -> list:
+        """Get the verb_list."""
+        return self._verb_list
+
+    @verb_list.setter
+    def verb_list(self, verb_list: list) -> None:
+        """
+        Set the verb_list.
+
+        Raises:
+            ValueError: if the verb_list is invalid.
+        """
+        if not isinstance(verb_list, list) or not all(
+                isinstance(verb, Verb) for
+                verb in verb_list
+        ):
+            raise ValueError("verb_list must be a list of valid Verb objects")
+        self._verb_list = verb_list
+
+    @property
+    def tense_list(self) -> list:
+        """Get the tense_list."""
+        return self._tense_list
+
+    @tense_list.setter
+    def tense_list(self, tense_list: list) -> None:
+        """
+        Set the tense_list.
+
+        Raises:
+            ValueError: if the tense_list is invalid.
+        """
+        if not isinstance(tense_list, list) or not all(
+                isinstance(tense, str) and is_valid_tense(tense) for
+                tense in tense_list
+        ):
+            raise ValueError("tense_list must be a list of valid tenses")
+        self._tense_list = tense_list
+
+    @property
+    def pronoun_list(self) -> list:
+        """Get the pronoun_list."""
+        return self._pronoun_list
+
+    @pronoun_list.setter
+    def pronoun_list(self, pronoun_list: list) -> None:
+        """
+        Set the pronoun_list.
+
+        Raises:
+            ValueError: if the pronoun_list is invalid.
+        """
+        if not isinstance(pronoun_list, list) or not all(
+                isinstance(pronoun, str) and is_valid_pronoun(pronoun) for
+                pronoun in pronoun_list
+        ):
+            raise ValueError("pronoun_list must be a list of valid pronouns")
+        self._pronoun_list = pronoun_list
