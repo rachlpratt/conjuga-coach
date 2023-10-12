@@ -1,5 +1,6 @@
 from verb import Verb
 from utils import is_valid_tense, is_valid_pronoun
+import random
 
 
 class QuizItem:
@@ -80,11 +81,13 @@ class QuizItem:
 
 class Quiz:
     def __init__(self, verb_list: list[Verb], tense_list: list[str],
-                 pronoun_list: list[str]) -> None:
+                 pronoun_list: list[str], num_items: int = None) -> None:
         """Initialize a Quiz object with lists of verbs, tenses, and pronouns."""
         self.verb_list = verb_list
         self.tense_list = tense_list
         self.pronoun_list = pronoun_list
+        self.num_items = num_items
+        self.quiz_bank = self.create_quiz_bank()
 
     @property
     def verb_list(self) -> list:
@@ -145,3 +148,47 @@ class Quiz:
         ):
             raise ValueError("pronoun_list must be a list of valid pronouns")
         self._pronoun_list = pronoun_list
+
+    @property
+    def num_items(self) -> int | None:
+        """Get the number of quiz items."""
+        return self._num_items
+
+    @num_items.setter
+    def num_items(self, num_items: int | None) -> None:
+        """Set the number of quiz items."""
+        if num_items is not None and \
+                (not isinstance(num_items, int) or not 1 <= num_items <= 100):
+            raise ValueError("num_items must be an int between 1 and 100, "
+                             "or None")
+        self._num_items = num_items
+
+    @property
+    def quiz_bank(self) -> list:
+        """Get the quiz_bank."""
+        return self._quiz_bank
+
+    @quiz_bank.setter
+    def quiz_bank(self, quiz_bank: list) -> None:
+        """Set the quiz_bank."""
+        if not isinstance(quiz_bank, list) or not \
+                all(isinstance(item, QuizItem) for item in quiz_bank):
+            raise ValueError("quiz_bank must be a list of QuizItem objects")
+        self._quiz_bank = quiz_bank
+
+    def create_quiz_bank(self) -> list:
+        """Create a quiz_bank based on the verb, tense, and pronoun lists."""
+        quiz_bank = []
+        for verb in self.verb_list:
+            for tense in self.tense_list:
+                for pronoun in self.pronoun_list:
+                    question = (verb, tense, pronoun)
+                    answer = verb.conjugate(tense, pronoun)
+                    quiz_item = QuizItem(question, answer)
+                    quiz_bank.append(quiz_item)
+
+        # Update num_items if not provided or if it exceeds size of quiz_bank
+        total_items = len(quiz_bank)
+        if self.num_items is None or self.num_items > total_items:
+            self.num_items = min(total_items, 100)
+        return random.sample(quiz_bank, self.num_items)
