@@ -122,7 +122,7 @@ class TestQuizItemCreation(unittest.TestCase):
         quiz_item = QuizItem((verb, "preterite", "tú"), "fuiste")
         self.assertEqual("fuiste", quiz_item.answer)
 
-    def test_str_method(self):
+    def test_quiz_item_str_method(self):
         """Verifies that the __str__ method returns the expected string
         representation for a QuizItem object."""
         verb = Verb("hacer")
@@ -373,3 +373,21 @@ class TestQuizCreation(unittest.TestCase):
                                for item in quiz.quiz_bank]
         self.assertTrue(all(comb in actual_combinations for comb in
                             expected_combinations))
+
+    def test_quiz_str_method(self):
+        """Verifies that the __str__ method returns the expected string
+        representation for a Quiz object."""
+        verb_list = [Verb("hacer")]
+        tense_list = ["present"]
+        pronoun_list = ["yo"]
+        quiz = Quiz(verb_list, tense_list, pronoun_list)
+        self.assertEqual(str(quiz), "QUIZ:\n"
+                                    "Verbs: Verb: hacer\n"
+                                    "Tenses: present\n"
+                                    "Pronouns: yo\n"
+                                    "Number of Items: 1\n"
+                                    "------------\n"
+                                    "Quiz Items:\n"
+                                    "Question: yo hacer (present)\n"
+                                    "Answer: hago")
+        

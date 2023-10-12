@@ -192,3 +192,18 @@ class Quiz:
         if self.num_items is None or self.num_items > total_items:
             self.num_items = min(total_items, 100)
         return random.sample(quiz_bank, self.num_items)
+
+    def __str__(self) -> str:
+        verb_str = ", ".join(str(verb) for verb in self.verb_list)
+        tense_str = ", ".join(self.tense_list)
+        pronoun_str = ", ".join(self.pronoun_list)
+
+        quiz_items_str = "\n".join(str(item) for item in self.quiz_bank)
+
+        return (f"QUIZ:\n"
+                f"Verbs: {verb_str}\n"
+                f"Tenses: {tense_str}\n"
+                f"Pronouns: {pronoun_str}\n"
+                f"Number of Items: {self.num_items}\n"
+                f"------------\n"
+                f"Quiz Items:\n{quiz_items_str}")
