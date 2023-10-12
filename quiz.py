@@ -194,6 +194,7 @@ class Quiz:
         return random.sample(quiz_bank, self.num_items)
 
     def __str__(self) -> str:
+        """Get the string representation of the Quiz object."""
         verb_str = ", ".join(str(verb) for verb in self.verb_list)
         tense_str = ", ".join(self.tense_list)
         pronoun_str = ", ".join(self.pronoun_list)
@@ -207,3 +208,17 @@ class Quiz:
                 f"Number of Items: {self.num_items}\n"
                 f"------------\n"
                 f"Quiz Items:\n{quiz_items_str}")
+
+    def __iter__(self):
+        """Initialize iterator and return the Quiz object itself."""
+        self._current_index = 0
+        return self
+
+    def __next__(self):
+        """Return the next QuizItem in the sequence or raise StopIteration."""
+        if self._current_index < len(self.quiz_bank):
+            item = self.quiz_bank[self._current_index]
+            self._current_index += 1
+            return item
+        else:
+            raise StopIteration

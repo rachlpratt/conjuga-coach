@@ -390,4 +390,19 @@ class TestQuizCreation(unittest.TestCase):
                                     "Quiz Items:\n"
                                     "Question: yo hacer (present)\n"
                                     "Answer: hago")
-        
+
+    def test_quiz_iter_method(self):
+        """Verifies that the __iter__ method returns the Quiz object itself."""
+        verb_list = [Verb("hacer"), Verb("ir")]
+        tense_list = ["present", "preterite"]
+        pronoun_list = ["yo", "tú"]
+        quiz = Quiz(verb_list, tense_list, pronoun_list)
+        self.assertEqual(iter(quiz), quiz)
+
+    def test_quiz_next_method(self):
+        """Verifies that the __next__ method returns a QuizItem instance."""
+        verb_list = [Verb("hacer"), Verb("ir")]
+        tense_list = ["present", "preterite"]
+        pronoun_list = ["yo", "tú"]
+        quiz = Quiz(verb_list, tense_list, pronoun_list)
+        self.assertIsInstance(next(iter(quiz)), QuizItem)
