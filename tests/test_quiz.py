@@ -1,6 +1,6 @@
 import unittest
-from quiz import QuizItem, Quiz
-from verb import Verb
+
+from app.models import QuizItem, Quiz, Verb
 
 
 class TestQuizItemCreation(unittest.TestCase):

@@ -1,4 +1,4 @@
-import utils
+from app.utils import PRONOUNS, get_present_participle, get_past_participle
 
 
 def conjugate_present(verb, pronoun):
@@ -276,50 +276,50 @@ def conjugate_negative_imperative(verb, pronoun):
 
 def conjugate_present_progressive(verb, pronoun):
     estar_forms = ["estoy", "estás", "está", "estamos", "estáis", "están"]
-    aux_verb = estar_forms[utils.PRONOUNS.index(pronoun)]
-    return f"{aux_verb} {utils.get_present_participle(verb)}"
+    aux_verb = estar_forms[PRONOUNS.index(pronoun)]
+    return f"{aux_verb} {get_present_participle(verb)}"
 
 
 def conjugate_past_progressive(verb, pronoun):
     estar_forms = ["estaba", "estabas", "estaba", "estábamos", "estabais",
                    "estaban"]
-    aux_verb = estar_forms[utils.PRONOUNS.index(pronoun)]
-    return f"{aux_verb} {utils.get_present_participle(verb)}"
+    aux_verb = estar_forms[PRONOUNS.index(pronoun)]
+    return f"{aux_verb} {get_present_participle(verb)}"
 
 
 def conjugate_present_perfect(verb, pronoun):
     haber_forms = ["he", "has", "ha", "hemos", "habéis", "han"]
-    aux_verb = haber_forms[utils.PRONOUNS.index(pronoun)]
-    return f"{aux_verb} {utils.get_past_participle(verb)}"
+    aux_verb = haber_forms[PRONOUNS.index(pronoun)]
+    return f"{aux_verb} {get_past_participle(verb)}"
 
 
 def conjugate_pluperfect(verb, pronoun):
     haber_forms = ["había", "habías", "había", "habíamos", "habíais", "habían"]
-    aux_verb = haber_forms[utils.PRONOUNS.index(pronoun)]
-    return f"{aux_verb} {utils.get_past_participle(verb)}"
+    aux_verb = haber_forms[PRONOUNS.index(pronoun)]
+    return f"{aux_verb} {get_past_participle(verb)}"
 
 
 def conjugate_future_perfect(verb, pronoun):
     haber_forms = ["habré", "habrás", "habrá", "habremos", "habréis", "habrán"]
-    aux_verb = haber_forms[utils.PRONOUNS.index(pronoun)]
-    return f"{aux_verb} {utils.get_past_participle(verb)}"
+    aux_verb = haber_forms[PRONOUNS.index(pronoun)]
+    return f"{aux_verb} {get_past_participle(verb)}"
 
 
 def conjugate_present_perfect_subjunctive(verb, pronoun):
     haber_forms = ["haya", "hayas", "haya", "hayamos", "hayáis", "hayan"]
-    aux_verb = haber_forms[utils.PRONOUNS.index(pronoun)]
-    return f"{aux_verb} {utils.get_past_participle(verb)}"
+    aux_verb = haber_forms[PRONOUNS.index(pronoun)]
+    return f"{aux_verb} {get_past_participle(verb)}"
 
 
 def conjugate_pluperfect_subjunctive_ra(verb, pronoun):
     haber_forms = ["hubiera", "hubieras", "hubiera", "hubiéramos", "hubierais",
                    "hubieran"]
-    aux_verb = haber_forms[utils.PRONOUNS.index(pronoun)]
-    return f"{aux_verb} {utils.get_past_participle(verb)}"
+    aux_verb = haber_forms[PRONOUNS.index(pronoun)]
+    return f"{aux_verb} {get_past_participle(verb)}"
 
 
 def conjugate_pluperfect_subjunctive_se(verb, pronoun):
     haber_forms = ["hubiese", "hubieses", "hubiese", "hubiésemos", "hubieseis",
                    "hubiesen"]
-    aux_verb = haber_forms[utils.PRONOUNS.index(pronoun)]
-    return f"{aux_verb} {utils.get_past_participle(verb)}"
+    aux_verb = haber_forms[PRONOUNS.index(pronoun)]
+    return f"{aux_verb} {get_past_participle(verb)}"

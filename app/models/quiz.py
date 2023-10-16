@@ -1,6 +1,7 @@
-from verb import Verb
-from utils import is_valid_tense, is_valid_pronoun
 import random
+
+from app.models import Verb
+from app.utils import is_valid_tense, is_valid_pronoun
 
 
 class QuizItem:

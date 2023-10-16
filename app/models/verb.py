@@ -1,7 +1,7 @@
-from utils import PRONOUNS, is_valid_tense, is_valid_pronoun
-import conjugate
-from regular_verbs import regular_verbs
-from irregular_verbs import irregular_verbs
+from app.utils import (
+    PRONOUNS, is_valid_tense, is_valid_pronoun,
+    conjugate, regular_verbs, irregular_verbs
+)
 
 
 class Verb:
