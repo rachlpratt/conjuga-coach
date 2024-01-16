@@ -4,5 +4,5 @@ main = Blueprint('main', __name__)
 
 
 @main.route("/")
-def home():
-    return "Home page"
+def index():
+    return "ConjugaCoach API"

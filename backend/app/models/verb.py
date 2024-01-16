@@ -1,7 +1,8 @@
-from app.utils import (
+from backend.app.utils import (
     PRONOUNS, is_valid_tense, is_valid_pronoun,
-    conjugate, regular_verbs, irregular_verbs
+    regular_verbs, irregular_verbs
 )
+from backend.app.utils import conjugate
 
 
 class Verb:

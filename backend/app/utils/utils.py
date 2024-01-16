@@ -1,4 +1,4 @@
-from app.utils import irregular_verbs
+from backend.app.utils import irregular_verbs
 
 PRONOUNS = ["yo", "tú", "él/ella/Ud.", "nosotros", "vosotros",
             "ellos/ellas/Uds."]

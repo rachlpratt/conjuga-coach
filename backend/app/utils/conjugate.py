@@ -1,4 +1,4 @@
-from app.utils import PRONOUNS, get_present_participle, get_past_participle
+from backend.app.utils import PRONOUNS, get_present_participle, get_past_participle
 
 
 def conjugate_present(verb, pronoun):
