@@ -1,4 +1,8 @@
 .DS_Store
 .idea
 __pycache__/
-backend/app.yaml
+**/app.yaml
+backend/regular_verbs.py
+backend/irregular_verbs.py
+**/populate_db.py
+**/database.db

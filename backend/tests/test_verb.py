@@ -1,6 +1,6 @@
 import unittest
 
-from backend.app.models import Verb
+from backend.app.resources import Verb
 
 
 class TestVerbCreation(unittest.TestCase):

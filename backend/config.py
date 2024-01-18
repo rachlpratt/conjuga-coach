@@ -6,6 +6,8 @@ class Config(object):
     DEBUG = False
     TESTING = False
     SESSION_COOKIE_SECURE = True
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///database.db'
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
 class ProductionConfig(Config):

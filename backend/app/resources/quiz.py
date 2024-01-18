@@ -1,7 +1,7 @@
 import random
 
-from backend.app.models import Verb
-from backend.app.models import QuizItem
+from backend.app.resources import Verb
+from backend.app.resources import QuizItem
 from backend.app.utils import is_valid_tense, is_valid_pronoun
 
 
