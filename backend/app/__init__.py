@@ -1,10 +1,8 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 from .routes import main
+from .extensions import db
 from backend import config
 import os
-
-db = SQLAlchemy()
 
 
 def create_app():

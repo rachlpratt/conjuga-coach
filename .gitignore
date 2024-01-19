@@ -6,3 +6,4 @@ backend/regular_verbs.py
 backend/irregular_verbs.py
 **/populate_db.py
 **/database.db
+**/testing_db.db
