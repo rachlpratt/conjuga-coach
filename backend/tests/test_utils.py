@@ -1,6 +1,6 @@
 import unittest
 
-from backend.app.resources import Verb
+from backend.app.resources.verb import Verb
 from backend.app.utils import (
     is_valid_tense, is_valid_pronoun, get_present_participle,
     get_past_participle)

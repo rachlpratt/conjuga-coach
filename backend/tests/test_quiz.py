@@ -1,6 +1,8 @@
 import unittest
 
-from backend.app.resources import QuizItem, Quiz, Verb
+from backend.app.resources.verb import Verb
+from backend.app.resources.quiz import Quiz
+from backend.app.resources.quiz_item import QuizItem
 
 
 class TestQuizItemCreation(unittest.TestCase):
