@@ -57,27 +57,27 @@ class TestVerbs(unittest.TestCase):
                     continue
 
                 for tense_name, conjugations in tenses.items():
-                    if tense_name == 'participles':
-                        verb.present_participle = conjugations[0]
-                        verb.past_participle = conjugations[1]
-                        db.session.add(verb)
-                        continue
-
                     tense = Tense.query.filter_by(name=tense_name).first()
-                    if not tense:
-                        continue
-
-                    conjugation = Conjugation(
-                        verb_id=verb.id,
-                        tense_id=tense.id,
-                        first_s=conjugations[0],
-                        second_s=conjugations[1],
-                        third_s=conjugations[2],
-                        first_p=conjugations[3],
-                        second_p=conjugations[4],
-                        third_p=conjugations[5],
-                    )
-                    db.session.add(conjugation)
+                    if tense_name == 'participles':
+                        participle_conjugation = Conjugation(
+                            verb_id=verb.id,
+                            tense_id=tense.id,
+                            present_participle=conjugations[0],
+                            past_participle=conjugations[1]
+                        )
+                        db.session.add(participle_conjugation)
+                    else:
+                        conjugation = Conjugation(
+                            verb_id=verb.id,
+                            tense_id=tense.id,
+                            first_s=conjugations[0],
+                            second_s=conjugations[1],
+                            third_s=conjugations[2],
+                            first_p=conjugations[3],
+                            second_p=conjugations[4],
+                            third_p=conjugations[5],
+                        )
+                        db.session.add(conjugation)
 
             db.session.commit()
 
@@ -674,8 +674,7 @@ class TestVerbs(unittest.TestCase):
         with self.app.app_context():
             verb = Verb("beber")
             self.assertEqual(verb.conjugate("imperfect_subjunctive_ra",
-                                            "él/ella/Ud."),
-                             "bebiera")
+                                            "él/ella/Ud."), "bebiera")
 
     def test_conjugate_imperfect_subjunctive_ra4(self):
         """Verifies that the conjugate method correctly conjugates a
@@ -721,7 +720,7 @@ class TestVerbs(unittest.TestCase):
         with self.app.app_context():
             verb = Verb("decir")
             self.assertEqual(verb.conjugate("imperfect_subjunctive_ra", "tú"),
-                         "dijeras")
+                             "dijeras")
 
     def test_conjugate_imperfect_subjunctive_se1(self):
         """Verifies that the conjugate method correctly conjugates a
@@ -870,6 +869,14 @@ class TestVerbs(unittest.TestCase):
             self.assertEqual(verb.conjugate("affirmative_imperative", "nosotros"),
                              "digamos")
 
+    def test_conjugate_affirmative_imperative9(self):
+        """Verifies that attempting to conjugate verb in first person with
+        affirmative imperative tense raises error."""
+        with self.app.app_context():
+            verb = Verb("ir")
+            with self.assertRaises(ValueError):
+                verb.conjugate("affirmative_imperative", "yo")
+
     def test_conjugate_negative_imperative1(self):
         """Verifies that the conjugate method correctly conjugates a
         regular -ar verb in the negative imperative tense for the
@@ -943,553 +950,561 @@ class TestVerbs(unittest.TestCase):
             self.assertEqual(verb.conjugate("negative_imperative", "nosotros"),
                              "no digamos")
 
-    # def test_conjugate_present_progressive1(self):
-    #     """Verifies that the conjugate method correctly conjugates a
-    #     regular -ar verb in the present progressive tense for the pronoun yo"""
-    #     with self.app.app_context():
-    #         verb = Verb("hablar")
-    #         self.assertEqual(verb.conjugate("present_progressive", "yo"),
-    #                          "estoy hablando")
-    #
-    # def test_conjugate_present_progressive2(self):
-    #     """Verifies that the conjugate method correctly conjugates a
-    #     regular -ar verb in the present progressive tense for the pronoun tú"""
-    #     with self.app.app_context():
-    #         verb = Verb("hablar")
-    #         self.assertEqual(verb.conjugate("present_progressive", "tú"),
-    #                          "estás hablando")
-    #
-    # def test_conjugate_present_progressive3(self):
-    #     """Verifies that the conjugate method correctly conjugates a
-    #     regular -er verb in the present progressive tense for the
-    #     pronoun nosotros"""
-    #     with self.app.app_context():
-    #         verb = Verb("beber")
-    #         self.assertEqual(verb.conjugate("present_progressive", "nosotros"),
-    #                          "estamos bebiendo")
-    #
-    # def test_conjugate_present_progressive4(self):
-    #     """Verifies that the conjugate method correctly conjugates a
-    #     regular -er verb in the present progressive tense for the
-    #     pronoun vosotros"""
-    #     with self.app.app_context():
-    #         verb = Verb("beber")
-    #         self.assertEqual(verb.conjugate("present_progressive", "vosotros"),
-    #                          "estáis bebiendo")
-    #
-    # def test_conjugate_present_progressive5(self):
-    #     """Verifies that the conjugate method correctly conjugates a
-    #     regular -ir verb in the present progressive tense for the
-    #     pronoun él/ella/Ud."""
-    #     with self.app.app_context():
-    #         verb = Verb("vivir")
-    #         self.assertEqual(verb.conjugate("present_progressive", "él/ella/Ud."),
-    #                          "está viviendo")
-    #
-    # def test_conjugate_present_progressive6(self):
-    #     """Verifies that the conjugate method correctly conjugates a
-    #     regular -ir verb in the present progressive tense for the
-    #     pronoun él/ella/Ud."""
-    #     with self.app.app_context():
-    #         verb = Verb("vivir")
-    #         self.assertEqual(verb.conjugate("present_progressive",
-    #                                         "ellos/ellas/Uds."),
-    #                          "están viviendo")
-    #
-    # def test_conjugate_present_progressive7(self):
-    #     """Verifies that the conjugate method correctly conjugates an
-    #     irregular verb in the present progressive tense for the
-    #     pronoun él/ella/Ud."""
-    #     with self.app.app_context():
-    #         verb = Verb("ir")
-    #         self.assertEqual(verb.conjugate("present_progressive", "él/ella/Ud."),
-    #                          "está yendo")
-    #
-    # def test_conjugate_present_progressive8(self):
-    #     """Verifies that the conjugate method correctly conjugates an
-    #     irregular verb in the present progressive tense for the
-    #     pronoun yo."""
-    #     with self.app.app_context():
-    #         verb = Verb("decir")
-    #         self.assertEqual(verb.conjugate("present_progressive", "yo"),
-    #                          "estoy diciendo")
-    #
-    # def test_conjugate_past_progressive1(self):
-    #     """Verifies that the conjugate method correctly conjugates a
-    #     regular -ar verb in the past progressive tense for the pronoun yo"""
-    #     with self.app.app_context():
-    #         verb = Verb("hablar")
-    #         self.assertEqual(verb.conjugate("past_progressive", "yo"),
-    #                          "estaba hablando")
-    #
-    # def test_conjugate_past_progressive2(self):
-    #     """Verifies that the conjugate method correctly conjugates a
-    #     regular -ar verb in the past progressive tense for the pronoun tú"""
-    #     with self.app.app_context():
-    #         verb = Verb("hablar")
-    #         self.assertEqual(verb.conjugate("past_progressive", "tú"),
-    #                          "estabas hablando")
-    #
-    # def test_conjugate_past_progressive3(self):
-    #     """Verifies that the conjugate method correctly conjugates a
-    #     regular -er verb in the past progressive tense for the
-    #     pronoun nosotros"""
-    #     with self.app.app_context():
-    #         verb = Verb("beber")
-    #         self.assertEqual(verb.conjugate("past_progressive", "nosotros"),
-    #                          "estábamos bebiendo")
-    #
-    # def test_conjugate_past_progressive4(self):
-    #     """Verifies that the conjugate method correctly conjugates a
-    #     regular -er verb in the past progressive tense for the
-    #     pronoun vosotros"""
-    #     with self.app.app_context():
-    #         verb = Verb("beber")
-    #         self.assertEqual(verb.conjugate("past_progressive", "vosotros"),
-    #                          "estabais bebiendo")
-    #
-    # def test_conjugate_past_progressive5(self):
-    #     """Verifies that the conjugate method correctly conjugates a
-    #     regular -ir verb in the past progressive tense for the
-    #     pronoun él/ella/Ud."""
-    #     with self.app.app_context():
-    #         verb = Verb("vivir")
-    #         self.assertEqual(verb.conjugate("past_progressive", "él/ella/Ud."),
-    #                          "estaba viviendo")
-    #
-    # def test_conjugate_past_progressive6(self):
-    #     """Verifies that the conjugate method correctly conjugates a
-    #     regular -ir verb in the past progressive tense for the
-    #     pronoun él/ella/Ud."""
-    #     with self.app.app_context():
-    #         verb = Verb("vivir")
-    #         self.assertEqual(verb.conjugate("past_progressive",
-    #                                         "ellos/ellas/Uds."),
-    #                          "estaban viviendo")
-    #
-    # def test_conjugate_past_progressive7(self):
-    #     """Verifies that the conjugate method correctly conjugates an
-    #     irregular verb in the past progressive tense for the
-    #     pronoun él/ella/Ud."""
-    #     with self.app.app_context():
-    #         verb = Verb("ir")
-    #         self.assertEqual(verb.conjugate("past_progressive", "él/ella/Ud."),
-    #                          "estaba yendo")
-    #
-    # def test_conjugate_past_progressive8(self):
-    #     """Verifies that the conjugate method correctly conjugates an
-    #     irregular verb in the past progressive tense for the
-    #     pronoun yo."""
-    #     with self.app.app_context():
-    #         verb = Verb("decir")
-    #         self.assertEqual(verb.conjugate("past_progressive", "yo"),
-    #                          "estaba diciendo")
-    #
-    # def test_conjugate_present_perfect1(self):
-    #     """Verifies that the conjugate method correctly conjugates a regular
-    #     -ar verb in the present perfect tense for the pronoun yo."""
-    #     with self.app.app_context():
-    #         verb = Verb("hablar")
-    #         self.assertEqual(verb.conjugate("present_perfect", "yo"),
-    #                          "he hablado")
-    #
-    # def test_conjugate_present_perfect2(self):
-    #     """Verifies that the conjugate method correctly conjugates a regular
-    #     -ar verb in the present perfect tense for the pronoun tú."""
-    #     with self.app.app_context():
-    #         verb = Verb("hablar")
-    #         self.assertEqual(verb.conjugate("present_perfect", "tú"),
-    #                          "has hablado")
-    #
-    # def test_conjugate_present_perfect3(self):
-    #     """Verifies that the conjugate method correctly conjugates a regular
-    #     -er verb in the present perfect tense for the pronoun él/ella/Ud."""
-    #     with self.app.app_context():
-    #         verb = Verb("beber")
-    #         self.assertEqual(verb.conjugate("present_perfect", "él/ella/Ud."),
-    #                          "ha bebido")
-    #
-    # def test_conjugate_present_perfect4(self):
-    #     """Verifies that the conjugate method correctly conjugates a regular
-    #     -er verb in the present perfect tense for the pronoun nosotros."""
-    #     with self.app.app_context():
-    #         verb = Verb("beber")
-    #         self.assertEqual(verb.conjugate("present_perfect", "nosotros"),
-    #                          "hemos bebido")
-    #
-    # def test_conjugate_present_perfect5(self):
-    #     """Verifies that the conjugate method correctly conjugates a regular
-    #     -ir verb in the present perfect tense for the pronoun vosotros."""
-    #     with self.app.app_context():
-    #         verb = Verb("vivir")
-    #         self.assertEqual(verb.conjugate("present_perfect", "vosotros"),
-    #                          "habéis vivido")
-    #
-    # def test_conjugate_present_perfect6(self):
-    #     """Verifies that the conjugate method correctly conjugates a regular
-    #     -ir verb in the present perfect tense for the
-    #     pronoun ellos/ellas/Uds."""
-    #     with self.app.app_context():
-    #         verb = Verb("vivir")
-    #         self.assertEqual(verb.conjugate("present_perfect", "ellos/ellas/Uds."),
-    #                          "han vivido")
-    #
-    # def test_conjugate_present_perfect7(self):
-    #     """Verifies that the conjugate method correctly conjugates an
-    #     irregular verb in the present perfect tense for the pronoun yo."""
-    #     with self.app.app_context():
-    #         verb = Verb("hacer")
-    #         self.assertEqual(verb.conjugate("present_perfect", "yo"),
-    #                          "he hecho")
-    #
-    # def test_conjugate_present_perfect8(self):
-    #     """Verifies that the conjugate method correctly conjugates an
-    #     irregular verb in the present perfect tense for the pronoun tú."""
-    #     with self.app.app_context():
-    #         verb = Verb("decir")
-    #         self.assertEqual(verb.conjugate("present_perfect", "tú"),
-    #                      "has dicho")
-    #
-    # def test_conjugate_pluperfect1(self):
-    #     """Verifies that the conjugate method correctly conjugates a regular
-    #     -ar verb in the pluperfect tense for the pronoun yo."""
-    #     with self.app.app_context():
-    #         verb = Verb("hablar")
-    #         self.assertEqual(verb.conjugate("pluperfect", "yo"), "había hablado")
-    #
-    # def test_conjugate_pluperfect2(self):
-    #     """Verifies that the conjugate method correctly conjugates a regular
-    #     -ar verb in the pluperfect tense for the pronoun tú."""
-    #     with self.app.app_context():
-    #         verb = Verb("hablar")
-    #         self.assertEqual(verb.conjugate("pluperfect", "tú"), "habías hablado")
-    #
-    # def test_conjugate_pluperfect3(self):
-    #     """Verifies that the conjugate method correctly conjugates a regular
-    #     -er verb in the pluperfect tense for the pronoun él/ella/Ud."""
-    #     with self.app.app_context():
-    #         verb = Verb("beber")
-    #         self.assertEqual(verb.conjugate("pluperfect", "él/ella/Ud."),
-    #                      "había bebido")
-    #
-    # def test_conjugate_pluperfect4(self):
-    #     """Verifies that the conjugate method correctly conjugates a regular
-    #     -er verb in the pluperfect tense for the pronoun nosotros."""
-    #     with self.app.app_context():
-    #         verb = Verb("beber")
-    #         self.assertEqual(verb.conjugate("pluperfect", "nosotros"),
-    #                      "habíamos bebido")
-    #
-    # def test_conjugate_pluperfect5(self):
-    #     """Verifies that the conjugate method correctly conjugates a regular
-    #     -ir verb in the pluperfect tense for the pronoun vosotros."""
-    #     with self.app.app_context():
-    #         verb = Verb("vivir")
-    #         self.assertEqual(verb.conjugate("pluperfect", "vosotros"),
-    #                      "habíais vivido")
-    #
-    # def test_conjugate_pluperfect6(self):
-    #     """Verifies that the conjugate method correctly conjugates a regular
-    #     -ir verb in the pluperfect tense for the pronoun ellos/ellas/Uds."""
-    #     with self.app.app_context():
-    #         verb = Verb("vivir")
-    #         self.assertEqual(verb.conjugate("pluperfect", "ellos/ellas/Uds."),
-    #                          "habían vivido")
-    #
-    # def test_conjugate_pluperfect7(self):
-    #     """Verifies that the conjugate method correctly conjugates an
-    #     irregular verb in the pluperfect tense for the pronoun yo."""
-    #     with self.app.app_context():
-    #         verb = Verb("hacer")
-    #         self.assertEqual(verb.conjugate("pluperfect", "yo"), "había hecho")
-    #
-    # def test_conjugate_pluperfect8(self):
-    #     """Verifies that the conjugate method correctly conjugates an
-    #     irregular verb in the pluperfect tense for the pronoun tú."""
-    #     with self.app.app_context():
-    #         verb = Verb("decir")
-    #         self.assertEqual(verb.conjugate("pluperfect", "tú"), "habías dicho")
-    #
-    # def test_conjugate_future_perfect1(self):
-    #     """Verifies that the conjugate method correctly conjugates a regular
-    #     -ar verb in the future perfect tense for the pronoun yo."""
-    #     with self.app.app_context():
-    #         verb = Verb("hablar")
-    #         self.assertEqual(verb.conjugate("future_perfect", "yo"),
-    #                      "habré hablado")
-    #
-    # def test_conjugate_future_perfect2(self):
-    #     """Verifies that the conjugate method correctly conjugates a regular
-    #     -ar verb in the future perfect tense for the pronoun tú."""
-    #     with self.app.app_context():
-    #         verb = Verb("hablar")
-    #         self.assertEqual(verb.conjugate("future_perfect", "tú"),
-    #                      "habrás hablado")
-    #
-    # def test_conjugate_future_perfect3(self):
-    #     """Verifies that the conjugate method correctly conjugates a regular
-    #     -er verb in the future perfect tense for the pronoun él/ella/Ud."""
-    #     with self.app.app_context():
-    #         verb = Verb("beber")
-    #         self.assertEqual(verb.conjugate("future_perfect", "él/ella/Ud."),
-    #                      "habrá bebido")
-    #
-    # def test_conjugate_future_perfect4(self):
-    #     """Verifies that the conjugate method correctly conjugates a regular
-    #     -er verb in the future perfect tense for the pronoun nosotros."""
-    #     with self.app.app_context():
-    #         verb = Verb("beber")
-    #         self.assertEqual(verb.conjugate("future_perfect", "nosotros"),
-    #                      "habremos bebido")
-    #
-    # def test_conjugate_future_perfect5(self):
-    #     """Verifies that the conjugate method correctly conjugates a regular
-    #     -ir verb in the future perfect tense for the pronoun vosotros."""
-    #     with self.app.app_context():
-    #         verb = Verb("vivir")
-    #         self.assertEqual(verb.conjugate("future_perfect", "vosotros"),
-    #                      "habréis vivido")
-    #
-    # def test_conjugate_future_perfect6(self):
-    #     """Verifies that the conjugate method correctly conjugates a regular
-    #     -ir verb in the future perfect tense for the
-    #     pronoun ellos/ellas/Uds."""
-    #     with self.app.app_context():
-    #         verb = Verb("vivir")
-    #         self.assertEqual(verb.conjugate("future_perfect", "ellos/ellas/Uds."),
-    #                          "habrán vivido")
-    #
-    # def test_conjugate_future_perfect7(self):
-    #     """Verifies that the conjugate method correctly conjugates an
-    #     irregular verb in the future perfect tense for the pronoun yo."""
-    #     with self.app.app_context():
-    #         verb = Verb("hacer")
-    #         self.assertEqual(verb.conjugate("future_perfect", "yo"),
-    #                      "habré hecho")
-    #
-    # def test_conjugate_future_perfect8(self):
-    #     """Verifies that the conjugate method correctly conjugates an
-    #     irregular verb in the future perfect tense for the pronoun tú."""
-    #     with self.app.app_context():
-    #         verb = Verb("hacer")
-    #         self.assertEqual(verb.conjugate("future_perfect", "tú"),
-    #                      "habrás hecho")
-    #
-    # def test_conjugate_present_perfect_subjunctive1(self):
-    #     """Verifies that the conjugate method correctly conjugates a regular
-    #     -ar verb in the present perfect subjunctive tense for the
-    #     pronoun yo."""
-    #     with self.app.app_context():
-    #         verb = Verb("hablar")
-    #         self.assertEqual(verb.conjugate("present_perfect_subjunctive", "yo"),
-    #                      "haya hablado")
-    #
-    # def test_conjugate_present_perfect_subjunctive2(self):
-    #     """Verifies that the conjugate method correctly conjugates a regular
-    #     -ar verb in the present perfect subjunctive tense for the
-    #     pronoun tú."""
-    #     with self.app.app_context():
-    #         verb = Verb("hablar")
-    #         self.assertEqual(verb.conjugate("present_perfect_subjunctive", "tú"),
-    #                      "hayas hablado")
-    #
-    # def test_conjugate_present_perfect_subjunctive3(self):
-    #     """Verifies that the conjugate method correctly conjugates a regular
-    #     -er verb in the present perfect subjunctive tense for the
-    #     pronoun él/ella/Ud."""
-    #     with self.app.app_context():
-    #         verb = Verb("beber")
-    #         self.assertEqual(verb.conjugate("present_perfect_subjunctive",
-    #                                     "él/ella/Ud."), "haya bebido")
-    #
-    # def test_conjugate_present_perfect_subjunctive4(self):
-    #     """Verifies that the conjugate method correctly conjugates a regular
-    #     -er verb in the present perfect subjunctive tense for the
-    #     pronoun nosotros."""
-    #     with self.app.app_context():
-    #         verb = Verb("beber")
-    #         self.assertEqual(verb.conjugate("present_perfect_subjunctive",
-    #                                     "nosotros"), "hayamos bebido")
-    #
-    # def test_conjugate_present_perfect_subjunctive5(self):
-    #     """Verifies that the conjugate method correctly conjugates a regular
-    #     -ir verb in the present perfect subjunctive tense for the
-    #     pronoun vosotros."""
-    #     with self.app.app_context():
-    #         verb = Verb("vivir")
-    #         self.assertEqual(verb.conjugate("present_perfect_subjunctive",
-    #                                     "vosotros"), "hayáis vivido")
-    #
-    # def test_conjugate_present_perfect_subjunctive6(self):
-    #     """Verifies that the conjugate method correctly conjugates a regular
-    #     -ir verb in the present perfect subjunctive tense for the
-    #     pronoun ellos/ellas/Uds."""
-    #     with self.app.app_context():
-    #         verb = Verb("vivir")
-    #         self.assertEqual(verb.conjugate("present_perfect_subjunctive",
-    #                                     "ellos/ellas/Uds."), "hayan vivido")
-    #
-    # def test_conjugate_present_perfect_subjunctive7(self):
-    #     """Verifies that the conjugate method correctly conjugates an
-    #     irregular verb in the present perfect subjunctive tense for the
-    #     pronoun yo."""
-    #     with self.app.app_context():
-    #         verb = Verb("hacer")
-    #         self.assertEqual(verb.conjugate("present_perfect_subjunctive", "yo"),
-    #                      "haya hecho")
-    #
-    # def test_conjugate_present_perfect_subjunctive8(self):
-    #     """Verifies that the conjugate method correctly conjugates an
-    #     irregular verb in the present perfect subjunctive tense for the
-    #     pronoun tú."""
-    #     with self.app.app_context():
-    #         verb = Verb("hacer")
-    #         self.assertEqual(verb.conjugate("present_perfect_subjunctive", "tú"),
-    #                      "hayas hecho")
-    #
-    # def test_conjugate_pluperfect_subjunctive_ra1(self):
-    #     """Verifies that the conjugate method correctly conjugates a regular
-    #     -ar verb in the pluperfect subjunctive (-ra) tense for the
-    #     pronoun yo."""
-    #     with self.app.app_context():
-    #         verb = Verb("hablar")
-    #         self.assertEqual(verb.conjugate("pluperfect_subjunctive_ra", "yo"),
-    #                      "hubiera hablado")
-    #
-    # def test_conjugate_pluperfect_subjunctive_ra2(self):
-    #     """Verifies that the conjugate method correctly conjugates a regular
-    #     -ar verb in the pluperfect subjunctive (-ra) tense for the
-    #     pronoun tú."""
-    #     with self.app.app_context():
-    #         verb = Verb("hablar")
-    #         self.assertEqual(verb.conjugate("pluperfect_subjunctive_ra", "tú"),
-    #                      "hubieras hablado")
-    #
-    # def test_conjugate_pluperfect_subjunctive_ra3(self):
-    #     """Verifies that the conjugate method correctly conjugates a regular
-    #     -er verb in the pluperfect subjunctive (-ra) tense for the
-    #     pronoun él/ella/Ud."""
-    #     with self.app.app_context():
-    #         verb = Verb("beber")
-    #         self.assertEqual(verb.conjugate("pluperfect_subjunctive_ra",
-    #                                     "él/ella/Ud."), "hubiera bebido")
-    #
-    # def test_conjugate_pluperfect_subjunctive_ra4(self):
-    #     """Verifies that the conjugate method correctly conjugates a regular
-    #     -er verb in the pluperfect subjunctive (-ra) tense for the
-    #     pronoun nosotros."""
-    #     with self.app.app_context():
-    #         verb = Verb("beber")
-    #         self.assertEqual(verb.conjugate("pluperfect_subjunctive_ra",
-    #                                     "nosotros"), "hubiéramos bebido")
-    #
-    # def test_conjugate_pluperfect_subjunctive_ra5(self):
-    #     """Verifies that the conjugate method correctly conjugates a regular
-    #     -ir verb in the pluperfect subjunctive (-ra) tense for the
-    #     pronoun vosotros."""
-    #     with self.app.app_context():
-    #         verb = Verb("vivir")
-    #         self.assertEqual(verb.conjugate("pluperfect_subjunctive_ra",
-    #                                         "vosotros"), "hubierais vivido")
-    #
-    # def test_conjugate_pluperfect_subjunctive_ra6(self):
-    #     """Verifies that the conjugate method correctly conjugates a regular
-    #     -ir verb in the pluperfect subjunctive (-ra) tense for the
-    #     pronoun ellos/ellas/Uds."""
-    #     with self.app.app_context():
-    #         verb = Verb("vivir")
-    #         self.assertEqual(verb.conjugate("pluperfect_subjunctive_ra",
-    #                                         "ellos/ellas/Uds."), "hubieran vivido")
-    #
-    # def test_conjugate_pluperfect_subjunctive_ra7(self):
-    #     """Verifies that the conjugate method correctly conjugates an
-    #     irregular verb in the pluperfect subjunctive (-ra) tense for the
-    #     pronoun yo."""
-    #     with self.app.app_context():
-    #         verb = Verb("hacer")
-    #         self.assertEqual(verb.conjugate("pluperfect_subjunctive_ra", "yo"),
-    #                          "hubiera hecho")
-    #
-    # def test_conjugate_pluperfect_subjunctive_ra8(self):
-    #     """Verifies that the conjugate method correctly conjugates an
-    #     irregular verb in the pluperfect subjunctive (-ra) tense for the
-    #     pronoun tú."""
-    #     with self.app.app_context():
-    #         verb = Verb("decir")
-    #         self.assertEqual(verb.conjugate("pluperfect_subjunctive_ra", "tú"),
-    #                      "hubieras dicho")
-    #
-    # def test_conjugate_pluperfect_subjunctive_se1(self):
-    #     """Verifies that the conjugate method correctly conjugates a regular
-    #     -ar verb in the pluperfect subjunctive (-se) tense for the
-    #     pronoun yo."""
-    #     with self.app.app_context():
-    #         verb = Verb("hablar")
-    #         self.assertEqual(verb.conjugate("pluperfect_subjunctive_se", "yo"),
-    #                      "hubiese hablado")
-    #
-    # def test_conjugate_pluperfect_subjunctive_se2(self):
-    #     """Verifies that the conjugate method correctly conjugates a regular
-    #     -ar verb in the pluperfect subjunctive (-se) tense for the
-    #     pronoun tú."""
-    #     with self.app.app_context():
-    #         verb = Verb("hablar")
-    #         self.assertEqual(verb.conjugate("pluperfect_subjunctive_se", "tú"),
-    #                      "hubieses hablado")
-    #
-    # def test_conjugate_pluperfect_subjunctive_se3(self):
-    #     """Verifies that the conjugate method correctly conjugates a regular
-    #     -er verb in the pluperfect subjunctive (-se) tense for the
-    #     pronoun él/ella/Ud."""
-    #     with self.app.app_context():
-    #         verb = Verb("beber")
-    #         self.assertEqual(verb.conjugate("pluperfect_subjunctive_se",
-    #                                     "él/ella/Ud."), "hubiese bebido")
-    #
-    # def test_conjugate_pluperfect_subjunctive_se4(self):
-    #     """Verifies that the conjugate method correctly conjugates a regular
-    #     -er verb in the pluperfect subjunctive (-se) tense for the
-    #     pronoun nosotros."""
-    #     with self.app.app_context():
-    #         verb = Verb("beber")
-    #         self.assertEqual(verb.conjugate("pluperfect_subjunctive_se",
-    #                                     "nosotros"), "hubiésemos bebido")
-    #
-    # def test_conjugate_pluperfect_subjunctive_se5(self):
-    #     """Verifies that the conjugate method correctly conjugates a regular
-    #     -ir verb in the pluperfect subjunctive (-se) tense for the
-    #     pronoun vosotros."""
-    #     with self.app.app_context():
-    #         verb = Verb("vivir")
-    #         self.assertEqual(verb.conjugate("pluperfect_subjunctive_se",
-    #                                     "vosotros"), "hubieseis vivido")
-    #
-    # def test_conjugate_pluperfect_subjunctive_se6(self):
-    #     """Verifies that the conjugate method correctly conjugates a regular
-    #     -ir verb in the pluperfect subjunctive (-se) tense for the
-    #     pronoun ellos/ellas/Uds."""
-    #     with self.app.app_context():
-    #         verb = Verb("vivir")
-    #         self.assertEqual(verb.conjugate("pluperfect_subjunctive_se",
-    #                                     "ellos/ellas/Uds."), "hubiesen vivido")
-    #
-    # def test_conjugate_pluperfect_subjunctive_se7(self):
-    #     """Verifies that the conjugate method correctly conjugates an
-    #     irregular verb in the pluperfect subjunctive (-se) tense for the
-    #     pronoun yo."""
-    #     with self.app.app_context():
-    #         verb = Verb("hacer")
-    #         self.assertEqual(verb.conjugate("pluperfect_subjunctive_se", "yo"),
-    #                      "hubiese hecho")
-    #
-    # def test_conjugate_pluperfect_subjunctive_se8(self):
-    #     """Verifies that the conjugate method correctly conjugates an
-    #     irregular verb in the pluperfect subjunctive (-se) tense for the
-    #     pronoun tú."""
-    #     with self.app.app_context():
-    #         verb = Verb("decir")
-    #         self.assertEqual(verb.conjugate("pluperfect_subjunctive_se", "tú"),
-    #                      "hubieses dicho")
+    def test_conjugate_negative_imperative9(self):
+        """Verifies that attempting to conjugate verb in first person with
+        negative imperative tense raises error."""
+        with self.app.app_context():
+            verb = Verb("ir")
+            with self.assertRaises(ValueError):
+                verb.conjugate("negative_imperative", "yo")
+
+    def test_conjugate_present_progressive1(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -ar verb in the present progressive tense for the pronoun yo"""
+        with self.app.app_context():
+            verb = Verb("hablar")
+            self.assertEqual(verb.conjugate("present_progressive", "yo"),
+                             "estoy hablando")
+
+    def test_conjugate_present_progressive2(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -ar verb in the present progressive tense for the pronoun tú"""
+        with self.app.app_context():
+            verb = Verb("hablar")
+            self.assertEqual(verb.conjugate("present_progressive", "tú"),
+                             "estás hablando")
+
+    def test_conjugate_present_progressive3(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -er verb in the present progressive tense for the
+        pronoun nosotros"""
+        with self.app.app_context():
+            verb = Verb("beber")
+            self.assertEqual(verb.conjugate("present_progressive", "nosotros"),
+                             "estamos bebiendo")
+
+    def test_conjugate_present_progressive4(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -er verb in the present progressive tense for the
+        pronoun vosotros"""
+        with self.app.app_context():
+            verb = Verb("beber")
+            self.assertEqual(verb.conjugate("present_progressive", "vosotros"),
+                             "estáis bebiendo")
+
+    def test_conjugate_present_progressive5(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -ir verb in the present progressive tense for the
+        pronoun él/ella/Ud."""
+        with self.app.app_context():
+            verb = Verb("vivir")
+            self.assertEqual(verb.conjugate("present_progressive", "él/ella/Ud."),
+                             "está viviendo")
+
+    def test_conjugate_present_progressive6(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -ir verb in the present progressive tense for the
+        pronoun él/ella/Ud."""
+        with self.app.app_context():
+            verb = Verb("vivir")
+            self.assertEqual(verb.conjugate("present_progressive",
+                                            "ellos/ellas/Uds."),
+                             "están viviendo")
+
+    def test_conjugate_present_progressive7(self):
+        """Verifies that the conjugate method correctly conjugates an
+        irregular verb in the present progressive tense for the
+        pronoun él/ella/Ud."""
+        with self.app.app_context():
+            verb = Verb("ir")
+            self.assertEqual(verb.conjugate("present_progressive", "él/ella/Ud."),
+                             "está yendo")
+
+    def test_conjugate_present_progressive8(self):
+        """Verifies that the conjugate method correctly conjugates an
+        irregular verb in the present progressive tense for the
+        pronoun yo."""
+        with self.app.app_context():
+            verb = Verb("decir")
+            self.assertEqual(verb.conjugate("present_progressive", "yo"),
+                             "estoy diciendo")
+
+    def test_conjugate_past_progressive1(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -ar verb in the past progressive tense for the pronoun yo"""
+        with self.app.app_context():
+            verb = Verb("hablar")
+            self.assertEqual(verb.conjugate("past_progressive", "yo"),
+                             "estaba hablando")
+
+    def test_conjugate_past_progressive2(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -ar verb in the past progressive tense for the pronoun tú"""
+        with self.app.app_context():
+            verb = Verb("hablar")
+            self.assertEqual(verb.conjugate("past_progressive", "tú"),
+                             "estabas hablando")
+
+    def test_conjugate_past_progressive3(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -er verb in the past progressive tense for the
+        pronoun nosotros"""
+        with self.app.app_context():
+            verb = Verb("beber")
+            self.assertEqual(verb.conjugate("past_progressive", "nosotros"),
+                             "estábamos bebiendo")
+
+    def test_conjugate_past_progressive4(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -er verb in the past progressive tense for the
+        pronoun vosotros"""
+        with self.app.app_context():
+            verb = Verb("beber")
+            self.assertEqual(verb.conjugate("past_progressive", "vosotros"),
+                             "estabais bebiendo")
+
+    def test_conjugate_past_progressive5(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -ir verb in the past progressive tense for the
+        pronoun él/ella/Ud."""
+        with self.app.app_context():
+            verb = Verb("vivir")
+            self.assertEqual(verb.conjugate("past_progressive", "él/ella/Ud."),
+                             "estaba viviendo")
+
+    def test_conjugate_past_progressive6(self):
+        """Verifies that the conjugate method correctly conjugates a
+        regular -ir verb in the past progressive tense for the
+        pronoun él/ella/Ud."""
+        with self.app.app_context():
+            verb = Verb("vivir")
+            self.assertEqual(verb.conjugate("past_progressive",
+                                            "ellos/ellas/Uds."),
+                             "estaban viviendo")
+
+    def test_conjugate_past_progressive7(self):
+        """Verifies that the conjugate method correctly conjugates an
+        irregular verb in the past progressive tense for the
+        pronoun él/ella/Ud."""
+        with self.app.app_context():
+            verb = Verb("ir")
+            self.assertEqual(verb.conjugate("past_progressive", "él/ella/Ud."),
+                             "estaba yendo")
+
+    def test_conjugate_past_progressive8(self):
+        """Verifies that the conjugate method correctly conjugates an
+        irregular verb in the past progressive tense for the
+        pronoun yo."""
+        with self.app.app_context():
+            verb = Verb("decir")
+            self.assertEqual(verb.conjugate("past_progressive", "yo"),
+                             "estaba diciendo")
+
+    def test_conjugate_present_perfect1(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -ar verb in the present perfect tense for the pronoun yo."""
+        with self.app.app_context():
+            verb = Verb("hablar")
+            self.assertEqual(verb.conjugate("present_perfect", "yo"),
+                             "he hablado")
+
+    def test_conjugate_present_perfect2(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -ar verb in the present perfect tense for the pronoun tú."""
+        with self.app.app_context():
+            verb = Verb("hablar")
+            self.assertEqual(verb.conjugate("present_perfect", "tú"),
+                             "has hablado")
+
+    def test_conjugate_present_perfect3(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -er verb in the present perfect tense for the pronoun él/ella/Ud."""
+        with self.app.app_context():
+            verb = Verb("beber")
+            self.assertEqual(verb.conjugate("present_perfect", "él/ella/Ud."),
+                             "ha bebido")
+
+    def test_conjugate_present_perfect4(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -er verb in the present perfect tense for the pronoun nosotros."""
+        with self.app.app_context():
+            verb = Verb("beber")
+            self.assertEqual(verb.conjugate("present_perfect", "nosotros"),
+                             "hemos bebido")
+
+    def test_conjugate_present_perfect5(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -ir verb in the present perfect tense for the pronoun vosotros."""
+        with self.app.app_context():
+            verb = Verb("vivir")
+            self.assertEqual(verb.conjugate("present_perfect", "vosotros"),
+                             "habéis vivido")
+
+    def test_conjugate_present_perfect6(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -ir verb in the present perfect tense for the
+        pronoun ellos/ellas/Uds."""
+        with self.app.app_context():
+            verb = Verb("vivir")
+            self.assertEqual(verb.conjugate("present_perfect", "ellos/ellas/Uds."),
+                             "han vivido")
+
+    def test_conjugate_present_perfect7(self):
+        """Verifies that the conjugate method correctly conjugates an
+        irregular verb in the present perfect tense for the pronoun yo."""
+        with self.app.app_context():
+            verb = Verb("hacer")
+            self.assertEqual(verb.conjugate("present_perfect", "yo"),
+                             "he hecho")
+
+    def test_conjugate_present_perfect8(self):
+        """Verifies that the conjugate method correctly conjugates an
+        irregular verb in the present perfect tense for the pronoun tú."""
+        with self.app.app_context():
+            verb = Verb("decir")
+            self.assertEqual(verb.conjugate("present_perfect", "tú"),
+                             "has dicho")
+
+    def test_conjugate_pluperfect1(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -ar verb in the pluperfect tense for the pronoun yo."""
+        with self.app.app_context():
+            verb = Verb("hablar")
+            self.assertEqual(verb.conjugate("pluperfect", "yo"), "había hablado")
+
+    def test_conjugate_pluperfect2(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -ar verb in the pluperfect tense for the pronoun tú."""
+        with self.app.app_context():
+            verb = Verb("hablar")
+            self.assertEqual(verb.conjugate("pluperfect", "tú"), "habías hablado")
+
+    def test_conjugate_pluperfect3(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -er verb in the pluperfect tense for the pronoun él/ella/Ud."""
+        with self.app.app_context():
+            verb = Verb("beber")
+            self.assertEqual(verb.conjugate("pluperfect", "él/ella/Ud."),
+                             "había bebido")
+
+    def test_conjugate_pluperfect4(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -er verb in the pluperfect tense for the pronoun nosotros."""
+        with self.app.app_context():
+            verb = Verb("beber")
+            self.assertEqual(verb.conjugate("pluperfect", "nosotros"),
+                             "habíamos bebido")
+
+    def test_conjugate_pluperfect5(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -ir verb in the pluperfect tense for the pronoun vosotros."""
+        with self.app.app_context():
+            verb = Verb("vivir")
+            self.assertEqual(verb.conjugate("pluperfect", "vosotros"),
+                             "habíais vivido")
+
+    def test_conjugate_pluperfect6(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -ir verb in the pluperfect tense for the pronoun ellos/ellas/Uds."""
+        with self.app.app_context():
+            verb = Verb("vivir")
+            self.assertEqual(verb.conjugate("pluperfect", "ellos/ellas/Uds."),
+                             "habían vivido")
+
+    def test_conjugate_pluperfect7(self):
+        """Verifies that the conjugate method correctly conjugates an
+        irregular verb in the pluperfect tense for the pronoun yo."""
+        with self.app.app_context():
+            verb = Verb("hacer")
+            self.assertEqual(verb.conjugate("pluperfect", "yo"), "había hecho")
+
+    def test_conjugate_pluperfect8(self):
+        """Verifies that the conjugate method correctly conjugates an
+        irregular verb in the pluperfect tense for the pronoun tú."""
+        with self.app.app_context():
+            verb = Verb("decir")
+            self.assertEqual(verb.conjugate("pluperfect", "tú"), "habías dicho")
+
+    def test_conjugate_future_perfect1(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -ar verb in the future perfect tense for the pronoun yo."""
+        with self.app.app_context():
+            verb = Verb("hablar")
+            self.assertEqual(verb.conjugate("future_perfect", "yo"),
+                             "habré hablado")
+
+    def test_conjugate_future_perfect2(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -ar verb in the future perfect tense for the pronoun tú."""
+        with self.app.app_context():
+            verb = Verb("hablar")
+            self.assertEqual(verb.conjugate("future_perfect", "tú"),
+                             "habrás hablado")
+
+    def test_conjugate_future_perfect3(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -er verb in the future perfect tense for the pronoun él/ella/Ud."""
+        with self.app.app_context():
+            verb = Verb("beber")
+            self.assertEqual(verb.conjugate("future_perfect", "él/ella/Ud."),
+                             "habrá bebido")
+
+    def test_conjugate_future_perfect4(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -er verb in the future perfect tense for the pronoun nosotros."""
+        with self.app.app_context():
+            verb = Verb("beber")
+            self.assertEqual(verb.conjugate("future_perfect", "nosotros"),
+                             "habremos bebido")
+
+    def test_conjugate_future_perfect5(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -ir verb in the future perfect tense for the pronoun vosotros."""
+        with self.app.app_context():
+            verb = Verb("vivir")
+            self.assertEqual(verb.conjugate("future_perfect", "vosotros"),
+                             "habréis vivido")
+
+    def test_conjugate_future_perfect6(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -ir verb in the future perfect tense for the
+        pronoun ellos/ellas/Uds."""
+        with self.app.app_context():
+            verb = Verb("vivir")
+            self.assertEqual(verb.conjugate("future_perfect", "ellos/ellas/Uds."),
+                             "habrán vivido")
+
+    def test_conjugate_future_perfect7(self):
+        """Verifies that the conjugate method correctly conjugates an
+        irregular verb in the future perfect tense for the pronoun yo."""
+        with self.app.app_context():
+            verb = Verb("hacer")
+            self.assertEqual(verb.conjugate("future_perfect", "yo"),
+                             "habré hecho")
+
+    def test_conjugate_future_perfect8(self):
+        """Verifies that the conjugate method correctly conjugates an
+        irregular verb in the future perfect tense for the pronoun tú."""
+        with self.app.app_context():
+            verb = Verb("hacer")
+            self.assertEqual(verb.conjugate("future_perfect", "tú"),
+                             "habrás hecho")
+
+    def test_conjugate_present_perfect_subjunctive1(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -ar verb in the present perfect subjunctive tense for the
+        pronoun yo."""
+        with self.app.app_context():
+            verb = Verb("hablar")
+            self.assertEqual(verb.conjugate("present_perfect_subjunctive", "yo"),
+                             "haya hablado")
+
+    def test_conjugate_present_perfect_subjunctive2(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -ar verb in the present perfect subjunctive tense for the
+        pronoun tú."""
+        with self.app.app_context():
+            verb = Verb("hablar")
+            self.assertEqual(verb.conjugate("present_perfect_subjunctive", "tú"),
+                             "hayas hablado")
+
+    def test_conjugate_present_perfect_subjunctive3(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -er verb in the present perfect subjunctive tense for the
+        pronoun él/ella/Ud."""
+        with self.app.app_context():
+            verb = Verb("beber")
+            self.assertEqual(verb.conjugate("present_perfect_subjunctive",
+                                            "él/ella/Ud."), "haya bebido")
+
+    def test_conjugate_present_perfect_subjunctive4(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -er verb in the present perfect subjunctive tense for the
+        pronoun nosotros."""
+        with self.app.app_context():
+            verb = Verb("beber")
+            self.assertEqual(verb.conjugate("present_perfect_subjunctive",
+                                            "nosotros"), "hayamos bebido")
+
+    def test_conjugate_present_perfect_subjunctive5(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -ir verb in the present perfect subjunctive tense for the
+        pronoun vosotros."""
+        with self.app.app_context():
+            verb = Verb("vivir")
+            self.assertEqual(verb.conjugate("present_perfect_subjunctive",
+                                            "vosotros"), "hayáis vivido")
+
+    def test_conjugate_present_perfect_subjunctive6(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -ir verb in the present perfect subjunctive tense for the
+        pronoun ellos/ellas/Uds."""
+        with self.app.app_context():
+            verb = Verb("vivir")
+            self.assertEqual(verb.conjugate("present_perfect_subjunctive",
+                                            "ellos/ellas/Uds."), "hayan vivido")
+
+    def test_conjugate_present_perfect_subjunctive7(self):
+        """Verifies that the conjugate method correctly conjugates an
+        irregular verb in the present perfect subjunctive tense for the
+        pronoun yo."""
+        with self.app.app_context():
+            verb = Verb("hacer")
+            self.assertEqual(verb.conjugate("present_perfect_subjunctive", "yo"),
+                             "haya hecho")
+
+    def test_conjugate_present_perfect_subjunctive8(self):
+        """Verifies that the conjugate method correctly conjugates an
+        irregular verb in the present perfect subjunctive tense for the
+        pronoun tú."""
+        with self.app.app_context():
+            verb = Verb("hacer")
+            self.assertEqual(verb.conjugate("present_perfect_subjunctive", "tú"),
+                             "hayas hecho")
+
+    def test_conjugate_pluperfect_subjunctive_ra1(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -ar verb in the pluperfect subjunctive (-ra) tense for the
+        pronoun yo."""
+        with self.app.app_context():
+            verb = Verb("hablar")
+            self.assertEqual(verb.conjugate("pluperfect_subjunctive_ra", "yo"),
+                             "hubiera hablado")
+
+    def test_conjugate_pluperfect_subjunctive_ra2(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -ar verb in the pluperfect subjunctive (-ra) tense for the
+        pronoun tú."""
+        with self.app.app_context():
+            verb = Verb("hablar")
+            self.assertEqual(verb.conjugate("pluperfect_subjunctive_ra", "tú"),
+                             "hubieras hablado")
+
+    def test_conjugate_pluperfect_subjunctive_ra3(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -er verb in the pluperfect subjunctive (-ra) tense for the
+        pronoun él/ella/Ud."""
+        with self.app.app_context():
+            verb = Verb("beber")
+            self.assertEqual(verb.conjugate("pluperfect_subjunctive_ra",
+                                            "él/ella/Ud."), "hubiera bebido")
+
+    def test_conjugate_pluperfect_subjunctive_ra4(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -er verb in the pluperfect subjunctive (-ra) tense for the
+        pronoun nosotros."""
+        with self.app.app_context():
+            verb = Verb("beber")
+            self.assertEqual(verb.conjugate("pluperfect_subjunctive_ra",
+                                            "nosotros"), "hubiéramos bebido")
+
+    def test_conjugate_pluperfect_subjunctive_ra5(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -ir verb in the pluperfect subjunctive (-ra) tense for the
+        pronoun vosotros."""
+        with self.app.app_context():
+            verb = Verb("vivir")
+            self.assertEqual(verb.conjugate("pluperfect_subjunctive_ra",
+                                            "vosotros"), "hubierais vivido")
+
+    def test_conjugate_pluperfect_subjunctive_ra6(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -ir verb in the pluperfect subjunctive (-ra) tense for the
+        pronoun ellos/ellas/Uds."""
+        with self.app.app_context():
+            verb = Verb("vivir")
+            self.assertEqual(verb.conjugate("pluperfect_subjunctive_ra",
+                             "ellos/ellas/Uds."), "hubieran vivido")
+
+    def test_conjugate_pluperfect_subjunctive_ra7(self):
+        """Verifies that the conjugate method correctly conjugates an
+        irregular verb in the pluperfect subjunctive (-ra) tense for the
+        pronoun yo."""
+        with self.app.app_context():
+            verb = Verb("hacer")
+            self.assertEqual(verb.conjugate("pluperfect_subjunctive_ra", "yo"),
+                             "hubiera hecho")
+
+    def test_conjugate_pluperfect_subjunctive_ra8(self):
+        """Verifies that the conjugate method correctly conjugates an
+        irregular verb in the pluperfect subjunctive (-ra) tense for the
+        pronoun tú."""
+        with self.app.app_context():
+            verb = Verb("decir")
+            self.assertEqual(verb.conjugate("pluperfect_subjunctive_ra", "tú"),
+                             "hubieras dicho")
+
+    def test_conjugate_pluperfect_subjunctive_se1(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -ar verb in the pluperfect subjunctive (-se) tense for the
+        pronoun yo."""
+        with self.app.app_context():
+            verb = Verb("hablar")
+            self.assertEqual(verb.conjugate("pluperfect_subjunctive_se", "yo"),
+                             "hubiese hablado")
+
+    def test_conjugate_pluperfect_subjunctive_se2(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -ar verb in the pluperfect subjunctive (-se) tense for the
+        pronoun tú."""
+        with self.app.app_context():
+            verb = Verb("hablar")
+            self.assertEqual(verb.conjugate("pluperfect_subjunctive_se", "tú"),
+                             "hubieses hablado")
+
+    def test_conjugate_pluperfect_subjunctive_se3(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -er verb in the pluperfect subjunctive (-se) tense for the
+        pronoun él/ella/Ud."""
+        with self.app.app_context():
+            verb = Verb("beber")
+            self.assertEqual(verb.conjugate("pluperfect_subjunctive_se",
+                                            "él/ella/Ud."), "hubiese bebido")
+
+    def test_conjugate_pluperfect_subjunctive_se4(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -er verb in the pluperfect subjunctive (-se) tense for the
+        pronoun nosotros."""
+        with self.app.app_context():
+            verb = Verb("beber")
+            self.assertEqual(verb.conjugate("pluperfect_subjunctive_se",
+                                            "nosotros"), "hubiésemos bebido")
+
+    def test_conjugate_pluperfect_subjunctive_se5(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -ir verb in the pluperfect subjunctive (-se) tense for the
+        pronoun vosotros."""
+        with self.app.app_context():
+            verb = Verb("vivir")
+            self.assertEqual(verb.conjugate("pluperfect_subjunctive_se",
+                                            "vosotros"), "hubieseis vivido")
+
+    def test_conjugate_pluperfect_subjunctive_se6(self):
+        """Verifies that the conjugate method correctly conjugates a regular
+        -ir verb in the pluperfect subjunctive (-se) tense for the
+        pronoun ellos/ellas/Uds."""
+        with self.app.app_context():
+            verb = Verb("vivir")
+            self.assertEqual(verb.conjugate("pluperfect_subjunctive_se",
+                             "ellos/ellas/Uds."), "hubiesen vivido")
+
+    def test_conjugate_pluperfect_subjunctive_se7(self):
+        """Verifies that the conjugate method correctly conjugates an
+        irregular verb in the pluperfect subjunctive (-se) tense for the
+        pronoun yo."""
+        with self.app.app_context():
+            verb = Verb("hacer")
+            self.assertEqual(verb.conjugate("pluperfect_subjunctive_se", "yo"),
+                             "hubiese hecho")
+
+    def test_conjugate_pluperfect_subjunctive_se8(self):
+        """Verifies that the conjugate method correctly conjugates an
+        irregular verb in the pluperfect subjunctive (-se) tense for the
+        pronoun tú."""
+        with self.app.app_context():
+            verb = Verb("decir")
+            self.assertEqual(verb.conjugate("pluperfect_subjunctive_se", "tú"),
+                             "hubieses dicho")
 
 
 if __name__ == "__main__":
