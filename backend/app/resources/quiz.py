@@ -108,6 +108,8 @@ class Quiz:
         for verb in self.verb_list:
             for tense in self.tense_list:
                 for pronoun in self.pronoun_list:
+                    if pronoun == "yo" and "imperative" in tense:
+                        continue
                     question = (verb, tense, pronoun)
                     answer = verb.conjugate(tense, pronoun)
                     quiz_item = QuizItem(question, answer)

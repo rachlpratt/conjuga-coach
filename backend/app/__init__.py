@@ -14,8 +14,6 @@ def create_app():
     app = Flask(__name__, instance_relative_config=True,
                 instance_path=os.path.join(base_dir, 'instance'))
 
-    from . import models
-
     flask_env = os.environ.get('FLASK_ENV', 'development').lower()
 
     if flask_env == "production":
@@ -25,6 +23,7 @@ def create_app():
     else:
         app.config.from_object(config.DevelopmentConfig)
 
+    from . import models
     db.init_app(app)
 
     app.register_blueprint(main)
