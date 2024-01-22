@@ -1,8 +1,13 @@
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from backend.app.resources.verb import Verb
+
 PRONOUNS = ["yo", "tú", "él/ella/Ud.", "nosotros", "vosotros",
             "ellos/ellas/Uds."]
 
 
-def is_valid_tense(tense):
+def is_valid_tense(tense: str) -> bool:
     """Returns True if the given tense is valid; otherwise, returns False."""
     tenses = ["present", "preterite", "imperfect", "conditional", "future",
               "present_subjunctive", "imperfect_subjunctive_ra",
@@ -14,18 +19,18 @@ def is_valid_tense(tense):
     return tense in tenses
 
 
-def is_valid_pronoun(pronoun):
+def is_valid_pronoun(pronoun: str) -> bool:
     """Returns True if the given pronoun is valid; otherwise, returns False."""
     return pronoun in PRONOUNS
 
 
-def get_present_participle(verb):
+def get_present_participle(verb: 'Verb') -> str:
     """Returns the regular present participle for the given verb."""
     infinitive, stem = verb.infinitive, verb.stem
     return stem + ("ando" if verb.ending == "ar" else "iendo")
 
 
-def get_past_participle(verb):
+def get_past_participle(verb: 'Verb') -> str:
     """Returns the regular past participle for the given verb."""
     infinitive, stem = verb.infinitive, verb.stem
     return stem + ("ado" if verb.ending == "ar" else "ido")

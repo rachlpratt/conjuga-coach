@@ -1,5 +1,6 @@
 import json
 import random
+from typing import Tuple
 
 from flask import Blueprint, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
@@ -25,7 +26,7 @@ main = Blueprint('main', __name__)
 db = SQLAlchemy()
 
 
-def error(err_string, err_code):
+def error(err_string: str, err_code: int) -> Tuple[str, int]:
     return json.dumps({"Error": err_string}), err_code
 
 
@@ -101,7 +102,7 @@ def generate_random_quiz():
 
 
 @main.route('/conjugate/<verb>', methods=['GET'])
-def get_conjugation_table(verb):
+def get_conjugation_table(verb: str):
     try:
         # Turn verb string into verb object
         verb_object = Verb(verb)

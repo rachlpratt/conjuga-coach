@@ -4,7 +4,8 @@ from .extensions import db
 class IrregularVerb(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     infinitive = db.Column(db.String, nullable=False)
-    conjugations = db.relationship('Conjugation', backref='irregular_verb', lazy=True)
+    conjugations = db.relationship('Conjugation', backref='irregular_verb',
+                                   lazy=True)
 
     def __repr__(self):
         return f'<IrregularVerb {self.infinitive}>'
