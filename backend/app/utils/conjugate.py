@@ -1,7 +1,10 @@
-from backend.app.utils import PRONOUNS, get_present_participle, get_past_participle
+from backend.app.utils import (PRONOUNS,
+                               get_present_participle,
+                               get_past_participle)
 
 
 def conjugate_present(verb, pronoun):
+    """Return the conjugated present tense form of a regular verb."""
     infinitive, stem = verb.infinitive, verb.stem
     match pronoun:
         case "yo":
@@ -33,6 +36,7 @@ def conjugate_present(verb, pronoun):
 
 
 def conjugate_preterite(verb, pronoun):
+    """Return the conjugated preterite tense form of a regular verb."""
     stem = verb.stem
     match pronoun:
         case "yo":
@@ -68,6 +72,7 @@ def conjugate_preterite(verb, pronoun):
 
 
 def conjugate_imperfect(verb, pronoun):
+    """Return the conjugated imperfect tense form of a regular verb."""
     stem = verb.stem
     match pronoun:
         case "yo" | "él/ella/Ud.":
@@ -98,6 +103,7 @@ def conjugate_imperfect(verb, pronoun):
 
 
 def conjugate_conditional(verb, pronoun):
+    """Return the conjugated conditional tense form of a regular verb."""
     infinitive = verb.infinitive
     match pronoun:
         case "yo" | "él/ella/Ud.":
@@ -113,6 +119,7 @@ def conjugate_conditional(verb, pronoun):
 
 
 def conjugate_future(verb, pronoun):
+    """Return the conjugated future tense form of a regular verb."""
     infinitive = verb.infinitive
     match pronoun:
         case "yo":
@@ -130,6 +137,8 @@ def conjugate_future(verb, pronoun):
 
 
 def conjugate_present_subjunctive(verb, pronoun):
+    """Return the conjugated present subjunctive tense form of a regular
+    verb."""
     stem = verb.stem
     match pronoun:
         case "yo" | "él/ella/Ud.":
@@ -160,6 +169,8 @@ def conjugate_present_subjunctive(verb, pronoun):
 
 
 def conjugate_imperfect_subjunctive_ra(verb, pronoun):
+    """Return the conjugated imperfect subjunctive (-ra) tense form of a
+    regular verb."""
     stem = verb.stem
     match pronoun:
         case "yo" | "él/ella/Ud.":
@@ -190,6 +201,8 @@ def conjugate_imperfect_subjunctive_ra(verb, pronoun):
 
 
 def conjugate_imperfect_subjunctive_se(verb, pronoun):
+    """Return the conjugated imperfect subjunctive (-se) tense form of a
+    regular verb."""
     stem = verb.stem
     match pronoun:
         case "yo" | "él/ella/Ud.":
@@ -220,6 +233,8 @@ def conjugate_imperfect_subjunctive_se(verb, pronoun):
 
 
 def conjugate_affirmative_imperative(verb, pronoun):
+    """Return the conjugated affirmative imperative tense form of a regular
+    verb."""
     infinitive, stem = verb.infinitive, verb.stem
     if pronoun == "tú":
         if verb.ending == "ar":
@@ -246,6 +261,8 @@ def conjugate_affirmative_imperative(verb, pronoun):
 
 
 def conjugate_negative_imperative(verb, pronoun):
+    """Return the conjugated negative imperative tense form of a regular
+    verb."""
     stem = verb.stem
     if pronoun == "tú":
         if verb.ending == "ar":
@@ -275,6 +292,7 @@ def conjugate_negative_imperative(verb, pronoun):
 
 
 def conjugate_present_progressive(verb, pronoun, participle=None):
+    """Return the conjugated present progressive tense form of a verb."""
     estar_forms = ["estoy", "estás", "está", "estamos", "estáis", "están"]
     aux_verb = estar_forms[PRONOUNS.index(pronoun)]
     participle = participle or get_present_participle(verb)
@@ -282,6 +300,7 @@ def conjugate_present_progressive(verb, pronoun, participle=None):
 
 
 def conjugate_past_progressive(verb, pronoun, participle=None):
+    """Return the conjugated past progressive tense form of a verb."""
     estar_forms = ["estaba", "estabas", "estaba", "estábamos", "estabais",
                    "estaban"]
     aux_verb = estar_forms[PRONOUNS.index(pronoun)]
@@ -290,6 +309,7 @@ def conjugate_past_progressive(verb, pronoun, participle=None):
 
 
 def conjugate_present_perfect(verb, pronoun, participle=None):
+    """Return the conjugated present perfect tense form of a verb."""
     haber_forms = ["he", "has", "ha", "hemos", "habéis", "han"]
     aux_verb = haber_forms[PRONOUNS.index(pronoun)]
     participle = participle or get_past_participle(verb)
@@ -297,6 +317,7 @@ def conjugate_present_perfect(verb, pronoun, participle=None):
 
 
 def conjugate_pluperfect(verb, pronoun, participle=None):
+    """Return the conjugated pluperfect tense form of a verb."""
     haber_forms = ["había", "habías", "había", "habíamos", "habíais", "habían"]
     aux_verb = haber_forms[PRONOUNS.index(pronoun)]
     participle = participle or get_past_participle(verb)
@@ -304,6 +325,7 @@ def conjugate_pluperfect(verb, pronoun, participle=None):
 
 
 def conjugate_future_perfect(verb, pronoun, participle=None):
+    """Return the conjugated future perfect tense form of a verb."""
     haber_forms = ["habré", "habrás", "habrá", "habremos", "habréis", "habrán"]
     aux_verb = haber_forms[PRONOUNS.index(pronoun)]
     participle = participle or get_past_participle(verb)
@@ -311,6 +333,8 @@ def conjugate_future_perfect(verb, pronoun, participle=None):
 
 
 def conjugate_present_perfect_subjunctive(verb, pronoun, participle=None):
+    """Return the conjugated present perfect subjunctive tense form of a
+    verb."""
     haber_forms = ["haya", "hayas", "haya", "hayamos", "hayáis", "hayan"]
     aux_verb = haber_forms[PRONOUNS.index(pronoun)]
     participle = participle or get_past_participle(verb)
@@ -318,6 +342,8 @@ def conjugate_present_perfect_subjunctive(verb, pronoun, participle=None):
 
 
 def conjugate_pluperfect_subjunctive_ra(verb, pronoun, participle=None):
+    """Return the conjugated pluperfect subjunctive (-ra) tense form of a
+    verb."""
     haber_forms = ["hubiera", "hubieras", "hubiera", "hubiéramos", "hubierais",
                    "hubieran"]
     aux_verb = haber_forms[PRONOUNS.index(pronoun)]
@@ -326,6 +352,8 @@ def conjugate_pluperfect_subjunctive_ra(verb, pronoun, participle=None):
 
 
 def conjugate_pluperfect_subjunctive_se(verb, pronoun, participle=None):
+    """Return the conjugated pluperfect subjunctive (-se) tense form of a
+    verb."""
     haber_forms = ["hubiese", "hubieses", "hubiese", "hubiésemos", "hubieseis",
                    "hubiesen"]
     aux_verb = haber_forms[PRONOUNS.index(pronoun)]

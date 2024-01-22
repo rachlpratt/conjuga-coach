@@ -8,6 +8,7 @@ from backend.irregular_verbs import irregular_verbs
 
 
 def setup_testing_db(cls):
+    """Set up testing database."""
     base_dir = os.path.abspath(
         os.path.join(os.path.dirname(__file__), os.pardir))
     cls.app = Flask(__name__, instance_relative_config=True,

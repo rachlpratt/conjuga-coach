@@ -1,8 +1,10 @@
-from flask import Flask
-from .routes import main
-from .extensions import db
-from backend import config
 import os
+
+from flask import Flask
+
+from .extensions import db
+from .routes import main
+from backend import config
 
 
 def create_app():

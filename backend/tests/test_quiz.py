@@ -15,22 +15,24 @@ class TestQuizItemCreation(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
+        """Set up testing database."""
         setup_testing_db(cls)
 
     @classmethod
     def tearDownClass(cls):
+        """Tear down testing database."""
         with cls.app.app_context():
             db.drop_all()
 
     def test_quiz_item_type(self):
-        """Verifies that newly created QuizItem has object type QuizItem."""
+        """Verify that newly created QuizItem has object type QuizItem."""
         with self.app.app_context():
             verb = Verb("hacer")
             quiz_item = QuizItem((verb, "present", "yo"), "hago")
             self.assertIsInstance(quiz_item, QuizItem)
 
     def test_quiz_item_creation1(self):
-        """Verifies that newly created QuizItem with valid tense, pronoun, and
+        """Verify that newly created QuizItem with valid tense, pronoun, and
         answer but an invalid verb raises a ValueError."""
         with self.app.app_context():
             with self.assertRaises(ValueError) as context:
@@ -39,7 +41,7 @@ class TestQuizItemCreation(unittest.TestCase):
                              "Question verb must be type Verb")
 
     def test_quiz_item_creation2(self):
-        """Verifies that newly created QuizItem with valid verb, pronoun, and
+        """Verify that newly created QuizItem with valid verb, pronoun, and
         answer but an invalid tense raises a ValueError."""
         with self.app.app_context():
             verb = Verb("hacer")
@@ -49,7 +51,7 @@ class TestQuizItemCreation(unittest.TestCase):
                              "Question tense is not valid")
 
     def test_quiz_item_creation3(self):
-        """Verifies that newly created QuizItem with valid verb, tense, and
+        """Verify that newly created QuizItem with valid verb, tense, and
         answer but an invalid pronoun raises a ValueError."""
         with self.app.app_context():
             verb = Verb("hacer")
@@ -59,7 +61,7 @@ class TestQuizItemCreation(unittest.TestCase):
                              "Question pronoun is not valid")
 
     def test_quiz_item_creation4(self):
-        """Verifies that newly created QuizItem with valid verb, tense, and
+        """Verify that newly created QuizItem with valid verb, tense, and
         pronoun but an invalid answer raises a ValueError."""
         with self.app.app_context():
             verb = Verb("hacer")
@@ -70,8 +72,8 @@ class TestQuizItemCreation(unittest.TestCase):
                              f"Invalid answer: {invalid_answer}")
 
     def test_quiz_item_creation5(self):
-        """Verifies that newly created QuizItem with an invalid question
-        tuple containing only two elements raises a ValueError."""
+        """Verify that newly created QuizItem with an invalid question tuple
+        containing only two elements raises a ValueError."""
         with self.app.app_context():
             verb = Verb("hacer")
             with self.assertRaises(ValueError) as context:
@@ -81,7 +83,7 @@ class TestQuizItemCreation(unittest.TestCase):
                              "Verb, tense, pronoun")
 
     def test_quiz_item_creation6(self):
-        """Verifies that newly created QuizItem with an invalid question
+        """Verify that newly created QuizItem with an invalid question
         containing only a Verb raises a ValueError."""
         with self.app.app_context():
             verb = Verb("hacer")
@@ -92,7 +94,7 @@ class TestQuizItemCreation(unittest.TestCase):
                              "Verb, tense, pronoun")
 
     def test_quiz_item_question_verb1(self):
-        """Verifies that the question_verb property returns the correct value
+        """Verify that the question_verb property returns the correct value
         for the QuizItem object."""
         with self.app.app_context():
             verb = Verb("hacer")
@@ -100,7 +102,7 @@ class TestQuizItemCreation(unittest.TestCase):
             self.assertEqual(verb, quiz_item.question_verb)
 
     def test_quiz_item_question_verb2(self):
-        """Verifies that the question_verb property returns the correct value
+        """Verify that the question_verb property returns the correct value
         for the QuizItem object."""
         with self.app.app_context():
             verb = Verb("ir")
@@ -108,7 +110,7 @@ class TestQuizItemCreation(unittest.TestCase):
             self.assertEqual(verb, quiz_item.question_verb)
 
     def test_quiz_item_question_tense1(self):
-        """Verifies that the question_tense property returns the correct value
+        """Verify that the question_tense property returns the correct value
         for the QuizItem object."""
         with self.app.app_context():
             verb = Verb("hacer")
@@ -116,7 +118,7 @@ class TestQuizItemCreation(unittest.TestCase):
             self.assertEqual("present", quiz_item.question_tense)
 
     def test_quiz_item_question_tense2(self):
-        """Verifies that the question_tense property returns the correct value
+        """Verify that the question_tense property returns the correct value
         for the QuizItem object."""
         with self.app.app_context():
             verb = Verb("ser")
@@ -124,39 +126,39 @@ class TestQuizItemCreation(unittest.TestCase):
             self.assertEqual("preterite", quiz_item.question_tense)
 
     def test_quiz_item_question_pronoun1(self):
-        """Verifies that the question_pronoun property returns the correct
-        value for the QuizItem object."""
+        """Verify that the question_pronoun property returns the correct value
+        for the QuizItem object."""
         with self.app.app_context():
             verb = Verb("hacer")
             quiz_item = QuizItem((verb, "present", "yo"), "hago")
             self.assertEqual("yo", quiz_item.question_pronoun)
 
     def test_quiz_item_question_pronoun2(self):
-        """Verifies that the question_pronoun property returns the correct
-        value for the QuizItem object."""
+        """Verify that the question_pronoun property returns the correct value
+        for the QuizItem object."""
         with self.app.app_context():
             verb = Verb("ir")
             quiz_item = QuizItem((verb, "present", "tú"), "vas")
             self.assertEqual("tú", quiz_item.question_pronoun)
 
     def test_quiz_item_answer1(self):
-        """Verifies that the answer property returns the correct value
-        for the QuizItem object."""
+        """Verify that the answer property returns the correct value for the
+        QuizItem object."""
         with self.app.app_context():
             verb = Verb("hacer")
             quiz_item = QuizItem((verb, "present", "yo"), "hago")
             self.assertEqual("hago", quiz_item.answer)
 
     def test_quiz_item_answer2(self):
-        """Verifies that the answer property returns the correct value
-        for the QuizItem object."""
+        """Verify that the answer property returns the correct value for the
+        QuizItem object."""
         with self.app.app_context():
             verb = Verb("ser")
             quiz_item = QuizItem((verb, "preterite", "tú"), "fuiste")
             self.assertEqual("fuiste", quiz_item.answer)
 
     def test_quiz_item_str_method(self):
-        """Verifies that the __str__ method returns the expected string
+        """Verify that the __str__ method returns the expected string
         representation for a QuizItem object."""
         with self.app.app_context():
             verb = Verb("hacer")
@@ -165,7 +167,7 @@ class TestQuizItemCreation(unittest.TestCase):
                                              "Answer: hago")
 
     def test_quiz_type(self):
-        """Verifies that newly created Quiz has object type Quiz."""
+        """Verify that newly created Quiz has object type Quiz."""
         with self.app.app_context():
             verb_list = [Verb("hacer"), Verb("ir")]
             tense_list = ["present", "preterite"]
@@ -174,7 +176,7 @@ class TestQuizItemCreation(unittest.TestCase):
             self.assertIsInstance(quiz, Quiz)
 
     def test_quiz_creation1(self):
-        """Verifies that newly created Quiz with a valid tense_list and
+        """Verify that newly created Quiz with a valid tense_list and
         pronoun_list but an invalid verb_list raises a ValueError."""
         with self.app.app_context():
             verb_list = ["hacer", "decir"]
@@ -186,7 +188,7 @@ class TestQuizItemCreation(unittest.TestCase):
                              "verb_list must be a list of valid Verb objects")
 
     def test_quiz_creation2(self):
-        """Verifies that newly created Quiz with a valid tense_list and
+        """Verify that newly created Quiz with a valid tense_list and
         pronoun_list but an invalid verb_list raises a ValueError."""
         with self.app.app_context():
             verb_list = Verb("hacer")
@@ -198,7 +200,7 @@ class TestQuizItemCreation(unittest.TestCase):
                              "verb_list must be a list of valid Verb objects")
 
     def test_quiz_creation3(self):
-        """Verifies that newly created Quiz with a valid verb_list and
+        """Verify that newly created Quiz with a valid verb_list and
         pronoun_list but an invalid tense_list raises a ValueError."""
         with self.app.app_context():
             verb_list = [Verb("hacer"), Verb("ir")]
@@ -210,7 +212,7 @@ class TestQuizItemCreation(unittest.TestCase):
                              "tense_list must be a list of valid tenses")
 
     def test_quiz_creation4(self):
-        """Verifies that newly created Quiz with a valid verb_list and
+        """Verify that newly created Quiz with a valid verb_list and
         pronoun_list but an invalid tense_list raises a ValueError."""
         with self.app.app_context():
             verb_list = [Verb("hacer"), Verb("ir")]
@@ -222,7 +224,7 @@ class TestQuizItemCreation(unittest.TestCase):
                              "tense_list must be a list of valid tenses")
 
     def test_quiz_creation5(self):
-        """Verifies that newly created Quiz with a valid verb_list and
+        """Verify that newly created Quiz with a valid verb_list and
         tense_list but an invalid pronoun_list raises a ValueError."""
         with self.app.app_context():
             verb_list = [Verb("hacer"), Verb("ir")]
@@ -234,7 +236,7 @@ class TestQuizItemCreation(unittest.TestCase):
                              "pronoun_list must be a list of valid pronouns")
 
     def test_quiz_creation6(self):
-        """Verifies that newly created Quiz with a valid verb_list and
+        """Verify that newly created Quiz with a valid verb_list and
         tense_list but an invalid pronoun_list raises a ValueError."""
         with self.app.app_context():
             verb_list = [Verb("hacer"), Verb("ir")]
@@ -246,7 +248,7 @@ class TestQuizItemCreation(unittest.TestCase):
                              "pronoun_list must be a list of valid pronouns")
 
     def test_quiz_creation7(self):
-        """Verifies that creating a Quiz with valid lists but an invalid
+        """Verify that creating a Quiz with valid lists but an invalid
         num_items of 0 raises a ValueError."""
         with self.app.app_context():
             verb_list = [Verb("hacer")]
@@ -259,7 +261,7 @@ class TestQuizItemCreation(unittest.TestCase):
                              "or None")
 
     def test_quiz_creation8(self):
-        """Verifies that creating a Quiz with valid lists but an invalid
+        """Verify that creating a Quiz with valid lists but an invalid
         num_items of -1 raises a ValueError."""
         with self.app.app_context():
             verb_list = [Verb("hacer")]
@@ -272,7 +274,7 @@ class TestQuizItemCreation(unittest.TestCase):
                              "or None")
 
     def test_quiz_creation9(self):
-        """Verifies that creating a Quiz with valid lists but an invalid
+        """Verify that creating a Quiz with valid lists but an invalid
         num_items of 101 raises a ValueError."""
         with self.app.app_context():
             verb_list = [Verb("hacer")]
@@ -285,7 +287,7 @@ class TestQuizItemCreation(unittest.TestCase):
                              "or None")
 
     def test_quiz_creation10(self):
-        """Verifies that creating a Quiz with valid lists but an invalid
+        """Verify that creating a Quiz with valid lists but an invalid
         num_items of type str raises a ValueError."""
         with self.app.app_context():
             verb_list = [Verb("hacer")]
@@ -298,8 +300,8 @@ class TestQuizItemCreation(unittest.TestCase):
                              "or None")
 
     def test_quiz_verb_list(self):
-        """Verifies that the verb_list property returns the correct value
-        for the Quiz object."""
+        """Verify that the verb_list property returns the correct value for
+        the Quiz object."""
         with self.app.app_context():
             verb_list = [Verb("hacer"), Verb("decir")]
             tense_list = ["present", "imperfect"]
@@ -308,7 +310,7 @@ class TestQuizItemCreation(unittest.TestCase):
             self.assertEqual(verb_list, quiz.verb_list)
 
     def test_quiz_tense_list(self):
-        """Verifies that the tense_list property returns the correct value
+        """Verify that the tense_list property returns the correct value
         for the Quiz object."""
         with self.app.app_context():
             verb_list = [Verb("hacer"), Verb("decir")]
@@ -318,7 +320,7 @@ class TestQuizItemCreation(unittest.TestCase):
             self.assertEqual(tense_list, quiz.tense_list)
 
     def test_quiz_pronoun_list(self):
-        """Verifies that the pronoun_list property returns the correct value
+        """Verify that the pronoun_list property returns the correct value
         for the Quiz object."""
         with self.app.app_context():
             verb_list = [Verb("hacer"), Verb("decir")]
@@ -328,7 +330,7 @@ class TestQuizItemCreation(unittest.TestCase):
             self.assertEqual(pronoun_list, quiz.pronoun_list)
 
     def test_quiz_num_items1(self):
-        """Verifies that the num_items property returns the correct value
+        """Verify that the num_items property returns the correct value
         for the Quiz object when no num_items value is provided (should be
         equal to total number of possible combinations for max of 100)."""
         with self.app.app_context():
@@ -339,7 +341,7 @@ class TestQuizItemCreation(unittest.TestCase):
             self.assertEqual(8, quiz.num_items)
 
     def test_quiz_num_items2(self):
-        """Verifies that the num_items property returns the correct value
+        """Verify that the num_items property returns the correct value
         for the Quiz object when num_items value larger than total number of
         possible combinations is provided (should be equal to total number of
         possible combinations)."""
@@ -351,7 +353,7 @@ class TestQuizItemCreation(unittest.TestCase):
             self.assertEqual(8, quiz.num_items)
 
     def test_quiz_num_items3(self):
-        """Verifies that the num_items property returns the correct value
+        """Verify that the num_items property returns the correct value
         for the Quiz object when num_items value equal to total number of
         possible combinations is provided (should be equal to num_items)."""
         with self.app.app_context():
@@ -362,7 +364,7 @@ class TestQuizItemCreation(unittest.TestCase):
             self.assertEqual(8, quiz.num_items)
 
     def test_quiz_num_items4(self):
-        """Verifies that the num_items property returns the correct value
+        """Verify that the num_items property returns the correct value
         for the Quiz object when num_items value smaller than total number of
         possible combinations is provided (should be equal to num_items)."""
         with self.app.app_context():
@@ -373,8 +375,8 @@ class TestQuizItemCreation(unittest.TestCase):
             self.assertEqual(5, quiz.num_items)
 
     def test_quiz_num_items6(self):
-        """Verifies that the num_items property returns the correct value
-        for the Quiz object when provided num_items value is set to lower limit
+        """Verify that the num_items property returns the correct value for
+        the Quiz object when provided num_items value is set to lower limit
         of 1."""
         with self.app.app_context():
             verb_list = [Verb("hacer"), Verb("decir")]
@@ -384,8 +386,8 @@ class TestQuizItemCreation(unittest.TestCase):
             self.assertEqual(1, quiz.num_items)
 
     def test_quiz_num_items7(self):
-        """Verifies that the num_items property returns the correct value
-        for the Quiz object when provided num_items value is set to upper limit
+        """Verify that the num_items property returns the correct value for
+        the Quiz object when provided num_items value is set to upper limit
         of 100."""
         with self.app.app_context():
             verb_list = [Verb("hacer"), Verb("decir"), Verb("ir"), Verb("ser")]
@@ -396,7 +398,7 @@ class TestQuizItemCreation(unittest.TestCase):
             self.assertEqual(100, quiz.num_items)
 
     def test_quiz_bank1(self):
-        """Verifies that the quiz_bank property returns a list."""
+        """Verify that the quiz_bank property returns a list."""
         with self.app.app_context():
             verb_list = [Verb("hacer"), Verb("decir")]
             tense_list = ["present", "preterite"]
@@ -405,8 +407,8 @@ class TestQuizItemCreation(unittest.TestCase):
             self.assertIsInstance(quiz.quiz_bank, list)
 
     def test_quiz_bank2(self):
-        """Verifies that all objects in the quiz_bank property are
-        of type QuizItem."""
+        """Verify that all objects in the quiz_bank property are of type
+        QuizItem."""
         with self.app.app_context():
             verb_list = [Verb("hacer"), Verb("decir")]
             tense_list = ["present", "preterite"]
@@ -416,7 +418,7 @@ class TestQuizItemCreation(unittest.TestCase):
                                 for item in quiz.quiz_bank))
 
     def test_quiz_bank3(self):
-        """Verifies that the quiz_bank property covers all combinations of
+        """Verify that the quiz_bank property covers all combinations of
         verb, tense, and pronoun when no num_items is provided."""
         with self.app.app_context():
             verb_list = [Verb("hacer"), Verb("decir")]
@@ -434,7 +436,7 @@ class TestQuizItemCreation(unittest.TestCase):
                                 expected_combinations))
 
     def test_quiz_str_method(self):
-        """Verifies that the __str__ method returns the expected string
+        """Verify that the __str__ method returns the expected string
         representation for a Quiz object."""
         with self.app.app_context():
             verb_list = [Verb("hacer")]
@@ -452,7 +454,7 @@ class TestQuizItemCreation(unittest.TestCase):
                                         "Answer: hago")
 
     def test_quiz_iter_method(self):
-        """Verifies that the __iter__ method returns the Quiz object itself."""
+        """Verify that the __iter__ method returns the Quiz object itself."""
         with self.app.app_context():
             verb_list = [Verb("hacer"), Verb("ir")]
             tense_list = ["present", "preterite"]
@@ -461,7 +463,7 @@ class TestQuizItemCreation(unittest.TestCase):
             self.assertEqual(iter(quiz), quiz)
 
     def test_quiz_next_method(self):
-        """Verifies that the __next__ method returns a QuizItem instance."""
+        """Verify that the __next__ method returns a QuizItem instance."""
         with self.app.app_context():
             verb_list = [Verb("hacer"), Verb("ir")]
             tense_list = ["present", "preterite"]
