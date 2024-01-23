@@ -7,3 +7,4 @@ backend/irregular_verbs.py
 **/populate_db.py
 **/database.db
 **/testing_db.db
+**/.pytest_cache

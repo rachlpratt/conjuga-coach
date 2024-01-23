@@ -1,8 +1,8 @@
 import random
 
-from backend.app.resources.quiz_item import QuizItem
-from backend.app.resources.verb import Verb
-from backend.app.utils import is_valid_tense, is_valid_pronoun
+from .quiz_item import QuizItem
+from .verb import Verb
+from app.utils import is_valid_tense, is_valid_pronoun
 
 
 class Quiz:

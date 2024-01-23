@@ -1,5 +1,5 @@
-from backend.app.resources.verb import Verb
-from backend.app.utils import is_valid_tense, is_valid_pronoun
+from .verb import Verb
+from app.utils import is_valid_tense, is_valid_pronoun
 
 
 class QuizItem:

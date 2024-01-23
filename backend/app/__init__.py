@@ -4,7 +4,7 @@ from flask import Flask
 
 from .extensions import db
 from .routes import main
-from backend import config
+import config
 
 
 def create_app():

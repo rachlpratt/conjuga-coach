@@ -1,8 +1,6 @@
 from typing import Optional, TYPE_CHECKING
 
-from backend.app.utils import (PRONOUNS,
-                               get_present_participle,
-                               get_past_participle)
+from .utils import PRONOUNS, get_present_participle, get_past_participle
 
 if TYPE_CHECKING:
     from backend.app.resources.verb import Verb
