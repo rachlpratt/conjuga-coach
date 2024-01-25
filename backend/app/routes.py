@@ -6,8 +6,8 @@ from flask import Blueprint, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 
 from .models import IrregularVerb, RegularVerb
-from app.resources.quiz import Quiz
-from app.resources.verb import Verb
+from backend.app.resources.quiz import Quiz
+from backend.app.resources.verb import Verb
 
 
 TENSES = ["present", "preterite", "imperfect", "conditional", "future",

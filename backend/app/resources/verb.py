@@ -1,6 +1,6 @@
-from app.models import IrregularVerb, RegularVerb, Tense, Conjugation
-from app.utils import conjugate
-from app.utils import PRONOUNS, is_valid_tense, is_valid_pronoun
+from backend.app.models import IrregularVerb, RegularVerb, Tense, Conjugation
+from backend.app.utils import conjugate
+from backend.app.utils import PRONOUNS, is_valid_tense, is_valid_pronoun
 
 
 class Verb:

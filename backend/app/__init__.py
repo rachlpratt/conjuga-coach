@@ -1,10 +1,11 @@
 import os
 
 from flask import Flask
+from flask_cors import CORS
 
 from .extensions import db
 from .routes import main
-import config
+from backend import config
 
 
 def create_app():
@@ -13,6 +14,7 @@ def create_app():
 
     app = Flask(__name__, instance_relative_config=True,
                 instance_path=os.path.join(base_dir, 'instance'))
+    CORS(app)
 
     flask_env = os.environ.get('FLASK_ENV', 'development').lower()
 
@@ -26,5 +28,5 @@ def create_app():
     from . import models
     db.init_app(app)
 
-    app.register_blueprint(main)
+    app.register_blueprint(main, url_prefix='/api')
     return app

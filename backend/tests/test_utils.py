@@ -2,11 +2,11 @@ import unittest
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
-from app.extensions import db
-from app.resources.verb import Verb
-from app.utils import (is_valid_tense, is_valid_pronoun,
+from backend.app.extensions import db
+from backend.app.resources.verb import Verb
+from backend.app.utils import (is_valid_tense, is_valid_pronoun,
                        get_present_participle, get_past_participle)
-from tests.setup_tests import setup_testing_db
+from backend.tests.setup_tests import setup_testing_db
 
 
 class TestUtils(unittest.TestCase):

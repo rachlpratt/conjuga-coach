@@ -2,7 +2,7 @@ import random
 
 from .quiz_item import QuizItem
 from .verb import Verb
-from app.utils import is_valid_tense, is_valid_pronoun
+from backend.app.utils import is_valid_tense, is_valid_pronoun
 
 
 class Quiz:
@@ -84,8 +84,8 @@ class Quiz:
     def num_items(self, num_items: int | None) -> None:
         """Set the number of quiz items."""
         if num_items is not None and \
-                (not isinstance(num_items, int) or not 1 <= num_items <= 100):
-            raise ValueError("num_items must be an int between 1 and 100, "
+                (not isinstance(num_items, int) or not 1 <= num_items <= 50):
+            raise ValueError("num_items must be an int between 1 and 50, "
                              "or None")
         self._num_items = num_items
 
@@ -118,7 +118,7 @@ class Quiz:
         # Update num_items if not provided or if it exceeds size of quiz_bank
         total_items = len(quiz_bank)
         if self.num_items is None or self.num_items > total_items:
-            self.num_items = min(total_items, 100)
+            self.num_items = min(total_items, 50)
         return random.sample(quiz_bank, self.num_items)
 
     def __str__(self) -> str:

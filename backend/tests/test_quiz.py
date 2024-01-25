@@ -2,11 +2,11 @@ import unittest
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
-from app.extensions import db
-from app.resources.verb import Verb
-from app.resources.quiz import Quiz
-from app.resources.quiz_item import QuizItem
-from tests.setup_tests import setup_testing_db
+from backend.app.extensions import db
+from backend.app.resources.verb import Verb
+from backend.app.resources.quiz import Quiz
+from backend.app.resources.quiz_item import QuizItem
+from backend.tests.setup_tests import setup_testing_db
 
 
 class TestQuizItemCreation(unittest.TestCase):
