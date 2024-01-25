@@ -122,3 +122,15 @@ def get_conjugation_table(verb: str):
 
     except ValueError as e:
         return jsonify({'error': str(e)}), 400
+
+
+@main.route('/verbs', methods=['GET'])
+def get_verbs():
+    try:
+        # Get and return all verbs in database
+        verbs = [verb.infinitive for verb in RegularVerb.query.all()] + \
+                [verb.infinitive for verb in IrregularVerb.query.all()]
+        return jsonify(verbs)
+
+    except ValueError as e:
+        return jsonify({'error': str(e)}), 400
