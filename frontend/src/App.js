@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import Practice from "./pages/Practice";
 import Conjugate from "./pages/Conjugate";
 import About from "./pages/About";
+import Quiz from "./pages/Quiz";
 import "./App.css";
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
           <Route path="practice" element={<Practice />} />
           <Route path="conjugate" element={<Conjugate />} />
           <Route path="about" element={<About />} />
+          <Route path="quiz" element={<Quiz />} />
         </Route>
       </Routes>
     </Router>
