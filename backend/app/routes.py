@@ -130,7 +130,7 @@ def get_verbs():
         # Get and return all verbs in database
         verbs = [verb.infinitive for verb in RegularVerb.query.all()] + \
                 [verb.infinitive for verb in IrregularVerb.query.all()]
-        return jsonify(verbs)
+        return jsonify(sorted(verbs))
 
     except ValueError as e:
         return jsonify({'error': str(e)}), 400
