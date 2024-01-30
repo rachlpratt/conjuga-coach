@@ -1,34 +1,136 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { TextField, Autocomplete, Checkbox, FormControlLabel, Button, Box } from "@mui/material";
+import { TextField, Autocomplete, Checkbox, Button, Box, createFilterOptions} from "@mui/material";
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import Chip from '@mui/material/Chip';
+import CircularProgress from '@mui/material/CircularProgress';
+
+const checkedIcon = <CheckBoxIcon fontSize="small" />;
+const filter = createFilterOptions();
+const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
+
+const TENSE_OPTIONS = ["present", "preterite", "imperfect", "conditional", "future",
+"present_subjunctive", "imperfect_subjunctive_ra",
+"imperfect_subjunctive_se", "present_progressive", 
+"past_progressive", "present_perfect", "pluperfect", 
+"future_perfect", "present_perfect_subjunctive", 
+"pluperfect_subjunctive_ra", "pluperfect_subjunctive_se", 
+"affirmative_imperative", "negative_imperative"]
+const PRONOUN_OPTIONS = ["yo", "tú", "él/ella/Ud.", "nosotros", "vosotros", "ellos/ellas/Uds."]
 
 function Practice() {
   const navigate = useNavigate();
   const [allVerbs, setAllVerbs] = useState([]);
   const [verbs, setVerbs] = useState([]);
   const [tenses, setTenses] = useState([]);
-  const [selectAllTenses, setSelectAllTenses] = useState(false);
   const [pronouns, setPronouns] = useState([]);
-  const [selectAllPronouns, setSelectAllPronouns] = useState(false);
   const [numItems, setNumItems] = useState(10);
-  const TENSE_OPTIONS = ["present", "preterite", "imperfect", "conditional", "future",
-                         "present_subjunctive", "imperfect_subjunctive_ra",
-                         "imperfect_subjunctive_se", "present_progressive", 
-                         "past_progressive", "present_perfect", "pluperfect", 
-                         "future_perfect", "present_perfect_subjunctive", 
-                         "pluperfect_subjunctive_ra", "pluperfect_subjunctive_se", 
-                         "affirmative_imperative", "negative_imperative"]
-  const PRONOUN_OPTIONS = ["yo", "tú", "él/ella/Ud.", "nosotros", "vosotros", "ellos/ellas/Uds."]
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSelectAllTenses = (event) => {
-    setSelectAllTenses(event.target.checked);
-    setTenses(event.target.checked ? TENSE_OPTIONS : []);
+
+  const handleVerbsChange = (event, newValue) => {
+    if (newValue.length <= 10) {
+      setVerbs(newValue);
+    }
   };
 
-  const handleSelectAllPronouns = (event) => {
-    setSelectAllPronouns(event.target.checked);
-    setPronouns(event.target.checked ? PRONOUN_OPTIONS : []);
+  const handleTensesChange = (event, newValue) => {
+    if (newValue.includes('All Tenses')) {
+      setTenses(tenses.length === TENSE_OPTIONS.length ? [] : TENSE_OPTIONS);
+    } else {
+      setTenses(newValue);
+    }
   };
+
+  const handlePronounsChange = (event, newValue) => {
+    if (newValue.includes('All Pronouns')) {
+      setPronouns(pronouns.length === PRONOUN_OPTIONS.length ? [] : PRONOUN_OPTIONS);
+    } else {
+      setPronouns(newValue);
+    }
+  };
+
+  const handleNumItemsChange = (event) => {
+    const value = event.target.value;
+    if (!isNaN(value) && value.trim() !== '') {
+      setNumItems(parseInt(value, 10));
+    } else if (value.trim() === '') {
+      setNumItems('');
+    }
+  };
+
+  const renderVerbsInput = (params) => {
+    const displayAllSelected = verbs.length === allVerbs.length;
+
+    return (
+      <TextField 
+        {...params}
+        placeholder="Select verbs (10 max)"
+        InputProps={{
+          ...params.InputProps,
+          startAdornment: (
+            <>
+              {displayAllSelected 
+                ? <Chip label="ALL VERBS SELECTED" size="small" />
+                : verbs.map((verb, index) => (
+                    <Chip key={index} label={verb} size="small" />
+                  ))
+              }
+            </>
+          ),
+        }}
+      />
+    );
+  };
+
+  const renderTensesInput = (params) => {
+    const displayAllSelected = tenses.length === TENSE_OPTIONS.length;
+  
+  return (
+    <TextField 
+      {...params}
+      placeholder="Select tenses"
+      InputProps={{
+        ...params.InputProps,
+        startAdornment: (
+          <>
+            {displayAllSelected 
+              ? <Chip label="ALL TENSES SELECTED" size="small" />
+              : tenses.map((tense, index) => (
+                  <Chip key={index} label={formatTenseName(tense)} size="small" />
+                ))
+            }
+          </>
+        ),
+      }}
+    />
+  );
+};
+
+const renderPronounsInput = (params) => {
+  const displayAllSelected = pronouns.length === PRONOUN_OPTIONS.length;
+
+  return (
+    <TextField 
+      {...params}
+      placeholder="Select pronouns"
+      InputProps={{
+        ...params.InputProps,
+        startAdornment: (
+          <>
+            {displayAllSelected 
+              ? <Chip label="ALL PRONOUNS SELECTED" size="small" />
+              : pronouns.map((pronoun, index) => (
+                  <Chip key={index} label={pronoun} size="small" />
+                ))
+            }
+          </>
+        ),
+      }}
+    />
+  );
+};
 
   const formatTenseName = (tense) => {
     const replacements = {
@@ -43,11 +145,6 @@ function Practice() {
         .map(word => word.charAt(0).toUpperCase() + word.slice(1)) 
         .join(' '); 
   };
-
-  useEffect(() => {
-    setSelectAllTenses(tenses.length === TENSE_OPTIONS.length);
-    setSelectAllPronouns(pronouns.length === PRONOUN_OPTIONS.length);
-  }, [tenses, pronouns]);
 
   useEffect(() => {
     const fetchVerbs = async () => {
@@ -66,6 +163,8 @@ function Practice() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setIsLoading(true);
+
     try {
       const response = await fetch("https://conjuga-coach-app.uk.r.appspot.com/api/generate_quiz", {
         method: "POST",
@@ -85,7 +184,9 @@ function Practice() {
       navigate("/quiz", { state: { quizData: data } });
     } catch (error) {
       console.error("Fetching error: ", error);
-    }
+    } finally {
+        setIsLoading(false);
+      }
   };
 
   return (
@@ -104,82 +205,108 @@ function Practice() {
         }}
       >
         <h2 style={{ textAlign: 'center' }}>Practice Quiz Options</h2>
-        <form onSubmit={handleSubmit} style={{ width: '100%' }}>
-          <h4 style={{ textAlign: 'center' }}>Verbs</h4>
-          <Box sx={{ textAlign: 'center', mb: 1 }}>
-            <Autocomplete
-              multiple
-              options={allVerbs}
-              getOptionLabel={(option) => option}
-              value={verbs}
-              onChange={(event, newValue) => {
-                setVerbs(newValue);
-              }}
-              filterOptions={(options, { inputValue }) => {
-                return options.filter(option => 
-                  option.toLowerCase().startsWith(inputValue.toLowerCase())
-                );
-              }}
-              renderInput={(params) => (
-                <TextField {...params} variant="outlined" placeholder="Select verbs" />
-              )}
-            />
+        {isLoading ? (
+          <Box sx={{ textAlign: 'center', marginTop: '20px', justifyContent: 'center', mb: 10 }}>
+            <p>Loading quiz...</p>
+            <CircularProgress />
+          </Box>
+        ) : (
+          <form onSubmit={handleSubmit} style={{ width: '100%' }}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
+            <Box sx={{ maxWidth: '450px', width: '70%' }}>
+                <Autocomplete
+                  multiple
+                  options={allVerbs}
+                  getOptionLabel={(option) => option}
+                  value={verbs}
+                  size="small"
+                  disableCloseOnSelect
+                  onChange={handleVerbsChange}
+                  filterOptions={(options, { inputValue }) => {
+                    return options.filter(option => 
+                      option.toLowerCase().startsWith(inputValue.toLowerCase())
+                    );
+                  }}
+                  renderOption={(props, option, { selected }) => (
+                    <li {...props}>
+                      <Checkbox
+                        icon={icon}
+                        checkedIcon={checkedIcon}
+                        checked={selected}
+                        style={{ marginRight: 8 }}
+                      />
+                      {option}
+                    </li>
+                  )}
+                  renderInput={renderVerbsInput}
+                  sx={{ width: '100%' }}
+                />
+            </Box>
           </Box>
 
-          <h4 style={{ textAlign: 'center' }}>Tenses</h4>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
-            <Box sx={{ textAlign: 'center', flex: 1, mr: 2 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
+            <Box sx={{ maxWidth: '450px', width: '70%' }}>
               <Autocomplete
                 multiple
-                options={TENSE_OPTIONS}
-                getOptionLabel={(option) => formatTenseName(option)}
+                size='small'
+                options={['All Tenses', ...TENSE_OPTIONS]}
                 value={tenses}
-                onChange={(event, newValue) => {
-                  setTenses(newValue);
+                filterOptions={(options, params) => {
+                  const filtered = filter(options, params);
+                  if (params.inputValue === '') {
+                    return options;
+                  }
+                  return filtered;
                 }}
-                renderInput={(params) => (
-                  <TextField {...params} variant="outlined" placeholder="Select tenses" />
+                onChange={handleTensesChange}
+                disableCloseOnSelect
+                getOptionLabel={(option) => option === 'All Tenses' ? option : formatTenseName(option)}
+                renderOption={(props, option, { selected }) => (
+                  <li {...props}>
+                    <Checkbox
+                      icon={icon}
+                      checkedIcon={checkedIcon}
+                      checked={option === 'All Tenses' ? tenses.length === TENSE_OPTIONS.length : selected}
+                      style={{ marginRight: 8 }}
+                    />
+                    {option === 'All Tenses' ? option : formatTenseName(option)}
+                  </li>
                 )}
+                renderInput={renderTensesInput}
               />
             </Box>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={selectAllTenses}
-                  onChange={handleSelectAllTenses}
-                />
-              }
-              label="All"
-              sx={{ flexShrink: 0 }}
-            />
           </Box>
 
-          <h4 style={{ textAlign: 'center' }}>Pronouns</h4>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 5 }}>
-            <Box sx={{ textAlign: 'center', flex: 1, mr: 2 }}>
-              <Autocomplete
+          <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
+            <Box sx={{ maxWidth: '450px', width: '70%' }}>
+            <Autocomplete
                 multiple
-                options={PRONOUN_OPTIONS}
-                getOptionLabel={(option) => option}
+                size='small'
+                options={['All Pronouns', ...PRONOUN_OPTIONS]}
                 value={pronouns}
-                onChange={(event, newValue) => {
-                  setPronouns(newValue);
+                filterOptions={(options, params) => {
+                  const filtered = filter(options, params);
+                  if (params.inputValue === '') {
+                    return options;
+                  }
+                  return filtered;
                 }}
-                renderInput={(params) => (
-                  <TextField {...params} variant="outlined" placeholder="Select pronouns" />
+                onChange={handlePronounsChange}
+                disableCloseOnSelect
+                renderOption={(props, option, { selected }) => (
+                  <li {...props}>
+                    <Checkbox
+                      icon={icon}
+                      checkedIcon={checkedIcon}
+                      checked={option === 'All Pronouns' ? pronouns.length === PRONOUN_OPTIONS.length : selected}
+                      style={{ marginRight: 8 }}
+                    />
+                    {option}
+                  </li>
                 )}
+                renderInput={renderPronounsInput}
               />
             </Box>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={selectAllPronouns}
-                  onChange={handleSelectAllPronouns}
-                />
-              }
-              label="All"
-              sx={{ flexShrink: 0 }}
-            />
           </Box>
 
           <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 2, mb: 2 }}>
@@ -187,7 +314,7 @@ function Practice() {
               type="number"
               label="# of Questions"
               value={numItems}
-              onChange={(e) => setNumItems(parseInt(e.target.value))}
+              onChange={handleNumItemsChange}
               variant="outlined"
               placeholder="10"
               sx={{ 
@@ -204,7 +331,8 @@ function Practice() {
               Quiz me!
             </Button>
           </Box>
-        </form>
+          </form>
+        )}
       </Box>
     </Box>
   );
