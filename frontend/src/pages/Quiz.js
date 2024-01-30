@@ -1,19 +1,49 @@
-import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { TextField, Box, Button, Alert, Typography } from "@mui/material";
-import { useNavigate } from 'react-router-dom';
+
+const pronounMappings = {
+    "él/ella/Ud.": ["él", "ella", "usted", "Maria", "John", "Daniel", "Amanda", "la mujer", "el niño", "el hombre", "el perro"],
+    "ellos/ellas/Uds.": ["ellos", "ellas", "ustedes", "Sofia y Daniel", "Amelia y Gabby", "John y Carmen", "las mujeres", "los niños", "los hombres", "los perros"],
+    "nosotros": ["Maria y yo", "nosotros", "Julia y yo", "Pedro y yo", "Michael y yo"]
+  };
 
 function Quiz() {
   const navigate = useNavigate();
   const location = useLocation();
   const quizData = location.state.quizData;
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [displayedPronoun, setDisplayedPronoun] = useState("");
   const [userAnswer, setUserAnswer] = useState('');
   const [feedback, setFeedback] = useState(null);
   const [score, setScore] = useState(0);
   const [showScore, setShowScore] = useState(false);
   const [firstAttempt, setFirstAttempt] = useState(true);
 
+  const getRandomPronoun = useCallback((pronoun) => {
+    const options = pronounMappings[pronoun];
+    return options ? options[Math.floor(Math.random() * options.length)] : pronoun;
+  }, []);
+
+  useEffect(() => {
+    if (quizData.length > 0) {
+      setDisplayedPronoun(getRandomPronoun(quizData[0].question.pronoun));
+    }
+  }, [quizData, getRandomPronoun]);
+
+  const formatTenseName = (tense) => {
+    const replacements = {
+      "imperfect_subjunctive_ra": "Imperfect Subjunctive (-ra)",
+      "imperfect_subjunctive_se": "Imperfect Subjunctive (-se)",
+      "pluperfect_subjunctive_ra": "Pluperfect Subjunctive (-ra)",
+      "pluperfect_subjunctive_se": "Pluperfect Subjunctive (-se)",
+    };
+
+    return replacements[tense] || 
+      tense.split('_')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1)) 
+        .join(' '); 
+  };
 
   const handleAnswerSubmit = () => {
     const correctAnswer = quizData[currentQuestionIndex].answer;
@@ -29,6 +59,7 @@ function Quiz() {
       setTimeout(() => {
         if (currentQuestionIndex < quizData.length - 1) {
           setCurrentQuestionIndex(currentQuestionIndex + 1);
+          setDisplayedPronoun(getRandomPronoun(quizData[currentQuestionIndex + 1].question.pronoun));
         } else {
           setShowScore(true);
         }
@@ -52,20 +83,6 @@ function Quiz() {
     return <p>Loading quiz...</p>;
   }
 
-  const formatTenseName = (tense) => {
-    const replacements = {
-      "imperfect_subjunctive_ra": "Imperfect Subjunctive (-ra)",
-      "imperfect_subjunctive_se": "Imperfect Subjunctive (-se)",
-      "pluperfect_subjunctive_ra": "Pluperfect Subjunctive (-ra)",
-      "pluperfect_subjunctive_se": "Pluperfect Subjunctive (-se)",
-    };
-
-    return replacements[tense] || 
-      tense.split('_')
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1)) 
-        .join(' '); 
-  };
-
   if (showScore) {
     const handleBackToPractice = () => {
       navigate('/practice');
@@ -75,35 +92,35 @@ function Quiz() {
     const percentageScore = Math.round((score / totalQuestions) * 100);
 
     return (
-      <Box sx={{ mt: 4 }} >
-        <Box
-          sx={{
-            margin: 'auto',
-            paddingX: 2,
-            paddingTop: 3,
-            paddingBottom: 1,
-            maxWidth: '600px',
-            minHeight: '400px',
-            backgroundColor: 'white',
-            borderRadius: 1,
-            boxShadow: 5,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center'
-          }}
-        >
-          <Box sx={{ mb: 5 }} >
-            <h2>Your Score</h2>
-          </Box>
-          <Box sx={{ textAlign: 'center', mb: 8 }}>
-            <h1>{percentageScore}%</h1> 
-            <h4>{score} out of {totalQuestions} correct</h4>
-          </Box>
-          <Button variant="contained" color="primary" onClick={handleBackToPractice}>
-            Another Quiz
-          </Button>
+    <Box sx={{ mt: 4 }} >
+      <Box
+        sx={{
+        margin: 'auto',
+        paddingX: 2,
+        paddingTop: 3,
+        paddingBottom: 1,
+        maxWidth: '600px',
+        minHeight: '400px',
+        backgroundColor: 'white',
+        borderRadius: 1,
+        boxShadow: 5,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center'
+        }}
+    >
+        <Box sx={{ mb: 5 }} >
+        <h2>Your Score</h2>
         </Box>
+        <Box sx={{ textAlign: 'center', mb: 8 }}>
+        <h1>{percentageScore}%</h1> 
+        <h4>{score} out of {totalQuestions} correct</h4>
+        </Box>
+        <Button variant="contained" color="primary" onClick={handleBackToPractice}>
+        Another Quiz
+        </Button>
       </Box>
+    </Box>
     );
   }
 
@@ -134,7 +151,7 @@ function Quiz() {
         <Box sx={{ mb: 4, textAlign: 'center' }} >
           <h3>{formatTenseName(currentQuestion.question.tense)}</h3>
           <h2>
-            <span style={{ fontWeight: 'normal' }}>{currentQuestion.question.pronoun} </span>
+            <span style={{ fontWeight: 'normal' }}>{displayedPronoun} </span>
             <span style={{ fontWeight: 'bold' }}>{currentQuestion.question.verb}</span>
           </h2>
         </Box>
