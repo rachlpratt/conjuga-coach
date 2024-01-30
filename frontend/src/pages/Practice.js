@@ -1,14 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { TextField, Autocomplete, Checkbox, Button, Box, createFilterOptions} from "@mui/material";
-import Alert from '@mui/material/Alert';
+import { useNavigate, useLocation } from "react-router-dom";
+import {
+  TextField,
+  Autocomplete,
+  Checkbox,
+  Button,
+  Box,
+  Chip,
+  CircularProgress,
+  IconButton,
+  Snackbar,
+  Alert,
+  createFilterOptions
+} from "@mui/material";
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
-import Chip from '@mui/material/Chip';
-import CircularProgress from '@mui/material/CircularProgress';
 import CloseIcon from '@mui/icons-material/Close';
-import IconButton from '@mui/material/IconButton';
-import Snackbar from '@mui/material/Snackbar';
 
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 const filter = createFilterOptions();
@@ -25,6 +32,7 @@ const PRONOUN_OPTIONS = ["yo", "tú", "él/ella/Ud.", "nosotros", "vosotros", "e
 
 function Practice() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [allVerbs, setAllVerbs] = useState([]);
   const [verbs, setVerbs] = useState([]);
   const [tenses, setTenses] = useState([]);
@@ -216,6 +224,10 @@ function Practice() {
   };
 
   useEffect(() => {
+    if (location.state?.redirected) {
+      setSnackbarMessage("No quiz data found. Please start the quiz from this page.")
+      setOpenSnackbar(true);
+    }
     const fetchVerbs = async () => {
       try {
         const response = await fetchWithTimeout("https://conjuga-coach-app.uk.r.appspot.com/api/verbs");
@@ -236,7 +248,7 @@ function Practice() {
     };
 
     fetchVerbs();
-  }, []);
+  }, [location]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();

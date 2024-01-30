@@ -11,7 +11,7 @@ const pronounMappings = {
 function Quiz() {
   const navigate = useNavigate();
   const location = useLocation();
-  const quizData = location.state.quizData;
+  const quizData = location.state?.quizData;
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [displayedPronoun, setDisplayedPronoun] = useState("");
   const [userAnswer, setUserAnswer] = useState('');
@@ -26,10 +26,12 @@ function Quiz() {
   }, []);
 
   useEffect(() => {
-    if (quizData.length > 0) {
+    if (!quizData) {
+      navigate('/practice', { state: { redirected: true } });
+    } else if (quizData?.length > 0) { 
       setDisplayedPronoun(getRandomPronoun(quizData[0].question.pronoun));
     }
-  }, [quizData, getRandomPronoun]);
+  }, [quizData, getRandomPronoun, navigate]);
 
   const formatTenseName = (tense) => {
     const replacements = {
@@ -80,7 +82,7 @@ function Quiz() {
   };
 
   if (!quizData) {
-    return <p>Loading quiz...</p>;
+    return;
   }
 
   if (showScore) {
