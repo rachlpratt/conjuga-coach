@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { TextField, Autocomplete, Checkbox, Button, Box, createFilterOptions} from "@mui/material";
+import Alert from '@mui/material/Alert';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import Chip from '@mui/material/Chip';
 import CircularProgress from '@mui/material/CircularProgress';
+import CloseIcon from '@mui/icons-material/Close';
+import IconButton from '@mui/material/IconButton';
+import Snackbar from '@mui/material/Snackbar';
 
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 const filter = createFilterOptions();
@@ -27,11 +31,19 @@ function Practice() {
   const [pronouns, setPronouns] = useState([]);
   const [numItems, setNumItems] = useState(10);
   const [isLoading, setIsLoading] = useState(false);
-
+  const [verbError, setVerbError] = useState("");
+  const [tenseError, setTenseError] = useState("");
+  const [pronounError, setPronounError] = useState("");
+  const [numItemsError, setNumItemsError] = useState("");
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
 
   const handleVerbsChange = (event, newValue) => {
     if (newValue.length <= 10) {
       setVerbs(newValue);
+      if (newValue.length > 0) {
+        setVerbError("");
+      }
     }
   };
 
@@ -41,6 +53,9 @@ function Practice() {
     } else {
       setTenses(newValue);
     }
+    if (newValue.length > 0) {
+      setTenseError("");
+    }
   };
 
   const handlePronounsChange = (event, newValue) => {
@@ -49,15 +64,59 @@ function Practice() {
     } else {
       setPronouns(newValue);
     }
+    if (newValue.length > 0) {
+      setPronounError("");
+    }
   };
 
   const handleNumItemsChange = (event) => {
     const value = event.target.value;
     if (!isNaN(value) && value.trim() !== '') {
       setNumItems(parseInt(value, 10));
+      if (parseInt(value, 10) >= 1 && parseInt(value, 10) <= 50) {
+        setNumItemsError("");
+      }
     } else if (value.trim() === '') {
       setNumItems('');
+      setNumItemsError("");
     }
+  };
+
+  const checkErrors = () => {
+    let hasErrors = false;
+  
+    if (verbs.length === 0) {
+      setVerbError("Please select at least one verb");
+      hasErrors = true;
+    } else {
+      setVerbError("");
+    }
+  
+    if (tenses.length === 0) {
+      setTenseError("Please select at least one tense");
+      hasErrors = true;
+    } else {
+      setTenseError("");
+    }
+  
+    if (pronouns.length === 0) {
+      setPronounError("Please select at least one pronoun");
+      hasErrors = true;
+    } else {
+      setPronounError("");
+    }
+  
+    if (isNaN(numItems) || numItems === '' || parseInt(numItems) < 1) {
+      setNumItemsError("Must be at least 1");
+      hasErrors = true;
+    } else if (numItems > 50) {
+      setNumItemsError("No more than 50");
+      hasErrors = true;
+    } else {
+      setNumItemsError("");
+    }
+  
+    return hasErrors;
   };
 
   const renderVerbsInput = (params) => {
@@ -65,6 +124,7 @@ function Practice() {
       <TextField 
         {...params}
         placeholder="Select verbs (10 max)"
+        helperText={<span style={{ color: 'red' }}>{verbError}</span>}
         InputProps={{
           ...params.InputProps,
           startAdornment: verbs.map((verb, index) => (
@@ -77,51 +137,53 @@ function Practice() {
 
   const renderTensesInput = (params) => {
     const displayAllSelected = tenses.length === TENSE_OPTIONS.length;
-  
-  return (
-    <TextField 
-      {...params}
-      placeholder="Select tenses"
-      InputProps={{
-        ...params.InputProps,
-        startAdornment: (
-          <>
-            {displayAllSelected 
-              ? <Chip label="ALL TENSES SELECTED" size="small" />
-              : tenses.map((tense, index) => (
-                  <Chip key={index} label={formatTenseName(tense)} size="small" />
-                ))
-            }
-          </>
-        ),
-      }}
-    />
-  );
-};
 
-const renderPronounsInput = (params) => {
-  const displayAllSelected = pronouns.length === PRONOUN_OPTIONS.length;
+    return (
+      <TextField 
+        {...params}
+        placeholder="Select tenses"
+        helperText={<span style={{ color: 'red' }}>{tenseError}</span>}
+        InputProps={{
+          ...params.InputProps,
+          startAdornment: (
+            <>
+              {displayAllSelected 
+                ? <Chip label="ALL TENSES SELECTED" size="small" />
+                : tenses.map((tense, index) => (
+                    <Chip key={index} label={formatTenseName(tense)} size="small" />
+                  ))
+              }
+            </>
+          ),
+        }}
+      />
+    );
+  };
 
-  return (
-    <TextField 
-      {...params}
-      placeholder="Select pronouns"
-      InputProps={{
-        ...params.InputProps,
-        startAdornment: (
-          <>
-            {displayAllSelected 
-              ? <Chip label="ALL PRONOUNS SELECTED" size="small" />
-              : pronouns.map((pronoun, index) => (
-                  <Chip key={index} label={pronoun} size="small" />
-                ))
-            }
-          </>
-        ),
-      }}
-    />
-  );
-};
+  const renderPronounsInput = (params) => {
+    const displayAllSelected = pronouns.length === PRONOUN_OPTIONS.length;
+
+    return (
+      <TextField 
+        {...params}
+        placeholder="Select pronouns"
+        helperText={<span style={{ color: 'red' }}>{pronounError}</span>}
+        InputProps={{
+          ...params.InputProps,
+          startAdornment: (
+            <>
+              {displayAllSelected 
+                ? <Chip label="ALL PRONOUNS SELECTED" size="small" />
+                : pronouns.map((pronoun, index) => (
+                    <Chip key={index} label={pronoun} size="small" />
+                  ))
+              }
+            </>
+          ),
+        }}
+      />
+    );
+  };
 
   const formatTenseName = (tense) => {
     const replacements = {
@@ -137,15 +199,39 @@ const renderPronounsInput = (params) => {
         .join(' '); 
   };
 
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenSnackbar(false);
+  };
+
+  const fetchWithTimeout = (url, options, timeout = 20000) => {
+    return Promise.race([
+      fetch(url, options),
+      new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('Timeout')), timeout)
+      ),
+    ]);
+  };
+
   useEffect(() => {
     const fetchVerbs = async () => {
       try {
-        const response = await fetch("https://conjuga-coach-app.uk.r.appspot.com/api/verbs");
+        const response = await fetchWithTimeout("https://conjuga-coach-app.uk.r.appspot.com/api/verbs");
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         const data = await response.json();
         setAllVerbs(data);
       } catch (error) {
         console.error("Error fetching verbs: ", error);
+        let errorMessage = 'Sorry, there was a problem fetching verbs.';
+        if (error.message === 'Timeout') {
+          errorMessage = 'Request timed out. Please try again.';
+        } else if (!navigator.onLine) {
+          errorMessage = 'No internet connection.';
+        }
+        setSnackbarMessage(errorMessage);
+        setOpenSnackbar(true);
       }
     };
 
@@ -155,27 +241,39 @@ const renderPronounsInput = (params) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsLoading(true);
-    try {
-      const response = await fetch("https://conjuga-coach-app.uk.r.appspot.com/api/generate_quiz", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          verbs, tenses, pronouns, num_items: numItems,
-        }),
-      });
+    if (!checkErrors()) {
+      try {
+        const response = await fetchWithTimeout("https://conjuga-coach-app.uk.r.appspot.com/api/generate_quiz", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            verbs, tenses, pronouns, num_items: numItems,
+          }),
+        });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        navigate("/quiz", { state: { quizData: data } });
+      } catch (error) {
+        console.error("Fetching error: ", error);
+        let errorMessage = 'Sorry, there was a problem fetching the quiz.';
+        if (error.message === 'Timeout') {
+          errorMessage = 'Request timed out. Please try again.';
+        } else if (!navigator.onLine) {
+          errorMessage = 'No internet connection.';
+        }
+        setSnackbarMessage(errorMessage);
+        setOpenSnackbar(true);
+      } finally {
+          setIsLoading(false);
       }
-
-      const data = await response.json();
-      navigate("/quiz", { state: { quizData: data } });
-    } catch (error) {
-      console.error("Fetching error: ", error);
-    } finally {
-        setIsLoading(false);
+    } else {
+      setIsLoading(false);
     }
   };
 
@@ -318,8 +416,12 @@ const renderPronounsInput = (params) => {
               onChange={handleNumItemsChange}
               variant="outlined"
               placeholder="10"
+              helperText={<span style={{ color: 'red' }}>{numItemsError}</span>}
+              InputLabelProps={{
+                shrink: true,
+              }}
               sx={{ 
-                width: '110px',
+                width: '140px',
                 '& .MuiInputBase-input': {
                   textAlign: 'center'
                 },
@@ -328,13 +430,35 @@ const renderPronounsInput = (params) => {
                 }
               }}
             />
-            <Button type="submit" variant="contained" color="primary">
+            <Button type="submit" variant="contained" color="primary" size="small">
               Quiz me!
             </Button>
           </Box>
           </form>
         )}
       </Box>
+
+      <Snackbar 
+        open={openSnackbar}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert 
+          severity="error" 
+          sx={{ width: '100%', textAlign: 'center' }}
+          action={
+            <IconButton
+              size="small"
+              aria-label="close"
+              color="inherit"
+              onClick={handleCloseSnackbar}
+            >
+              <CloseIcon fontSize="small" />
+            </IconButton>
+          }
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 }
