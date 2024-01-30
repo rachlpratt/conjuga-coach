@@ -14,26 +14,30 @@ function Quiz() {
   const [showScore, setShowScore] = useState(false);
   const [firstAttempt, setFirstAttempt] = useState(true);
 
+
   const handleAnswerSubmit = () => {
     const correctAnswer = quizData[currentQuestionIndex].answer;
+    const alertStyle = { maxWidth: '550px' }
+
     if (userAnswer.trim().toLowerCase() === correctAnswer.toLowerCase()) {
-      setFeedback(<Alert severity="success">Correct!</Alert>);
+      setFeedback(<Alert severity="success" sx={alertStyle}>Correct!</Alert>);
+
       if (firstAttempt) {
         setScore(score + 1);
       }
-  
+
       setTimeout(() => {
         if (currentQuestionIndex < quizData.length - 1) {
           setCurrentQuestionIndex(currentQuestionIndex + 1);
-          setUserAnswer('');
-          setFeedback(null);
-          setFirstAttempt(true);
         } else {
           setShowScore(true);
         }
+        setUserAnswer('');
+        setFeedback(null);
+        setFirstAttempt(true);
       }, 1000);
     } else {
-      setFeedback(<Alert severity="error">Answer: <Typography variant="inherit" fontWeight="bold">{correctAnswer}</Typography></Alert>);
+      setFeedback(<Alert severity="error" sx={alertStyle}>Answer: <Typography variant="inherit" fontWeight="bold" display="inline">{correctAnswer}</Typography></Alert>);
       setFirstAttempt(false);
     }
   };
@@ -75,7 +79,9 @@ function Quiz() {
         <Box
           sx={{
             margin: 'auto',
-            padding: 2,
+            paddingX: 2,
+            paddingTop: 3,
+            paddingBottom: 1,
             maxWidth: '600px',
             minHeight: '400px',
             backgroundColor: 'white',
@@ -89,8 +95,8 @@ function Quiz() {
           <Box sx={{ mb: 5 }} >
             <h2>Your Score</h2>
           </Box>
-          <Box sx={{ textAlign: 'center', mb: 10 }}>
-            <h2>{percentageScore}%</h2> 
+          <Box sx={{ textAlign: 'center', mb: 8 }}>
+            <h1>{percentageScore}%</h1> 
             <h4>{score} out of {totalQuestions} correct</h4>
           </Box>
           <Button variant="contained" color="primary" onClick={handleBackToPractice}>
@@ -108,9 +114,11 @@ function Quiz() {
       <Box
         sx={{
           margin: 'auto',
-          padding: 2,
+          paddingX: 2,
+          paddingTop: 3,
+          paddingBottom: 5,
+          height: '400px',
           maxWidth: '600px',
-          minHeight: '400px',
           backgroundColor: 'white',
           borderRadius: 1,
           boxShadow: 5,
@@ -119,13 +127,13 @@ function Quiz() {
           alignItems: 'center'
         }}
       >
-        <Box sx={{ mb: 3 }} >
+        <Box sx={{ mb: 2, paddingTop: '30px' }} >
           <h2>Question {currentQuestionIndex + 1}/{quizData.length}</h2>
         </Box>
 
-        <Box sx={{ mb: 5, textAlign: 'center' }} >
-          <h3 style={{ marginBottom: '15px' }}>{formatTenseName(currentQuestion.question.tense)}</h3>
-          <h2 style={{ marginTop: '10px' }}>
+        <Box sx={{ mb: 4, textAlign: 'center' }} >
+          <h3>{formatTenseName(currentQuestion.question.tense)}</h3>
+          <h2>
             <span style={{ fontWeight: 'normal' }}>{currentQuestion.question.pronoun} </span>
             <span style={{ fontWeight: 'bold' }}>{currentQuestion.question.verb}</span>
           </h2>
@@ -149,15 +157,13 @@ function Quiz() {
                 }
               }}
           />
-          <Button type="submit" variant="contained" color="primary">
+          <Button type="submit" variant="contained" color="primary" onClick={handleAnswerSubmit}>
             Check
           </Button>
         </Box>
         {feedback && (
-          <Box sx={{ textAlign: 'center' }}>
-            <div style={{ color: feedback.props.severity === 'success' ? 'green' : 'red' }}>
-              {feedback}
-            </div>
+          <Box sx={{ mt: 2 }}>
+            {feedback}
           </Box>
         )}
       </Box>

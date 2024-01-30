@@ -61,24 +61,15 @@ function Practice() {
   };
 
   const renderVerbsInput = (params) => {
-    const displayAllSelected = verbs.length === allVerbs.length;
-
     return (
       <TextField 
         {...params}
         placeholder="Select verbs (10 max)"
         InputProps={{
           ...params.InputProps,
-          startAdornment: (
-            <>
-              {displayAllSelected 
-                ? <Chip label="ALL VERBS SELECTED" size="small" />
-                : verbs.map((verb, index) => (
-                    <Chip key={index} label={verb} size="small" />
-                  ))
-              }
-            </>
-          ),
+          startAdornment: verbs.map((verb, index) => (
+            <Chip key={index} label={verb} size="small" />
+          )),
         }}
       />
     );
@@ -164,7 +155,6 @@ const renderPronounsInput = (params) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsLoading(true);
-
     try {
       const response = await fetch("https://conjuga-coach-app.uk.r.appspot.com/api/generate_quiz", {
         method: "POST",
@@ -186,7 +176,7 @@ const renderPronounsInput = (params) => {
       console.error("Fetching error: ", error);
     } finally {
         setIsLoading(false);
-      }
+    }
   };
 
   return (
@@ -194,8 +184,11 @@ const renderPronounsInput = (params) => {
       <Box
         sx={{
           margin: 'auto',
-          padding: 2,
+          paddingX: 2,
+          paddingTop: 3,
+          paddingBottom: 5,
           maxWidth: '600px',
+          minHeight: '400px',
           backgroundColor: 'white',
           borderRadius: 1,
           boxShadow: 5,
@@ -204,15 +197,23 @@ const renderPronounsInput = (params) => {
           alignItems: 'center'
         }}
       >
-        <h2 style={{ textAlign: 'center' }}>Practice Quiz Options</h2>
+        <h2 style={{ textAlign: 'center', paddingTop: '30px' }}>Practice Quiz Options</h2>
         {isLoading ? (
-          <Box sx={{ textAlign: 'center', marginTop: '20px', justifyContent: 'center', mb: 10 }}>
+            <Box sx={{ 
+              textAlign: 'center',
+              justifyContent: 'center', 
+              height: '300px',
+              display: 'flex', 
+              flexDirection: 'column', 
+              alignItems: 'center',
+              flexGrow: 1
+            }}>
             <p>Loading quiz...</p>
             <CircularProgress />
           </Box>
         ) : (
           <form onSubmit={handleSubmit} style={{ width: '100%' }}>
-          <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
             <Box sx={{ maxWidth: '450px', width: '70%' }}>
                 <Autocomplete
                   multiple
@@ -244,7 +245,7 @@ const renderPronounsInput = (params) => {
             </Box>
           </Box>
 
-          <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
             <Box sx={{ maxWidth: '450px', width: '70%' }}>
               <Autocomplete
                 multiple
@@ -277,7 +278,7 @@ const renderPronounsInput = (params) => {
             </Box>
           </Box>
 
-          <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', mb: 4 }}>
             <Box sx={{ maxWidth: '450px', width: '70%' }}>
             <Autocomplete
                 multiple
