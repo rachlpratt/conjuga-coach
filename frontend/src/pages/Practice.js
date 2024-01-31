@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
-  TextField,
+  Alert,
   Autocomplete,
-  Checkbox,
-  Button,
   Box,
+  Button,
+  Checkbox,
   Chip,
   CircularProgress,
+  createFilterOptions,
   IconButton,
   Snackbar,
-  Alert,
-  createFilterOptions
+  TextField
 } from "@mui/material";
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
@@ -132,7 +132,9 @@ function Practice() {
       <TextField 
         {...params}
         placeholder="Select verbs (10 max)"
-        helperText={<span style={{ color: 'red' }}>{verbError}</span>}
+        error={!!verbError}
+        helperText={verbError || ' '}
+        FormHelperTextProps={{ style: { visibility: verbError ? 'visible' : 'hidden' } }}
         InputProps={{
           ...params.InputProps,
           startAdornment: verbs.map((verb, index) => (
@@ -150,7 +152,9 @@ function Practice() {
       <TextField 
         {...params}
         placeholder="Select tenses"
-        helperText={<span style={{ color: 'red' }}>{tenseError}</span>}
+        error={!!tenseError}
+        helperText={tenseError || ' '}
+        FormHelperTextProps={{ style: { visibility: tenseError ? 'visible' : 'hidden' } }}
         InputProps={{
           ...params.InputProps,
           startAdornment: (
@@ -175,7 +179,9 @@ function Practice() {
       <TextField 
         {...params}
         placeholder="Select pronouns"
-        helperText={<span style={{ color: 'red' }}>{pronounError}</span>}
+        error={!!pronounError}
+        helperText={pronounError || ' '}
+        FormHelperTextProps={{ style: { visibility: pronounError ? 'visible' : 'hidden' } }}
         InputProps={{
           ...params.InputProps,
           startAdornment: (
@@ -307,7 +313,7 @@ function Practice() {
           alignItems: 'center'
         }}
       >
-        <h2 style={{ textAlign: 'center', paddingTop: '30px' }}>Practice Quiz Options</h2>
+        <h2 style={{ textAlign: 'center', paddingTop: '30px', paddingBottom: '15px' }}>Practice Quiz Options</h2>
         {isLoading ? (
             <Box sx={{ 
               textAlign: 'center',
@@ -323,7 +329,7 @@ function Practice() {
           </Box>
         ) : (
           <form onSubmit={handleSubmit} style={{ width: '100%' }}>
-          <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
             <Box sx={{ maxWidth: '450px', width: '70%' }}>
                 <Autocomplete
                   multiple
@@ -355,7 +361,7 @@ function Practice() {
             </Box>
           </Box>
 
-          <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
             <Box sx={{ maxWidth: '450px', width: '70%' }}>
               <Autocomplete
                 multiple
@@ -388,7 +394,7 @@ function Practice() {
             </Box>
           </Box>
 
-          <Box sx={{ display: 'flex', justifyContent: 'center', mb: 4 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
             <Box sx={{ maxWidth: '450px', width: '70%' }}>
             <Autocomplete
                 multiple
@@ -428,7 +434,9 @@ function Practice() {
               onChange={handleNumItemsChange}
               variant="outlined"
               placeholder="10"
-              helperText={<span style={{ color: 'red' }}>{numItemsError}</span>}
+              error={!!numItemsError}
+              helperText={numItemsError || ' '}
+              FormHelperTextProps={{ style: { visibility: numItemsError ? 'visible' : 'hidden' } }}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -442,7 +450,7 @@ function Practice() {
                 }
               }}
             />
-            <Button type="submit" variant="contained" color="primary" size="small">
+            <Button type="submit" variant="contained" color="primary" size="small" sx={{ mt: '-25px' }}>
               Quiz me!
             </Button>
           </Box>
