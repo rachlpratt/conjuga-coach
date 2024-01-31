@@ -257,7 +257,7 @@ class TestQuizItemCreation(unittest.TestCase):
             with self.assertRaises(ValueError) as context:
                 Quiz(verb_list, tense_list, pronoun_list, 0)
             self.assertEqual(str(context.exception),
-                             "num_items must be an int between 1 and 100, "
+                             "num_items must be an int between 1 and 50, "
                              "or None")
 
     def test_quiz_creation8(self):
@@ -270,7 +270,7 @@ class TestQuizItemCreation(unittest.TestCase):
             with self.assertRaises(ValueError) as context:
                 Quiz(verb_list, tense_list, pronoun_list, -1)
             self.assertEqual(str(context.exception),
-                             "num_items must be an int between 1 and 100, "
+                             "num_items must be an int between 1 and 50, "
                              "or None")
 
     def test_quiz_creation9(self):
@@ -281,9 +281,9 @@ class TestQuizItemCreation(unittest.TestCase):
             tense_list = ["present", "preterite"]
             pronoun_list = ["yo", "tú", "nosotros"]
             with self.assertRaises(ValueError) as context:
-                Quiz(verb_list, tense_list, pronoun_list, 101)
+                Quiz(verb_list, tense_list, pronoun_list, 51)
             self.assertEqual(str(context.exception),
-                             "num_items must be an int between 1 and 100, "
+                             "num_items must be an int between 1 and 50, "
                              "or None")
 
     def test_quiz_creation10(self):
@@ -296,7 +296,7 @@ class TestQuizItemCreation(unittest.TestCase):
             with self.assertRaises(ValueError) as context:
                 Quiz(verb_list, tense_list, pronoun_list, "abcd")
             self.assertEqual(str(context.exception),
-                             "num_items must be an int between 1 and 100, "
+                             "num_items must be an int between 1 and 50, "
                              "or None")
 
     def test_quiz_verb_list(self):
@@ -332,7 +332,7 @@ class TestQuizItemCreation(unittest.TestCase):
     def test_quiz_num_items1(self):
         """Verify that the num_items property returns the correct value
         for the Quiz object when no num_items value is provided (should be
-        equal to total number of possible combinations for max of 100)."""
+        equal to total number of possible combinations for max of 50)."""
         with self.app.app_context():
             verb_list = [Verb("hacer"), Verb("decir")]
             tense_list = ["present", "preterite"]
@@ -388,14 +388,14 @@ class TestQuizItemCreation(unittest.TestCase):
     def test_quiz_num_items7(self):
         """Verify that the num_items property returns the correct value for
         the Quiz object when provided num_items value is set to upper limit
-        of 100."""
+        of 50."""
         with self.app.app_context():
             verb_list = [Verb("hacer"), Verb("decir"), Verb("ir"), Verb("ser")]
             tense_list = ["present", "preterite", "imperfect", "future",
                           "conditional", "present_subjunctive"]
             pronoun_list = ["yo", "tú", "él/ella/Ud.", "nosotros", "vosotros"]
-            quiz = Quiz(verb_list, tense_list, pronoun_list, 100)
-            self.assertEqual(100, quiz.num_items)
+            quiz = Quiz(verb_list, tense_list, pronoun_list, 50)
+            self.assertEqual(50, quiz.num_items)
 
     def test_quiz_bank1(self):
         """Verify that the quiz_bank property returns a list."""
