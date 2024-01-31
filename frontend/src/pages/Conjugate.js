@@ -1,19 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { 
+  Alert,
   Autocomplete,
   Box,
   Button, 
   CircularProgress,
-  TextField, 
+  IconButton,
+  Paper,
+  Snackbar,
   Table, 
   TableBody, 
   TableCell, 
   TableContainer, 
   TableHead, 
   TableRow,
-  Typography, 
-  Paper 
+  TextField, 
+  Typography
 } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 
 function Conjugate() {
   const [verb, setVerb] = useState('');
@@ -21,9 +25,17 @@ function Conjugate() {
   const [conjugations, setConjugations] = useState({});
   const hasConjugations = Object.keys(conjugations).length > 0;
   const [isLoading, setIsLoading] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [verbError, setVerbError] = useState('');
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (!verb) {
+      setVerbError("Please select a verb");
+      return;
+    }
+    setVerbError('');
     setIsLoading(true);
     try {
       const response = await fetch(`https://conjuga-coach-app.uk.r.appspot.com/api/conjugate/${verb}`);
@@ -31,20 +43,43 @@ function Conjugate() {
       setConjugations(data);
     } catch (error) {
     console.error('Error fetching conjugations:', error);
+    let errorMessage = 'Sorry, there was a problem fetching conjugations.';
+    if (error.message === 'Timeout') {
+      errorMessage = 'Request timed out. Please try again.';
+    } else if (!navigator.onLine) {
+      errorMessage = 'No internet connection.';
+    }
+    setSnackbarMessage(errorMessage);
+    setOpenSnackbar(true);
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenSnackbar(false);
   };
 
   useEffect(() => {
     const fetchVerbs = async () => {
       try {
         const response = await fetch("https://conjuga-coach-app.uk.r.appspot.com/api/verbs");
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         const data = await response.json();
         setAllVerbs(data);
       } catch (error) {
         console.error("Error fetching verbs:", error);
-        // Handle error (e.g., set error state, show message, etc.)
+        let errorMessage = 'Sorry, there was a problem fetching verbs.';
+        if (error.message === 'Timeout') {
+          errorMessage = 'Request timed out. Please try again.';
+        } else if (!navigator.onLine) {
+          errorMessage = 'No internet connection.';
+        }
+        setSnackbarMessage(errorMessage);
+        setOpenSnackbar(true);
       }
     };
   
@@ -90,7 +125,7 @@ function Conjugate() {
       <TableRow key={pronoun}>
         <TableCell sx={{ fontStyle: 'italic' }}>{pronoun}</TableCell>
         {tenses.map((tense) => (
-          <TableCell key={tense}>{conjugations && (conjugations[tense]?.[pronoun] || '')}</TableCell>
+          <TableCell key={tense}>{conjugations && (conjugations[tense]?.[pronoun] || '-')}</TableCell>
         ))}
       </TableRow>
     ));
@@ -124,7 +159,7 @@ function Conjugate() {
   }
 
   return (
-    <div style={{ paddingBottom: '20px' }}>
+    <Box sx={{ paddingBottom: '20px', paddingTop: '20px'}}>
       <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 4, gap: 2 }}>
         <form onSubmit={handleSubmit} style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
           <Autocomplete
@@ -133,6 +168,9 @@ function Conjugate() {
             value={verb}
             onChange={(event, newValue) => {
               setVerb(newValue);
+              if (newValue) {
+                setVerbError('');
+              }
             }}
             filterOptions={(options, { inputValue }) => {
               return options.filter(option => 
@@ -142,14 +180,17 @@ function Conjugate() {
             renderInput={(params) => (
               <TextField 
                 {...params} 
-                label="Enter a Verb" 
+                label="Select a Verb" 
                 variant="outlined" 
+                error={!!verbError}
+                helperText={verbError || ' '}
+                FormHelperTextProps={{ style: { visibility: verbError ? 'visible' : 'hidden' } }}
               />
             )}
             size="medium"
             sx={{ width: 250 }}
           />
-        <Button variant="contained" size="large" onClick={handleSubmit}>Conjugate</Button>
+        <Button variant="contained" size="large" onClick={handleSubmit} sx={{ mt: '-25px' }}>Conjugate</Button>
         </form>
       </Box>
 
@@ -162,7 +203,29 @@ function Conjugate() {
           </div>
         ))
       )}
-    </div>
+
+      <Snackbar 
+        open={openSnackbar}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert 
+          severity="error" 
+          sx={{ width: '100%', textAlign: 'center' }}
+          action={
+            <IconButton
+              size="small"
+              aria-label="close"
+              color="inherit"
+              onClick={handleCloseSnackbar}
+            >
+              <CloseIcon fontSize="small" />
+            </IconButton>
+          }
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
+    </Box>
   );
 }
 
