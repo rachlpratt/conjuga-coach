@@ -73,7 +73,13 @@ function Navbar() {
         ) : (
           <div>
             {menuItems.map((item) => (
-              <Button key={item.label} color="inherit" component={Link} to={item.path}>
+              <Button 
+                key={item.label} 
+                color="inherit" 
+                component={Link} 
+                to={item.path}
+                sx={{ marginX: 1 }}
+              >
                 {item.label}
               </Button>
             ))}
