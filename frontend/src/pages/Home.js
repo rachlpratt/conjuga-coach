@@ -12,7 +12,7 @@ function Home() {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        mt: 5,
+        mt: 2,
         maxWidth: '80%',
         paddingTop: '30px',
         mx: 'auto',
@@ -51,7 +51,8 @@ function Home() {
               display: 'block',
               maxWidth: '100%',
               height: 'auto',
-              borderRadius: '4px'
+              borderRadius: '4px',
+              objectFit: 'contain'
             }} 
           />
         </Box>
