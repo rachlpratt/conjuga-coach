@@ -25,19 +25,21 @@ function Navbar() {
 
   return (
     <AppBar position="static">
-      <Toolbar>
-        <img 
-          src="/app_logo.png" 
-          alt="ConjugaCoach Logo" 
-          style={{ 
-            marginRight: '10px', 
-            height: '40px',
-            borderRadius: '5px',
-            border: '1px solid white'
-          }} />
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          ConjugaCoach
-        </Typography>
+      <Toolbar sx={{ justifyContent: 'space-between' }}>
+        <Link to="/" style={{ display: 'flex', alignItems: 'center', color: 'inherit', textDecoration: 'none' }}>
+          <img 
+            src="/app_logo.png" 
+            alt="ConjugaCoach Logo" 
+            style={{ 
+              marginRight: '10px', 
+              height: '40px',
+              borderRadius: '5px',
+              border: '1px solid white'
+            }} />
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            ConjugaCoach
+          </Typography>
+        </Link>
         {isMobile ? (
           <>
             <IconButton
