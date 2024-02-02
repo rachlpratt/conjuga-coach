@@ -42,7 +42,8 @@ function Home() {
             display: 'inline-flex', 
             justifyContent: 'center',
             transform: 'rotate(5deg)',
-            mt: 3
+            mt: 3,
+            mb: 4
           }}
         >
           <img 

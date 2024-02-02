@@ -11,7 +11,8 @@ import {
   createFilterOptions,
   IconButton,
   Snackbar,
-  TextField
+  TextField,
+  Typography
 } from "@mui/material";
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
@@ -313,7 +314,7 @@ function Practice() {
           alignItems: 'center'
         }}
       >
-        <h2 style={{ textAlign: 'center', paddingTop: '30px', paddingBottom: '15px' }}>Practice Quiz Options</h2>
+        <Typography variant="h4" sx={{ textAlign: 'center', paddingTop: '25px', paddingBottom: '35px' }}>Practice Quiz Options</Typography>
         {isLoading ? (
             <Box sx={{ 
               textAlign: 'center',
@@ -426,7 +427,7 @@ function Practice() {
             </Box>
           </Box>
 
-          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 2, mb: 2 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 2, mb: 1 }}>
             <TextField
               type="number"
               label="# of Questions"

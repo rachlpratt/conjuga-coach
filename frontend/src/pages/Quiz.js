@@ -110,16 +110,12 @@ function Quiz() {
         flexDirection: 'column',
         alignItems: 'center'
         }}
-    >
-        <Box sx={{ mb: 5 }} >
-        <h2>Your Score</h2>
-        </Box>
-        <Box sx={{ textAlign: 'center', mb: 8 }}>
-        <h1>{percentageScore}%</h1> 
-        <h4>{score} out of {totalQuestions} correct</h4>
-        </Box>
-        <Button variant="contained" color="primary" onClick={handleBackToPractice}>
-        Another Quiz
+      >
+        <Typography variant="h3" sx={{ mb: 6, mt: 2 }}>Your Score:</Typography>
+        <Typography variant="h2" sx={{ textAlign: 'center', mb: 3 }}>{percentageScore}%</Typography>
+        <Typography variant="h4" sx={{ textAlign: 'center', mb: 8 }}>{score} out of {totalQuestions} correct</Typography>
+        <Button variant="contained" color="primary" onClick={handleBackToPractice} sx={{ mb: 11 }}>
+          Another Quiz
         </Button>
       </Box>
     </Box>
@@ -146,17 +142,12 @@ function Quiz() {
           alignItems: 'center'
         }}
       >
-        <Box sx={{ mb: 2, paddingTop: '30px' }} >
-          <h2>Question {currentQuestionIndex + 1}/{quizData.length}</h2>
-        </Box>
-
-        <Box sx={{ mb: 4, textAlign: 'center' }} >
-          <h3>{formatTenseName(currentQuestion.question.tense)}</h3>
-          <h2>
-            <span style={{ fontWeight: 'normal' }}>{displayedPronoun} </span>
-            <span style={{ fontWeight: 'bold' }}>{currentQuestion.question.verb}</span>
-          </h2>
-        </Box>
+        <Typography variant="h4" sx={{ mb: 6, paddingTop: '30px' }}>Question {currentQuestionIndex + 1}/{quizData.length}</Typography>
+        <Typography variant="h5" sx={{ mb: 2, textAlign: 'center' }}>{formatTenseName(currentQuestion.question.tense)}</Typography>
+        <Typography variant="h4" sx={{ mb: 7, textAlign: 'center' }}>
+          <span style={{ fontWeight: 'normal' }}>{displayedPronoun} </span>
+          <span style={{ fontWeight: 'bold' }}>{currentQuestion.question.verb}</span>
+        </Typography>
 
         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 2, mb: 2 }}>
           <TextField
@@ -167,7 +158,7 @@ function Quiz() {
             placeholder="answer"
             autoFocus
             sx={{ 
-                width: '200px',
+                width: '240px',
                 '& .MuiInputBase-input': {
                   textAlign: 'center'
                 },
