@@ -23,7 +23,7 @@ function Home() {
       <Box
         sx={{
           display: 'flex', 
-          justifyContent: 'space-between',
+          justifyContent: 'center',
           alignItems: 'center',
           width: '100%',
           mb: 4
@@ -37,8 +37,9 @@ function Home() {
             border: '10px solid white',
             boxShadow: 5, 
             borderRadius: '4px',
-            width: '65%',
-            display: 'flex', 
+            maxWidth: '65%',
+            width: 'auto',
+            display: 'inline-flex', 
             justifyContent: 'center',
             transform: 'rotate(5deg)',
             mt: 3
@@ -51,8 +52,7 @@ function Home() {
               display: 'block',
               maxWidth: '100%',
               height: 'auto',
-              borderRadius: '4px',
-              objectFit: 'contain'
+              borderRadius: '4px'
             }} 
           />
         </Box>
