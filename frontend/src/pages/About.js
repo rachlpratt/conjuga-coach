@@ -83,6 +83,7 @@ function About() {
             "Quiz animations",
             "Information section providing details about various moods and tenses",
             "Toggleable dark mode",
+            "Mobile-friendly interface"
           ].map(feature => (
             <ListItem key={feature} disablePadding>
               <ListItemIcon sx={{ marginRight: '-7px' }}>
