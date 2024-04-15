@@ -3,10 +3,6 @@
 ConjugaCoach is a full-stack web application designed to help users master Spanish verb 
 conjugations through personalized practice quizzes.
 
-## Live Version
-
-Visit the app **[here](https://conjuga-coach-app.uk.r.appspot.com/)**.
-
 ## Screenshots
 <img src="frontend/public/screenshots/screenshot1.png" alt="Practice Quiz Options" width="600">
 <img src="frontend/public/screenshots/screenshot2.png" alt="Correct Answer" width="600">
